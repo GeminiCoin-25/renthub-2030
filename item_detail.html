@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل المنتج | RentHub 2030</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* الأنماط الأساسية الموحدة */
+:root {
+--bg-dark: #0A0A0E;
+--accent-neon: #00FFC0;
+--glass-bg: rgba(255, 255, 255, 0.05);
+--text-light: #EFEFEF;
+--text-secondary: #B0B0C0;
+--card-dark: #1A1A22;
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: 'Cairo', sans-serif;
+}
+
+body {
+background-color: var(--bg-dark);
+color: var(--text-light);
+line-height: 1.6;
+direction: rtl;
+}
+
+/* تصميم الصفحة التفصيلية */
+.header-nav {
+padding: 20px 0;
+border-bottom: 1px solid var(--card-dark);
+text-align: right;
+margin-bottom: 40px;
+}
+.header-nav a {
+color: var(--accent-neon);
+text-decoration: none;
+font-size: 18px;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px;
+}
+
+.item-content {
+display: flex;
+gap: 40px;
+padding-bottom: 50px;
+}
+
+.main-info {
+flex: 2;
+}
+
+.owner-info {
+flex: 1;
+background: var(--card-dark);
+padding: 30px;
+border-radius: 12px;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+height: fit-content;
+}
+
+.item-image {
+width: 100%;
+height: 400px;
+object-fit: cover;
+border-radius: 12px;
+margin-bottom: 20px;
+border: 2px solid var(--accent-neon);
+}
+
+.price-large {
+font-size: 48px;
+font-weight: 700;
+color: var(--accent-neon);
+margin: 20px 0;
+text-shadow: 0 0 10px rgba(0, 255, 192, 0.6);
+}
+
+.specs-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+margin-top: 20px;
+}
+
+.spec-item {
+background: var(--glass-bg);
+padding: 15px;
+border-radius: 8px;
+backdrop-filter: blur(5px);
+}
+
+.spec-item h4 {
+font-size: 14px;
+color: var(--text-secondary);
+margin-bottom: 5px;
+}
+
+/* تفاصيل المالك */
+.owner-info h3 {
+border-bottom: 2px solid var(--accent-neon);
+padding-bottom: 10px;
+margin-bottom: 20px;
+}
+
+.owner-info .rating-lg {
+font-size: 20px;
+font-weight: 700;
+color: var(--accent-neon);
+margin: 10px 0;
+}
+
+.contact-btn {
+display: block;
+width: 100%;
+padding: 15px;
+background-color: var(--accent-neon);
+color: var(--bg-dark);
+text-align: center;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 700;
+margin-top: 20px;
+transition: opacity 0.3s;
+}
+
+.contact-btn:hover {
+opacity: 0.9;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<header class="header-nav">
+<a href="index.html">← العودة للصفحة الرئيسية</a>
+</header>
+
+<main id="itemDetailContainer">
+<h1>تحميل...</h1>
+</main>
+</div>
+
+<script src="backend_logic.js"></script>
+
+<script>
+// ==============================================================================
+// 🔴 منطق صفحة التفاصيل (Detail Page Logic)
+// ==============================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+const urlParams = new URLSearchParams(window.location.search);
+const itemId = urlParams.get('itemId');
+
+if (!itemId) {
+document.getElementById('itemDetailContainer').innerHTML = '<h1 style="color: red;">خطأ: لم يتم تحديد رقم المنتج.</h1>';
+return;
+}
+// تحقق من وجود RentHubDB قبل الاستخدام
+if (typeof RentHubDB === 'undefined') {
+document.getElementById('itemDetailContainer').innerHTML = `<h1 style="color: red;">خطأ: لم يتم تحميل backend_logic.js</h1>`;
+return;
+}
+
+const item = RentHubDB.getItemById(itemId);
+
+if (!item) {
+document.getElementById('itemDetailContainer').innerHTML = `<h1>خطأ: المنتج رقم ${itemId} غير موجود أو غير نشط.</h1>`;
+return;
+}
+
+const owner = RentHubDB.getUserById(item.ownerId);
+const container = document.getElementById('itemDetailContainer');
+
+let specsHtml = '';
+if (item.specifications) {
+specsHtml = Object.keys(item.specifications).map(key => `
+<div class="spec-item">
+<h4>${key.toUpperCase()}</h4>
+<p>${item.specifications[key]}</p>
+</div>
+`).join('');
+}
+
+container.innerHTML = `
+<div class="item-content">
+
+<div class="main-info">
+<h2>${item.title}</h2>
+<div class="price-large">${item.pricePerDay} ${item.currency} / يوم</div>
+<img src="${item.images[0]}" alt="${item.title}" class="item-image">
+
+<h3>الوصف الكامل</h3>
+<p style="color: var(--text-secondary); margin-bottom: 30px;">${item.description}</p>
+
+<h3>المواصفات الفنية</h3>
+<div class="specs-grid">
+${specsHtml}
+</div>
+</div>
+
+<div class="owner-info">
+<h3>بيانات المالك</h3>
+<p>الاسم: <strong>${owner ? owner.name : 'N/A'}</strong></p>
+<div class="rating-lg">
+⭐ ${owner ? owner.ratingAvg : 'N/A'} (${owner ? owner.totalRatings : 0} تقييم)
+</div>
+<p style="color: var(--text-secondary);">المدينة: ${item.city}</p>
+<p style="color: var(--text-secondary);">عضو منذ: ${owner ? owner.memberSince : 'N/A'}</p>
+
+<a href="tel:${owner ? owner.phoneNumber : '#'}" class="contact-btn">
+📞 اتصل بالمالك (${owner ? owner.phoneNumber : 'N/A'})
+</a>
+</div>
+</div>
+`;
+document.title = `${item.title} | RentHub 2030`;
+});
+</script>
+</body>
+</html>
