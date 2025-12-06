@@ -1,10 +1,5 @@
-ممتاز! سأعطيك نسخة احترافية متعددة اللغات (إسباني + عربي + إنجليزي) مع زر تبديل أنيق! 🌍
-🎯 المميزات:
-✅ اللغة الأساسية: الإسبانية
-✅ زر تبديل اللغات في الأعلى
-✅ يحفظ اختيار اللغة في المتصفح
-✅ تصميم احترافي بجميع اللغات
-📋 انسخ هذا الكود الكامل:
+تمام! هذا هو الكود الكامل مع الصور الاحترافية:
+📋 انسخ هذا الكود كله:
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
 <head>
@@ -425,14 +420,20 @@
         .product-image {
             width: 100%;
             height: 240px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
             position: relative;
             overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
         }
 
         .product-badge {
@@ -446,6 +447,7 @@
             font-size: 12px;
             font-weight: 700;
             box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            z-index: 10;
         }
 
         body[dir="rtl"] .product-badge {
@@ -978,14 +980,14 @@
                 footerSupport: 'Soporte',
                 footerCopyright: '© 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España',
                 products: [
-                    { category: 'Coches', title: 'BMW X5 2023 - Lujo y totalmente equipado', location: 'Madrid', price: '45', badge: 'Destacado' },
-                    { category: 'Equipos', title: 'Excavadora Caterpillar CAT 320 - Excelente estado', location: 'Barcelona', price: '320' },
-                    { category: 'Ropa', title: 'Traje de boda italiano de lujo - Diseño exclusivo', location: 'Valencia', price: '28', badge: 'Nuevo' },
-                    { category: 'Agrícola', title: 'Tractor John Deere - Potencia y eficiencia', location: 'Sevilla', price: '180' },
-                    { category: 'Electrónica', title: 'Cámara Sony A7 IV con lentes profesionales', location: 'Bilbao', price: '35', badge: 'Destacado' },
-                    { category: 'Hogar', title: 'Limpiador a vapor profesional para alfombras', location: 'Málaga', price: '12' },
-                    { category: 'Coches', title: 'Mercedes-Benz GLE 2024 - Viajes VIP', location: 'Zaragoza', price: '55' },
-                    { category: 'Camping', title: 'Tienda de campaña familiar + equipo completo', location: 'Granada', price: '8', badge: 'Nuevo' }
+                    { category: 'Coches', title: 'BMW X5 2023 - Lujo y totalmente equipado', location: 'Madrid', price: '45', badge: 'Destacado', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
+                    { category: 'Equipos', title: 'Excavadora Caterpillar - Excelente estado', location: 'Barcelona', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
+                    { category: 'Ropa', title: 'Traje de boda italiano - Diseño exclusivo', location: 'Valencia', price: '28', badge: 'Nuevo', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
+                    { category: 'Agrícola', title: 'Tractor John Deere - Potencia y eficiencia', location: 'Sevilla', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
+                    { category: 'Electrónica', title: 'Cámara Sony A7 IV - Lentes profesionales', location: 'Bilbao', price: '35', badge: 'Destacado', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
+                    { category: 'Hogar', title: 'Limpiador a vapor profesional', location: 'Málaga', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
+                    { category: 'Coches', title: 'Mercedes-Benz GLE 2024 - Viajes VIP', location: 'Zaragoza', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
+                    { category: 'Camping', title: 'Tienda familiar + equipo completo', location: 'Granada', price: '8', badge: 'Nuevo', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
                 ],
                 footerLinks: {
                     categories: ['Coches de lujo', 'Equipos de construcción', 'Maquinaria agrícola', 'Ropa y eventos', 'Artículos del hogar', 'Electrónica'],
@@ -1029,14 +1031,14 @@
                 footerSupport: 'Support',
                 footerCopyright: '© 2024 RentHub. All rights reserved | Made with ❤️ in Spain',
                 products: [
-                    { category: 'Cars', title: 'BMW X5 2023 - Luxury and fully equipped', location: 'Madrid', price: '45', badge: 'Featured' },
-                    { category: 'Equipment', title: 'Caterpillar CAT 320 Excavator - Excellent condition', location: 'Barcelona', price: '320' },
-                    { category: 'Clothing', title: 'Luxury Italian wedding suit - Exclusive design', location: 'Valencia', price: '28', badge: 'New' },
-                    { category: 'Agricultural', title: 'John Deere Tractor - Power and efficiency', location: 'Seville', price: '180' },
-                    { category: 'Electronics', title: 'Sony A7 IV Camera with professional lenses', location: 'Bilbao', price: '35', badge: 'Featured' },
-                    { category: 'Home', title: 'Professional steam cleaner for carpets', location: 'Malaga', price: '12' },
-                    { category: 'Cars', title: 'Mercedes-Benz GLE 2024 - VIP trips', location: 'Zaragoza', price: '55' },
-                    { category: 'Camping', title: 'Family camping tent + complete equipment', location: 'Granada', price: '8', badge: 'New' }
+                    { category: 'Cars', title: 'BMW X5 2023 - Luxury fully equipped', location: 'Madrid', price: '45', badge: 'Featured', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
+                    { category: 'Equipment', title: 'Caterpillar Excavator - Excellent condition', location: 'Barcelona', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
+                    { category: 'Clothing', title: 'Italian wedding suit - Exclusive design', location: 'Valencia', price: '28', badge: 'New', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
+                    { category: 'Agricultural', title: 'John Deere Tractor - Power and efficiency', location: 'Seville', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
+                    { category: 'Electronics', title: 'Sony A7 IV Camera - Professional lenses', location: 'Bilbao', price: '35', badge: 'Featured', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
+                    { category: 'Home', title: 'Professional steam cleaner', location: 'Malaga', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
+                    { category: 'Cars', title: 'Mercedes-Benz GLE 2024 - VIP trips', location: 'Zaragoza', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
+                    { category: 'Camping', title: 'Family tent + complete equipment', location: 'Granada', price: '8', badge: 'New', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
                 ],
                 footerLinks: {
                     categories: ['Luxury cars', 'Construction equipment', 'Agricultural machinery', 'Clothing & events', 'Home items', 'Electronics'],
@@ -1080,14 +1082,14 @@
                 footerSupport: 'الدعم',
                 footerCopyright: '© 2024 RentHub. جميع الحقوق محفوظة | صُنع بـ ❤️ في إسبانيا',
                 products: [
-                    { category: 'سيارات', title: 'BMW X5 2023 - فاخرة ومجهزة بالكامل', location: 'مدريد', price: '45', badge: 'مميز' },
-                    { category: 'معدات', title: 'حفارة كاتربيلر CAT 320 - حالة ممتازة', location: 'برشلونة', price: '320' },
-                    { category: 'ملابس', title: 'بدلة زفاف إيطالية راقية - تفصيل حصري', location: 'فالنسيا', price: '28', badge: 'جديد' },
-                    { category: 'فلاحية', title: 'جرار زراعي John Deere - قوة وكفاءة', location: 'إشبيلية', price: '180' },
-                    { category: 'إلكترونيات', title: 'كاميرا Sony A7 IV مع عدسات احترافية', location: 'بلباو', price: '35', badge: 'مميز' },
-                    { category: 'منزلية', title: 'منظف بالبخار احترافي للسجاد', location: 'مالقة', price: '12' },
-                    { category: 'سيارات', title: 'Mercedes-Benz GLE 2024 - رحلات VIP', location: 'سرقسطة', price: '55' },
-                    { category: 'تخييم', title: 'خيمة تخييم عائلية + معدات كاملة', location: 'غرناطة', price: '8', badge: 'جديد' }
+                    { category: 'سيارات', title: 'BMW X5 2023 - فاخرة ومجهزة بالكامل', location: 'مدريد', price: '45', badge: 'مميز', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
+                    { category: 'معدات', title: 'حفارة كاتربيلر - حالة ممتازة', location: 'برشلونة', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
+                    { category: 'ملابس', title: 'بدلة زفاف إيطالية - تفصيل حصري', location: 'فالنسيا', price: '28', badge: 'جديد', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
+                    { category: 'فلاحية', title: 'جرار زراعي John Deere - قوة وكفاءة', location: 'إشبيلية', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
+                    { category: 'إلكترونيات', title: 'كاميرا Sony A7 IV - عدسات احترافية', location: 'بلباو', price: '35', badge: 'مميز', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
+                    { category: 'منزلية', title: 'منظف بالبخار احترافي', location: 'مالقة', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
+                    { category: 'سيارات', title: 'Mercedes-Benz GLE 2024 - رحلات VIP', location: 'سرقسطة', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
+                    { category: 'تخييم', title: 'خيمة عائلية + معدات كاملة', location: 'غرناطة', price: '8', badge: 'جديد', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
                 ],
                 footerLinks: {
                     categories: ['سيارات فاخرة', 'معدات بناء', 'آليات فلاحية', 'ملابس ومناسبات', 'أدوات منزلية', 'إلكترونيات'],
@@ -1096,9 +1098,6 @@
                 }
             }
         };
-
-        // Product icons
-        const productIcons = ['🚗', '🏗️', '👔', '🚜', '🎥', '🏠', '🚙', '⛺'];
 
         // Current language
         let currentLang = localStorage.getItem('language') || 'es';
@@ -1180,7 +1179,9 @@
             
             grid.innerHTML = t.products.map((product, i) => `
                 <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s">
-                    <div class="product-image">${productIcons[i]}</div>
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.title}" loading="lazy">
+                    </div>
                     ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
                     <div class="product-info">
                         <div class="product-category">${product.category}</div>
