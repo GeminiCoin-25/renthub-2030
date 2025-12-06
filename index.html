@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RentHub 2030 - تأجير المعدات الثقيلة والأدوات</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* الأنماط الأساسية لعام 2030 */
+
+        :root {
+
+            --bg-dark: #0A0A0E;
+            --accent-neon: #00FFC0; 
+
+            --glass-bg: rgba(255, 255, 255, 0.05);
+
+            --text-light: #EFEFEF;
+
+            --text-secondary: #B0B0C0;
+
+            --card-dark: #1A1A22;
+        }
+
+
+
+        * {
+
+            box-sizing: border-box;
+            margin: 0;
+
+            padding: 0;
+
+            font-family: 'Cairo', sans-serif;
+
+        }
+
+
+
+        body {
+
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+
+            line-height: 1.6;
+
+            direction: rtl;
+
+        }
+
+
+
+        .container {
+
+            max-width: 1200px;
+            margin: 0 auto;
+
+            padding: 0 20px;
+
+        }
+
+
+
+        header {
+
+            padding: 20px 0;
+            border-bottom: 1px solid var(--card-dark);
+
+        }
+
+
+
+        .logo {
+
+            font-size: 28px;
+            font-weight: 700;
+
+            color: var(--accent-neon);
+
+            text-shadow: 0 0 5px rgba(0, 255, 192, 0.5);
+        }
+
+
+
+        .nav-links {
+
+            display: flex;
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+
+        .cta-button {
+
+            background-color: var(--accent-neon);
+            color: var(--bg-dark);
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+
+
+        /* قسم البحث */
+
+        .hero-section {
+
+            padding: 80px 0;
+            text-align: center;
+
+            background-color: #0A0A0E; 
+
+        }
+
+
+
+        .search-box {
+
+            display: flex;
+            max-width: 800px;
+
+            margin: 30px auto 0;
+
+            background: var(--glass-bg);
+
+            border: 1px solid var(--accent-neon);
+
+            backdrop-filter: blur(10px);
+
+            border-radius: 10px;
+
+            padding: 10px;
+        }
+
+
+
+        .search-box input, .search-box select, .search-box button {
+
+            background: transparent;
+            border: none;
+
+            padding: 10px 15px;
+
+            color: var(--text-light);
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+
+
+        .search-box input {
+
+            flex-grow: 1;
+        }
+
+
+
+        .search-box button {
+
+            background-color: var(--accent-neon);
+            color: var(--bg-dark);
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-weight: 700;
+
+        }
+
+
+
+        /* قسم المنتجات */
+
+        .items-grid {
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 30px;
+
+            padding: 50px 0;
+
+        }
+
+
+
+        /* بطاقة المنتج */
+
+        .item-card {
+
+            background: var(--card-dark);
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+            transition: transform 0.3s, box-shadow 0.3s;
+
+            cursor: pointer;
+            text-decoration: none;
+
+            color: inherit;
+
+        }
+
+
+
+        .item-card:hover {
+
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 255, 192, 0.15);
+
+        }
+
+
+
+        .item-card img {
+
+            width: 100%;
+            height: 200px;
+
+            object-fit: cover;
+
+        }
+
+
+
+        .item-info {
+
+            padding: 20px;
+            position: relative;
+
+        }
+
+
+
+        .item-info h3 {
+
+            font-size: 20px;
+            margin-bottom: 5px;
+
+            color: var(--accent-neon);
+
+        }
+
+
+
+        .price-tag {
+
+            font-size: 24px;
+            font-weight: 700;
+
+            color: var(--text-light);
+
+            margin: 10px 0;
+
+        }
+
+
+
+        /* مؤشر الـ BUMP */
+
+        .bump-indicator {
+
+            display: flex;
+            align-items: center;
+
+            font-size: 13px;
+
+            color: var(--text-secondary);
+
+            margin-top: 10px;
+
+        }
+
+
+
+        .bump-bar {
+
+            flex-grow: 1;
+            height: 5px;
+
+            background: rgba(255, 255, 255, 0.1);
+
+            border-radius: 5px;
+
+            margin-left: 10px;
+        }
+
+
+
+        .bump-progress {
+
+            height: 100%;
+            background-color: var(--accent-neon);
+
+            border-radius: 5px;
+
+            width: 0%; 
+
+        }
+
+        
+
+        .rating-display {
+
+            position: absolute;
+            top: 20px;
+
+            left: 20px;
+
+            background: var(--accent-neon);
+
+            color: var(--bg-dark);
+
+            padding: 5px 10px;
+
+            border-radius: 8px;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <header>
+
+        <div class="container nav-links">
+
+            <a href="index.html" class="logo">RentHub 2030</a>
+
+            <div>
+
+                <a href="add_listing.html" class="cta-button">➕ أضف إعلانك والدفع</a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <main>
+
+      
+        <section class="hero-section">
+
+            <h1>ابحث عن المعدات، الأدوات والمركبات للإيجار في إسبانيا</h1>
+
+            <p style="color: var(--text-secondary);">استأجر من الأفراد والشركات الموثوقة الآن.</p>
+
+            <div class="search-box">
+
+                <input type="text" id="searchInput" placeholder="ابحث باسم المنتج أو الفئة (مثلاً: مثقاب، حفارة)...">
+
+                <select id="citySelect">
+
+   
+                    <option value="">جميع المدن</option>
+
+                    <option value="Madrid">مدريد</option>
+
+                    <option value="Barcelona">برشلونة</option>
+
+                    <option value="Valencia">فالنسيا</option>
+
+                  
+                    <option value="Sevilla">إشبيلية</option>
+
+                </select>
+
+                <button onclick="performSearch()">بحث 🔍</button>
+
+            </div>
+
+        </section>
+
+
+
+        <div class="container">
+
+            <h2>الإعلانات المميزة (Bumped Items)</h2>
+
+            <section class="items-grid" id="itemsContainer">
+
+     
+                <h1>تحميل...</h1>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <script src="backend_logic.js"></script>
+
+
+
+    <script>
+
+        // ==============================================================================
+
+        // 🔴 منطق الواجهة الأمامية (Frontend Logic)
+
+        // ==============================================================================
+
+
+
+        function getBumpProgress(item) {
+
+            if (typeof 
+                RentHubDB === 'undefined') return 0;
+
+            
+
+            const user = RentHubDB.getUserById(item.ownerId);
+
+            if (!user || !user.plan) return 0;
+
+            
+
+            const plan = RentHubDB.SUBSCRIPTION_PLANS[user.plan];
+            const intervalMs = plan.bumpFrequencyHours * 60 * 60 * 1000;
+
+            const timeElapsed = Date.now() - item.lastBumpTime.getTime();
+            return Math.min(100, (timeElapsed / intervalMs) * 100);
+
+        }
+
+
+
+        function createItemCard(item) {
+
+            const user = RentHubDB.getUserById(item.ownerId);
+            const progressPercent = getBumpProgress(item);
+
+            const planName = user ? RentHubDB.SUBSCRIPTION_PLANS[user.plan].name : 'غير محدد';
+
+            
+
+            const trialBadge = item.trialEndsOn ?
+                `<span style="color: orange;">(تجريبي)</span>` : '';
+
+
+
+            const card = document.createElement('a');
+
+            card.href = `item_detail.html?itemId=${item.id}`; 
+
+            card.className = 'item-card';
+            card.innerHTML = `
+
+                <img src="${item.images[0]}" alt="${item.title}">
+
+                <div class="item-info">
+
+                    <div class="rating-display">
+
+                        ⭐ ${user ?
+                            user.ratingAvg : 'N/A'}
+
+                    </div>
+
+                    <h3>${item.title} ${trialBadge}</h3>
+
+                    <p style="color: var(--text-secondary);">${item.city} |
+                        ${item.category}</p>
+
+                    <div class="price-tag">${item.pricePerDay} ${item.currency} / يوم</div>
+
+                    
+
+                    <div class="bump-indicator">
+
+                        <span style="color: ${user && user.plan === 'GOLD' ? 'var(--accent-neon)' : '#B0B0C0'}">
+
+ 
+                            ${planName}
+
+                        </span>
+
+                        <div class="bump-bar">
+
+                        
+                            <div class="bump-progress" style="width: ${progressPercent}%;"></div>
+
+                        </div>
+
+                        <span>(ترقية قادمة)</span>
+
+                    </div>
+
+                </div>
+
+        
+            `;
+
+            return card;
+
+        }
+
+
+
+        function displayItems(items) {
+
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+
+            
+
+            if (items.length === 0) {
+
+                container.innerHTML = '<p style="color: var(--text-secondary); padding: 30px; text-align: center;">لم يتم العثور على نتائج مطابقة.</p>';
+                return;
+
+            }
+
+
+
+            items.forEach(item => {
+
+                if(item.isActive) {
+
+                    container.appendChild(createItemCard(item));
+
+                }
+
+            });
+        }
+
+
+
+        function performSearch() {
+
+            if (typeof RentHubDB === 'undefined') {
+
+                alert('خطأ: لم يتم تحميل ملف backend_logic.js بشكل صحيح.');
+                return;
+
+            }
+
+            const query = document.getElementById('searchInput').value;
+            const city = document.getElementById('citySelect').value;
+
+            
+
+            const filteredItems = RentHubDB.searchItems(query, city); 
+
+            displayItems(filteredItems);
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            if (typeof RentHubDB === 'undefined') {
+
+                 document.getElementById('itemsContainer').innerHTML = '<h2 style="color: red;">خطأ: لم يتم تحميل ملف backend_logic.js. تأكد من وجوده في نفس المجلد.</h2>';
+
+                return;
+
+            }
+
+            
+            const allItems = RentHubDB.searchItems(); 
+
+            displayItems(allItems);
+
+        });
+    </script>
+
+</body>
+
+</html>
