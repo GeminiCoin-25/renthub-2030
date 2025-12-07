@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes y Precios - RentHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0E27;
+            --secondary: #FF6B35;
+            --accent: #00D9FF;
+            --success: #00E396;
+            --bronze: #CD7F32;
+            --silver: #C0C0C0;
+            --gold: #FFD700;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+            color: var(--primary);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+            padding: 20px 5%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--accent);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 5% 60px;
+            background: linear-gradient(135deg, #0A0E27 0%, #2d1b3d 100%);
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--gold);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: '⭐ MÁS POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--gold);
+            color: var(--primary);
+            padding: 8px 50px;
+            transform: rotate(45deg);
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .plan-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .plan-price span {
+            font-size: 18px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .plan-description {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--success);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-free {
+            background: #f0f0f0;
+            color: var(--primary);
+        }
+
+        .btn-free:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-bronze {
+            background: linear-gradient(135deg, #CD7F32 0%, #E6A85C 100%);
+            color: white;
+        }
+
+        .btn-bronze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(205, 127, 50, 0.3);
+        }
+
+        .btn-silver {
+            background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%);
+            color: var(--primary);
+        }
+
+        .btn-silver:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(192, 192, 192, 0.3);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: var(--primary);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            overflow-x: auto;
+        }
+
+        .comparison-table h2 {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        td {
+            font-size: 15px;
+        }
+
+        .table-check {
+            color: var(--success);
+            font-size: 24px;
+        }
+
+        .table-cross {
+            color: #ccc;
+            font-size: 24px;
+        }
+
+        .faq-section {
+            max-width: 900px;
+            margin: 60px auto;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .faq-section h2 {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .faq-item {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">RentHub</a>
+            <a href="index.html" class="back-btn">← Volver</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>💎 Elige tu plan perfecto</h1>
+        <p>Desde gratis hasta profesional - tenemos un plan para cada necesidad. Sin compromisos, cancela cuando quieras.</p>
+    </div>
+
+    <div class="container">
+        <div class="pricing-grid">
+            <!-- FREE -->
+            <div class="pricing-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🆓</div>
+                    <h3 class="plan-name">FREE</h3>
+                    <div class="plan-price">0€<span>/mes</span></div>
+                </div>
+                <p class="plan-description">Perfecto para empezar</p>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> 1 anuncio activo</li>
+                    <li><span class="check-icon">✓</span> Aparece cada 24 horas</li>
+                    <li><span class="check-icon">✓</span> 3 fotos por anuncio</li>
+                    <li><span class="check-icon">✓</span> Soporte básico</li>
+                </ul>
+                <button class="btn btn-free" onclick="selectPlan('free')">Empezar gratis</button>
+            </div>
+
+            <!-- BRONZE -->
+            <div class="pricing-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🥉</div>
+                    <h3 class="plan-name">BRONZE</h3>
+                    <div class="plan-price">9.99€<span>/mes</span></div>
+                </div>
+                <p class="plan-description">Para usuarios regulares</p>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> 5 anuncios activos</li>
+                    <li><span class="check-icon">✓</span> Aparece cada 12 horas</li>
+                    <li><span class="check-icon">✓</span> 5 fotos por anuncio</li>
+                    <li><span class="check-icon">✓</span> Badge "Featured"</li>
+                    <li><span class="check-icon">✓</span> Soporte prioritario</li>
+                </ul>
+                <button class="btn btn-bronze" onclick="selectPlan('bronze')">Seleccionar Bronze</button>
+            </div>
+
+            <!-- SILVER -->
+            <div class="pricing-card featured">
+                <div class="plan-header">
+                    <div class="plan-icon">🥈</div>
+                    <h3 class="plan-name">SILVER</h3>
+                    <div class="plan-price">19.99€<span>/mes</span></div>
+                </div>
+                <p class="plan-description">Lo más elegido</p>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> 15 anuncios activos</li>
+                    <li><span class="check-icon">✓</span> Aparece cada 6 horas</li>
+                    <li><span class="check-icon">✓</span> 8 fotos por anuncio</li>
+                    <li><span class="check-icon">✓</span> Badge "Silver"</li>
+                    <li><span class="check-icon">✓</span> Estadísticas básicas</li>
+                    <li><span class="check-icon">✓</span> Soporte 24/7</li>
+                </ul>
+                <button class="btn btn-silver" onclick="selectPlan('silver')">Seleccionar Silver</button>
+            </div>
+
+            <!-- GOLD -->
+            <div class="pricing-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🥇</div>
+                    <h3 class="plan-name">GOLD</h3>
+                    <div class="plan-price">39.99€<span>/mes</span></div>
+                </div>
+                <p class="plan-description">Para profesionales</p>
+                <ul class="features-list">
+                    <li><span class="check-icon">✓</span> Anuncios ilimitados</li>
+                    <li><span class="check-icon">✓</span> Aparece cada 1 hora</li>
+                    <li><span class="check-icon">✓</span> 10 fotos por anuncio</li>
+                    <li><span class="check-icon">✓</span> Badge "Gold Premium"</li>
+                    <li><span class="check-icon">✓</span> Posición prioritaria</li>
+                    <li><span class="check-icon">✓</span> Estadísticas avanzadas</li>
+                    <li><span class="check-icon">✓</span> Gestor de cuenta dedicado</li>
+                </ul>
+                <button class="btn btn-gold" onclick="selectPlan('gold')">Seleccionar Gold</button>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h2>📊 Comparación detallada</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>FREE</th>
+                        <th>BRONZE</th>
+                        <th>SILVER</th>
+                        <th>GOLD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Anuncios activos</strong></td>
+                        <td>1</td>
+                        <td>5</td>
+                        <td>15</td>
+                        <td>∞</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frecuencia</strong></td>
+                        <td>24h</td>
+                        <td>12h</td>
+                        <td>6h</td>
+                        <td>1h</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fotos</strong></td>
+                        <td>3</td>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Badge especial</strong></td>
+                        <td><span class="table-cross">✗</span></td>
+                        <td><span class="table-check">✓</span></td>
+                        <td><span class="table-check">✓</span></td>
+                        <td><span class="table-check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estadísticas</strong></td>
+                        <td><span class="table-cross">✗</span></td>
+                        <td><span class="table-cross">✗</span></td>
+                        <td><span class="table-check">✓</span></td>
+                        <td><span class="table-check">✓✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Soporte prioritario</strong></td>
+                        <td><span class="table-cross">✗</span></td>
+                        <td><span class="table-check">✓</span></td>
+                        <td><span class="table-check">✓</span></td>
+                        <td><span class="table-check">✓✓</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="faq-section">
+            <h2>❓ Preguntas frecuentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">¿Puedo cambiar de plan en cualquier momento?</div>
+                <div class="faq-answer">Sí, puedes actualizar o degradar tu plan cuando quieras. Los cambios se aplican inmediatamente.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Qué significa "aparece cada X horas"?</div>
+                <div class="faq-answer">Tu anuncio se mostrará automáticamente en la parte superior de los resultados cada X horas, aumentando tu visibilidad.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Hay descuentos por pago anual?</div>
+                <div class="faq-answer">¡Sí! Obtén 2 meses gratis pagando anualmente. Ahorra hasta 20% en cualquier plan.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Puedo cancelar mi suscripción?</div>
+                <div class="faq-answer">Por supuesto. Cancela cuando quieras sin penalizaciones. Tus anuncios seguirán activos hasta el final del período pagado.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Qué métodos de pago aceptan?</div>
+                <div class="faq-answer">Aceptamos tarjetas de crédito/débito, PayPal, y transferencias bancarias para planes anuales.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectPlan(plan) {
+            const plans = {
+                free: { name: 'FREE', price: 0 },
+                bronze: { name: 'BRONZE', price: 9.99 },
+                silver: { name: 'SILVER', price: 19.99 },
+                gold: { name: 'GOLD', price: 39.99 }
+            };
+
+            const selected = plans[plan];
+            
+            if (plan === 'free') {
+                alert(`¡Perfecto! Puedes empezar a usar RentHub gratis ahora mismo.\n\nVe a "Publicar Anuncio" para crear tu primer anuncio.`);
+                window.location.href = 'publicar.html';
+            } else {
+                alert(`Has seleccionado el plan ${selected.name} por ${selected.price}€/mes.\n\n🚧 El sistema de pagos estará disponible próximamente.\n\nPor ahora, puedes usar la versión FREE.`);
+            }
+        }
+    </script>
+</body>
+</html>
