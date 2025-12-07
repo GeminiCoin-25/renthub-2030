@@ -1,5 +1,3 @@
-تمام! هذا هو الكود الكامل مع الصور الاحترافية:
-📋 انسخ هذا الكود كله:
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
 <head>
@@ -203,6 +201,8 @@
             font-weight: 600;
             font-family: inherit;
             transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-outline {
@@ -815,7 +815,7 @@
             </div>
             <div class="nav-buttons">
                 <button class="btn btn-outline" id="login-btn">Iniciar sesión</button>
-                <button class="btn btn-primary" id="add-btn">Publica tu anuncio</button>
+                <a href="publicar.html" class="btn btn-primary" id="add-btn">Publica tu anuncio</a>
             </div>
         </nav>
     </header>
@@ -904,7 +904,7 @@
             <h2 id="cta-title">Empieza a alquilar o ganar hoy</h2>
             <p id="cta-subtitle">Únete a miles de usuarios que se benefician de nuestra plataforma todos los días. ¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</p>
             <div class="cta-buttons">
-                <button class="btn btn-white btn-primary" id="cta-btn1">Regístrate como arrendador</button>
+                <a href="publicar.html" class="btn btn-white btn-primary" id="cta-btn1">Regístrate como arrendador</a>
                 <button class="btn btn-outline" id="cta-btn2">Explorar productos</button>
             </div>
         </div>
@@ -1205,9 +1205,67 @@
             `).join('');
         }
 
+        // Load user listings from localStorage
+        function loadUserListings() {
+            const userListings = JSON.parse(localStorage.getItem('renthub_listings') || '[]');
+            
+            if (userListings.length > 0) {
+                const currentLang = localStorage.getItem('language') || 'es';
+                const t = translations[currentLang];
+                
+                // Add user listings to the grid
+                const grid = document.getElementById('products-grid');
+                const userListingsHTML = userListings.slice(0, 8).map((listing, i) => {
+                    const categoryName = listing.category === 'coches' ? '🚗 Coches' :
+                                       listing.category === 'construccion' ? '🏗️ Equipos' :
+                                       listing.category === 'agricola' ? '🚜 Agrícola' :
+                                       listing.category === 'ropa' ? '👔 Ropa' :
+                                       listing.category === 'hogar' ? '🏠 Hogar' :
+                                       listing.category === 'electronica' ? '🎮 Electrónica' :
+                                       '📦 Otros';
+                    
+                    return `
+                        <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s">
+                            <div class="product-image">
+                                <img src="${listing.images[0]}" alt="${listing.title}" loading="lazy">
+                            </div>
+                            <div class="product-badge">Nuevo</div>
+                            <div class="product-info">
+                                <div class="product-category">${categoryName}</div>
+                                <h3 class="product-title">${listing.title}</h3>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                                        <span>(${listing.rating.toFixed(1)})</span>
+                                    </div>
+                                    <div class="product-location">📍 ${listing.city}</div>
+                                </div>
+                                <div class="product-price">
+                                    <div>
+                                        <span class="price">${listing.price}</span>
+                                        <span class="price-period">€/${listing.priceType}</span>
+                                    </div>
+                                    <button class="rent-btn" onclick="contactOwner('${listing.phone}')">${t.bookNow}</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                grid.innerHTML = userListingsHTML + grid.innerHTML;
+            }
+        }
+        
+        // Contact owner function
+        function contactOwner(phone) {
+            const message = encodeURIComponent('Hola! Estoy interesado en tu anuncio en RentHub.');
+            window.open(`https://wa.me/${phone.replace(/\D/g, '')}?text=${message}`, '_blank');
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             updateContent(currentLang);
+            loadUserListings();
             
             // Set active language button
             document.querySelectorAll('.lang-btn').forEach(btn => {
