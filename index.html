@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -121,6 +121,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -1px;
+            text-decoration: none;
         }
 
         body[dir="rtl"] .logo {
@@ -808,13 +809,13 @@
             <span id="promo-text">🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20</span>
         </div>
         <nav>
-            <div class="logo">RentHub</div>
+            <a href="index.html" class="logo">RentHub</a>
             <div class="search-bar">
                 <input type="text" id="search-placeholder" placeholder="Busca coches, equipos, ropa o cualquier cosa...">
                 <button class="search-btn">🔍</button>
             </div>
             <div class="nav-buttons">
-                <button class="btn btn-outline" id="login-btn">Iniciar sesión</button>
+                <a href="pricing.html" class="btn btn-outline" id="pricing-btn">Planes</a>
                 <a href="publicar.html" class="btn btn-primary" id="add-btn">Publica tu anuncio</a>
             </div>
         </nav>
@@ -868,7 +869,7 @@
         <section>
             <div class="section-header">
                 <h2 id="featured-title">⭐ Más solicitados</h2>
-                <a href="#" class="view-all" id="view-all-1">Ver todo →</a>
+                <a href="pricing.html" class="view-all" id="view-all-1">Ver planes →</a>
             </div>
             <div class="products-grid" id="products-grid">
                 <!-- Products will be dynamically generated -->
@@ -905,7 +906,7 @@
             <p id="cta-subtitle">Únete a miles de usuarios que se benefician de nuestra plataforma todos los días. ¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</p>
             <div class="cta-buttons">
                 <a href="publicar.html" class="btn btn-white btn-primary" id="cta-btn1">Regístrate como arrendador</a>
-                <button class="btn btn-outline" id="cta-btn2">Explorar productos</button>
+                <a href="pricing.html" class="btn btn-outline" id="cta-btn2">Ver planes</a>
             </div>
         </div>
     </section>
@@ -947,7 +948,7 @@
             es: {
                 promo: '🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20',
                 searchPlaceholder: 'Busca coches, equipos, ropa o cualquier cosa...',
-                login: 'Iniciar sesión',
+                pricingBtn: 'Planes',
                 addListing: 'Publica tu anuncio',
                 heroTitle: 'Alquila <span class="hero-gradient">cualquier cosa</span><br>en cualquier momento',
                 heroSubtitle: 'La primera plataforma de alquiler en la región - coches, equipos, ropa y más de 50,000 productos disponibles',
@@ -961,8 +962,8 @@
                 },
                 listings: 'anuncios',
                 featured: '⭐ Más solicitados',
-                viewAll: 'Ver todo →',
-                bookNow: 'Reservar ahora',
+                viewAll: 'Ver planes →',
+                bookNow: 'Ver detalles',
                 day: '/día',
                 stats: {
                     products: 'Productos disponibles',
@@ -973,7 +974,7 @@
                 ctaTitle: 'Empieza a alquilar o ganar hoy',
                 ctaSubtitle: 'Únete a miles de usuarios que se benefician de nuestra plataforma todos los días. ¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!',
                 ctaBtn1: 'Regístrate como arrendador',
-                ctaBtn2: 'Explorar productos',
+                ctaBtn2: 'Ver planes',
                 footerDesc: 'La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.',
                 footerCategories: 'Categorías',
                 footerCompany: 'Empresa',
@@ -998,7 +999,7 @@
             en: {
                 promo: '🎉 Special offer: <strong>20% discount</strong> on all monthly rentals - Use code: RENT20',
                 searchPlaceholder: 'Search for cars, equipment, clothing or anything...',
-                login: 'Log in',
+                pricingBtn: 'Plans',
                 addListing: 'Post your ad',
                 heroTitle: 'Rent <span class="hero-gradient">anything</span><br>anytime',
                 heroSubtitle: 'The first rental platform in the region - cars, equipment, clothing and over 50,000 available products',
@@ -1012,8 +1013,8 @@
                 },
                 listings: 'listings',
                 featured: '⭐ Most requested',
-                viewAll: 'View all →',
-                bookNow: 'Book now',
+                viewAll: 'View plans →',
+                bookNow: 'View details',
                 day: '/day',
                 stats: {
                     products: 'Available products',
@@ -1024,7 +1025,7 @@
                 ctaTitle: 'Start renting or earning today',
                 ctaSubtitle: 'Join thousands of users who benefit from our platform every day. Sign up now and get 20% off your first rental!',
                 ctaBtn1: 'Register as landlord',
-                ctaBtn2: 'Explore products',
+                ctaBtn2: 'View plans',
                 footerDesc: 'The comprehensive rental platform in Spain. We connect landlords with tenants safely and easily.',
                 footerCategories: 'Categories',
                 footerCompany: 'Company',
@@ -1049,7 +1050,7 @@
             ar: {
                 promo: '🎉 عرض خاص: <strong>خصم 20%</strong> على جميع الإيجارات الشهرية - استخدم الكود: RENT20',
                 searchPlaceholder: 'ابحث عن سيارات، معدات، ملابس، أو أي شيء...',
-                login: 'تسجيل الدخول',
+                pricingBtn: 'الباقات',
                 addListing: 'أضف إعلانك',
                 heroTitle: 'استأجر <span class="hero-gradient">أي شيء</span><br>في أي وقت',
                 heroSubtitle: 'منصة التأجير الأولى في المنطقة - سيارات، معدات، ملابس، وأكثر من 50,000 منتج متاح للإيجار',
@@ -1063,8 +1064,8 @@
                 },
                 listings: 'إعلان',
                 featured: '⭐ الأكثر طلباً',
-                viewAll: '← عرض الكل',
-                bookNow: 'احجز الآن',
+                viewAll: '← عرض الباقات',
+                bookNow: 'عرض التفاصيل',
                 day: '/يوم',
                 stats: {
                     products: 'منتج متاح',
@@ -1075,7 +1076,7 @@
                 ctaTitle: 'ابدأ التأجير أو الربح اليوم',
                 ctaSubtitle: 'انضم لآلاف المستخدمين الذين يستفيدون من منصتنا يومياً. سجل الآن واحصل على خصم 20% على أول إيجار!',
                 ctaBtn1: 'سجل كمؤجر',
-                ctaBtn2: 'تصفح المنتجات',
+                ctaBtn2: 'عرض الباقات',
                 footerDesc: 'منصة التأجير الشاملة في إسبانيا. نربط المؤجرين بالمستأجرين بطريقة آمنة وسهلة.',
                 footerCategories: 'الفئات',
                 footerCompany: 'الشركة',
@@ -1126,7 +1127,7 @@
             // Update text content
             document.getElementById('promo-text').innerHTML = t.promo;
             document.getElementById('search-placeholder').placeholder = t.searchPlaceholder;
-            document.getElementById('login-btn').textContent = t.login;
+            document.getElementById('pricing-btn').textContent = t.pricingBtn;
             document.getElementById('add-btn').textContent = t.addListing;
             document.getElementById('hero-title').innerHTML = t.heroTitle;
             document.getElementById('hero-subtitle').textContent = t.heroSubtitle;
@@ -1178,7 +1179,7 @@
             const grid = document.getElementById('products-grid');
             
             grid.innerHTML = t.products.map((product, i) => `
-                <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s">
+                <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s" data-id="demo_${i}">
                     <div class="product-image">
                         <img src="${product.image}" alt="${product.title}" loading="lazy">
                     </div>
@@ -1198,7 +1199,7 @@
                                 <span class="price">${product.price}</span>
                                 <span class="price-period">€${t.day}</span>
                             </div>
-                            <button class="rent-btn">${t.bookNow}</button>
+                            <button class="rent-btn" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=demo_${i}'">${t.bookNow}</button>
                         </div>
                     </div>
                 </div>
@@ -1225,7 +1226,7 @@
                                        '📦 Otros';
                     
                     return `
-                        <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s">
+                        <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s" data-id="${listing.id}">
                             <div class="product-image">
                                 <img src="${listing.images[0]}" alt="${listing.title}" loading="lazy">
                             </div>
@@ -1245,7 +1246,7 @@
                                         <span class="price">${listing.price}</span>
                                         <span class="price-period">€/${listing.priceType}</span>
                                     </div>
-                                    <button class="rent-btn" onclick="contactOwner('${listing.phone}')">${t.bookNow}</button>
+                                    <button class="rent-btn" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=${listing.id}'">${t.bookNow}</button>
                                 </div>
                             </div>
                         </div>
@@ -1255,12 +1256,15 @@
                 grid.innerHTML = userListingsHTML + grid.innerHTML;
             }
         }
-        
-        // Contact owner function
-        function contactOwner(phone) {
-            const message = encodeURIComponent('Hola! Estoy interesado en tu anuncio en RentHub.');
-            window.open(`https://wa.me/${phone.replace(/\D/g, '')}?text=${message}`, '_blank');
-        }
+
+        // Make product cards clickable
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            if (card && !e.target.closest('.rent-btn')) {
+                const productId = card.dataset.id;
+                if (productId) window.location.href = `product-detail.html?id=${productId}`;
+            }
+        });
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
