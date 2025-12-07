@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conviértete en Socio - RentHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0E27;
+            --secondary: #FF6B35;
+            --accent: #00D9FF;
+            --success: #00E396;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+            color: var(--primary);
+        }
+
+        header {
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+            padding: 20px 5%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--accent);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 24px;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.2;
+        }
+
+        .hero-highlight {
+            color: #FFD700;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .testimonials {
+            background: white;
+            padding: 60px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 80px;
+        }
+
+        .testimonials h2 {
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 40px;
+            color: var(--accent);
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .author-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .earnings {
+            display: inline-block;
+            background: linear-gradient(135deg, #00E396 0%, #00b377 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .how-it-works {
+            margin-bottom: 80px;
+        }
+
+        .how-it-works h2 {
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF6B35 0%, #ff8f6b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .step-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .step p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .signup-section {
+            background: linear-gradient(135deg, #0A0E27 0%, #2d1b3d 100%);
+            padding: 80px 5%;
+            text-align: center;
+            border-radius: 30px;
+            margin: 0 20px 80px;
+        }
+
+        .signup-section h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .signup-section p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+        }
+
+        .signup-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #FF6B35 0%, #ff8f6b 100%);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .success-message {
+            display: none;
+            background: #00E396;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .referral-code {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .referral-code h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .code-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">RentHub</a>
+            <a href="index.html" class="back-btn">← Volver</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>💰 Convierte tus seguidores en <span class="hero-highlight">ingresos mensuales</span></h1>
+            <p>Gana hasta 30% de comisión por cada cliente que traigas. Sin inversión, sin límites, sin complicaciones.</p>
+            <div class="hero-cta">
+                <a href="#signup" class="btn btn-white">Regístrate gratis ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number">30%</div>
+                <div class="stat-label">Comisión mensual</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚫</div>
+                <div class="stat-number">0€</div>
+                <div class="stat-label">Mínimo para retirar</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number">24h</div>
+                <div class="stat-label">Procesamiento de pago</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">♾️</div>
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Ingresos pasivos</div>
+            </div>
+        </div>
+
+        <div class="testimonials">
+            <h2>🌟 Historias reales de nuestros socios</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">En solo 2 meses he conseguido 127 clientes. Trabajo 3 horas a la semana y gano más que en mi trabajo anterior. ¡Increíble!</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Ahmed M.</h4>
+                            <p>Madrid • TikToker</p>
+                        </div>
+                    </div>
+                    <div class="earnings">💰 847€/mes</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">Compartí mi código en Instagram y en una semana ya tenía mis primeros clientes. El pago llegó en 24 horas. ¡Súper transparente!</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <h4>Sara L.</h4>
+                            <p>Barcelona • Influencer</p>
+                        </div>
+                    </div>
+                    <div class="earnings">💰 421€/mes</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">Lo mejor es que es ingreso recurrente. Cada mes gano sin hacer nada adicional. Mis clientes de hace 6 meses siguen pagando.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h4>Carlos R.</h4>
+                            <p>Valencia • YouTuber</p>
+                        </div>
+                    </div>
+                    <div class="earnings">💰 1,234€/mes</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>🚀 Cómo funciona (muy simple)</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📝</div>
+                    <h3>Regístrate gratis</h3>
+                    <p>Completa el formulario y obtén tu código único al instante. Sin costos, sin letra pequeña.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📢</div>
+                    <h3>Comparte tu código</h3>
+                    <p>Publica en TikTok, Instagram, Facebook o donde quieras. Te damos materiales listos para usar.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">👥</div>
+                    <h3>Gana clientes</h3>
+                    <p>Cada persona que use tu código al suscribirse se convierte en tu cliente de por vida.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">💸</div>
+                    <h3>Cobra mensualmente</h3>
+                    <p>Retira tus ganancias cuando quieras. Sin mínimos, sin esperas. PayPal, banco o como prefieras.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="signup-section" id="signup">
+        <h2>✨ Empieza a ganar hoy mismo</h2>
+        <p>Los primeros 100 socios obtienen 25% de comisión de por vida</p>
+        
+        <div class="signup-form">
+            <form id="affiliateForm">
+                <div class="form-group">
+                    <label>Nombre completo *</label>
+                    <input type="text" id="name" required placeholder="Tu nombre">
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" required placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono / WhatsApp *</label>
+                    <input type="tel" id="phone" required placeholder="+34 612 345 678">
+                </div>
+
+                <div class="form-group">
+                    <label>¿Dónde compartirás tu código? *</label>
+                    <input type="text" id="platform" required placeholder="TikTok, Instagram, Facebook...">
+                </div>
+
+                <button type="submit" class="btn-submit">🚀 Regístrame como socio</button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                <h3>🎉 ¡Bienvenido a RentHub!</h3>
+                <p>Tu cuenta de socio ha sido creada exitosamente.</p>
+            </div>
+
+            <div class="referral-code" id="referralCode">
+                <h3>🎁 Tu código de referido:</h3>
+                <div class="code-display" id="codeDisplay"></div>
+                <button class="copy-btn" onclick="copyCode()">📋 Copiar código</button>
+                <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                    Comparte este código y empieza a ganar. ¡Es así de simple!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('affiliateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const platform = document.getElementById('platform').value;
+            
+            // Generate referral code
+            const code = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            
+            // Save to localStorage
+            const affiliates = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
+            affiliates.push({
+                id: Date.now(),
+                name: name,
+                email: email,
+                phone: phone,
+                platform: platform,
+                code: code,
+                signupDate: new Date().toISOString(),
+                earnings: 0,
+                clients: []
+            });
+            localStorage.setItem('renthub_affiliates', JSON.stringify(affiliates));
+            
+            // Show success
+            document.getElementById('affiliateForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('referralCode').style.display = 'block';
+            document.getElementById('codeDisplay').textContent = code;
+        });
+        
+        function copyCode() {
+            const code = document.getElementById('codeDisplay').textContent;
+            navigator.clipboard.writeText(code);
+            alert('✅ Código copiado: ' + code);
+        }
+    </script>
+</body>
+</html>
