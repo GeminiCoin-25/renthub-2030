@@ -1,22 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicar Anuncio - RentHub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0A0E27;
-            --secondary: #FF6B35;
-            --accent: #00D9FF;
-            --success: #00E396;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -24,478 +12,523 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
-            color: var(--primary);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #333;
         }
 
-        header {
-            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
-            padding: 20px 5%;
-            box-shadow: var(--shadow-lg);
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
         }
 
-        nav {
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
         }
 
         .logo {
-            font-size: 32px;
-            font-weight: 900;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
             text-decoration: none;
-        }
-
-        .back-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .back-btn:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: var(--accent);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .form-card {
-            background: white;
-            border-radius: 24px;
-            padding: 50px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .form-header h1 {
+        .page-title {
             font-size: 36px;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-family: 'Poppins', sans-serif;
+            margin-bottom: 10px;
+            color: #333;
         }
 
-        .form-header p {
-            font-size: 16px;
+        .page-subtitle {
             color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .category-selector {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .category-option {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .category-option:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .category-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .category-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .category-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            font-size: 15px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
+            color: #333;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-input,
+        .form-select,
+        .form-textarea {
             width: 100%;
-            padding: 14px 20px;
+            padding: 14px;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 15px;
             font-family: inherit;
-            transition: var(--transition);
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: #667eea;
         }
 
-        .form-group textarea {
+        .form-textarea {
             min-height: 120px;
             resize: vertical;
         }
 
-        .form-group small {
-            display: block;
-            margin-top: 6px;
-            font-size: 13px;
-            color: #666;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .image-upload {
-            border: 3px dashed #e0e0e0;
-            border-radius: 16px;
+        .price-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .price-input-group .form-input {
+            flex: 2;
+        }
+
+        .price-input-group .form-select {
+            flex: 1;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
             padding: 40px;
             text-align: center;
+            background: #f8f9ff;
             cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
         }
 
-        .image-upload:hover {
-            border-color: var(--accent);
-            background: rgba(0, 217, 255, 0.05);
-        }
-
-        .image-upload input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+        .image-upload-area:hover {
+            background: #f0f2ff;
         }
 
         .upload-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        .image-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .preview-item {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 1;
-        }
-
-        .preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .remove-image {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(255,0,0,0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 15px;
         }
 
         .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, #FF6B35 0%, #ff8f6b 100%);
-            color: white;
             padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
             margin-top: 30px;
+            transition: all 0.3s;
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
 
-        .success-modal {
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .service-specific {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
         }
 
-        .success-content {
-            background: white;
-            padding: 50px;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 500px;
-            margin: 20px;
+        .service-specific.active {
+            display: block;
         }
 
-        .success-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .success-content h2 {
-            font-size: 32px;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 16px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .success-content p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .btn-close {
-            background: var(--accent);
-            color: white;
-            padding: 14px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
+        .skill-tag {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 14px;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .skill-tag.selected {
+            background: #667eea;
+            color: white;
         }
 
         @media (max-width: 768px) {
-            .form-card {
-                padding: 30px 20px;
+            .form-row {
+                grid-template-columns: 1fr;
             }
 
-            .form-header h1 {
-                font-size: 28px;
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-section {
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">RentHub</a>
-            <a href="index.html" class="back-btn">← Volver</a>
-        </nav>
-    </header>
-
-    <div class="container">
-        <div class="form-card">
-            <div class="form-header">
-                <h1>📢 Publica tu anuncio</h1>
-                <p>Comparte lo que quieres alquilar y empieza a ganar dinero hoy mismo</p>
-            </div>
-
-            <form id="listingForm">
-                <div class="form-group">
-                    <label>Categoría *</label>
-                    <select id="category" required>
-                        <option value="">Selecciona una categoría</option>
-                        <option value="coches">🚗 Coches</option>
-                        <option value="construccion">🏗️ Equipos de construcción</option>
-                        <option value="agricola">🚜 Maquinaria agrícola</option>
-                        <option value="ropa">👔 Ropa y eventos</option>
-                        <option value="hogar">🏠 Artículos del hogar</option>
-                        <option value="electronica">🎮 Electrónica</option>
-                        <option value="otros">📦 Otros</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Título del anuncio *</label>
-                    <input type="text" id="title" required placeholder="Ej: BMW X5 2023 - Lujo y totalmente equipado">
-                    <small>Sé claro y descriptivo. Un buen título atrae más clientes.</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Descripción completa *</label>
-                    <textarea id="description" required placeholder="Describe tu artículo: estado, características especiales, lo que incluye..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Fotos *</label>
-                    <div class="image-upload" id="imageUploadArea">
-                        <input type="file" id="images" accept="image/*" multiple>
-                        <div class="upload-icon">📸</div>
-                        <div><strong>Haz clic para subir fotos</strong></div>
-                        <small>Hasta 10 fotos. JPG, PNG. Máx 5MB cada una.</small>
-                    </div>
-                    <div class="image-preview" id="imagePreview"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Precio de alquiler *</label>
-                    <input type="number" id="price" required placeholder="45" min="1" step="0.01">
-                </div>
-
-                <div class="form-group">
-                    <label>Tipo de precio *</label>
-                    <select id="priceType" required>
-                        <option value="hora">Por hora</option>
-                        <option value="día" selected>Por día</option>
-                        <option value="semana">Por semana</option>
-                        <option value="mes">Por mes</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Ciudad *</label>
-                    <input type="text" id="city" required placeholder="Madrid">
-                </div>
-
-                <div class="form-group">
-                    <label>Teléfono de contacto *</label>
-                    <input type="tel" id="phone" required placeholder="+34 612 345 678">
-                </div>
-
-                <div class="form-group">
-                    <label>WhatsApp (opcional)</label>
-                    <input type="tel" id="whatsapp" placeholder="+34 612 345 678">
-                    <small>Si es diferente al teléfono de contacto</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Depósito reembolsable (€)</label>
-                    <input type="number" id="deposit" placeholder="100" min="0" step="1">
-                    <small>Opcional. Cantidad que el cliente debe dejar como garantía.</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Código de referido (opcional) 🎁</label>
-                    <input type="text" id="referralCode" placeholder="Ej: REF123ABC">
-                    <small>¿Te compartieron un código? Ingrésalo aquí para apoyar a quien te recomendó RentHub</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Condiciones de uso (opcional)</label>
-                    <textarea id="conditions" placeholder="Ej: No fumar, devolver con el tanque lleno, uso solo en la ciudad..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit">🚀 Publicar anuncio ahora</button>
-            </form>
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="logo">🏠 RentHub</a>
+            <a href="/dashboard.html" style="text-decoration: none; color: #667eea; font-weight: 600;">← Mi Panel</a>
         </div>
     </div>
 
-    <div class="success-modal" id="successModal">
-        <div class="success-content">
-            <div class="success-icon">🎉</div>
-            <h2>¡Anuncio publicado!</h2>
-            <p>Tu anuncio está ahora visible para miles de usuarios. ¡Prepárate para recibir solicitudes!</p>
-            <a href="index.html" class="btn-close">Ver mi anuncio</a>
+    <div class="container">
+        <h1 class="page-title">📢 Publicar Anuncio</h1>
+        <p class="page-subtitle">Completa los detalles para publicar tu anuncio</p>
+
+        <div class="category-selector">
+            <h2 class="category-title">¿Qué quieres publicar?</h2>
+            <div class="category-grid">
+                <div class="category-option" data-category="product">
+                    <div class="category-icon">📦</div>
+                    <div class="category-label">Producto</div>
+                </div>
+                <div class="category-option" data-category="vehicle">
+                    <div class="category-icon">🚗</div>
+                    <div class="category-label">Vehículo</div>
+                </div>
+                <div class="category-option" data-category="equipment">
+                    <div class="category-icon">🔧</div>
+                    <div class="category-label">Equipo</div>
+                </div>
+                <div class="category-option" data-category="service">
+                    <div class="category-icon">👷</div>
+                    <div class="category-label">Servicio Profesional</div>
+                </div>
+            </div>
         </div>
+
+        <form id="listingForm" class="form-section">
+            <h2 class="section-title">Detalles del Anuncio</h2>
+
+            <div class="info-box service-specific">
+                💡 <strong>Servicios Profesionales:</strong> Publica tu trabajo por hora, día o proyecto. ¡Es gratis para trabajadores independientes!
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Título del Anuncio *</label>
+                <input type="text" class="form-input" id="title" placeholder="Ej: BMW Serie 3 2020 / Albañil Profesional con 10 años de experiencia" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descripción *</label>
+                <textarea class="form-textarea" id="description" placeholder="Describe tu producto o servicio en detalle. Incluye características importantes, condiciones, disponibilidad, etc." required></textarea>
+            </div>
+
+            <div class="service-specific">
+                <div class="form-group">
+                    <label class="form-label">Especialidad *</label>
+                    <select class="form-select" id="serviceType">
+                        <option value="">Selecciona tu especialidad</option>
+                        <option value="construction">🏗️ Construcción y Albañilería</option>
+                        <option value="plumbing">🔧 Fontanería</option>
+                        <option value="electrical">⚡ Electricidad</option>
+                        <option value="carpentry">🪚 Carpintería</option>
+                        <option value="painting">🎨 Pintura</option>
+                        <option value="gardening">🌱 Jardinería</option>
+                        <option value="cleaning">🧹 Limpieza</option>
+                        <option value="moving">📦 Mudanzas y Transporte</option>
+                        <option value="repair">🔨 Reparaciones Generales</option>
+                        <option value="mechanic">🚗 Mecánica</option>
+                        <option value="welding">🔥 Soldadura</option>
+                        <option value="masonry">🧱 Yesería y Escayola</option>
+                        <option value="roofing">🏠 Techos y Tejados</option>
+                        <option value="hvac">❄️ Climatización</option>
+                        <option value="other">💼 Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Habilidades y Certificaciones (selecciona todas las que apliquen)</label>
+                    <div class="skill-tags">
+                        <span class="skill-tag" data-skill="licensed">✅ Certificado Profesional</span>
+                        <span class="skill-tag" data-skill="insured">🛡️ Seguro de Responsabilidad</span>
+                        <span class="skill-tag" data-skill="experienced">⭐ +5 años experiencia</span>
+                        <span class="skill-tag" data-skill="equipment">🔧 Equipo y herramientas propias</span>
+                        <span class="skill-tag" data-skill="team">👥 Trabajo con equipo</span>
+                        <span class="skill-tag" data-skill="emergency">🚨 Disponible urgencias 24/7</span>
+                        <span class="skill-tag" data-skill="warranty">✓ Garantía del trabajo</span>
+                        <span class="skill-tag" data-skill="references">📋 Referencias verificables</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Categoría *</label>
+                    <select class="form-select" id="category" required>
+                        <option value="">Selecciona categoría</option>
+                        <option value="cars">🚗 Coches</option>
+                        <option value="construction">🏗️ Equipos de Construcción</option>
+                        <option value="agriculture">🚜 Maquinaria Agrícola</option>
+                        <option value="clothing">👔 Ropa y Accesorios</option>
+                        <option value="home">🏠 Artículos del Hogar</option>
+                        <option value="electronics">🎮 Electrónica</option>
+                        <option value="services">👷 Servicios Profesionales</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ubicación *</label>
+                    <input type="text" class="form-input" id="location" placeholder="Ej: Madrid, Barcelona, Valencia..." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Precio *</label>
+                <div class="price-input-group">
+                    <input type="number" class="form-input" id="price" placeholder="0.00" min="0" step="0.01" required>
+                    <select class="form-select" id="pricePeriod">
+                        <option value="hour">€ / hora</option>
+                        <option value="day">€ / día</option>
+                        <option value="week">€ / semana</option>
+                        <option value="month">€ / mes</option>
+                        <option value="project">€ / proyecto</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Imágenes (Opcional pero recomendado)</label>
+                <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+                    <div class="upload-icon">📸</div>
+                    <div><strong>Haz clic para subir imágenes</strong></div>
+                    <div style="font-size: 14px; color: #999; margin-top: 5px;">Hasta 5 imágenes (JPG, PNG - Max 5MB cada una)</div>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+                <div id="imagePreview" style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Teléfono de Contacto *</label>
+                    <input type="tel" class="form-input" id="phone" placeholder="+34 600 000 000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">WhatsApp (Opcional)</label>
+                    <input type="tel" class="form-input" id="whatsapp" placeholder="+34 600 000 000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email de Contacto</label>
+                <input type="email" class="form-input" id="email" placeholder="tu@email.com" value="">
+            </div>
+
+            <button type="submit" class="btn-submit">🚀 Publicar Anuncio Ahora</button>
+        </form>
     </div>
 
     <script>
-        let selectedImages = [];
+        // Auto-fill email
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('email').value = userEmail;
+            }
+        });
 
-        document.getElementById('images').addEventListener('change', function(e) {
-            const files = Array.from(e.target.files);
-            
-            files.forEach(file => {
-                if (selectedImages.length >= 10) {
-                    alert('Máximo 10 fotos permitidas');
-                    return;
+        // Category selection
+        document.querySelectorAll('.category-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.category-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                document.getElementById('listingForm').classList.add('active');
+                
+                const category = this.dataset.category;
+                const serviceFields = document.querySelectorAll('.service-specific');
+                
+                if (category === 'service') {
+                    serviceFields.forEach(field => field.classList.add('active'));
+                    document.getElementById('category').value = 'services';
+                } else {
+                    serviceFields.forEach(field => field.classList.remove('active'));
                 }
+                
+                document.getElementById('listingForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
 
+        // Skill tags selection
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Image upload preview
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            
+            Array.from(files).slice(0, 5).forEach(file => {
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    selectedImages.push(event.target.result);
-                    updateImagePreview();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '10px';
+                    preview.appendChild(img);
                 };
                 reader.readAsDataURL(file);
             });
         });
 
-        function updateImagePreview() {
-            const preview = document.getElementById('imagePreview');
-            preview.innerHTML = selectedImages.map((img, index) => `
-                <div class="preview-item">
-                    <img src="${img}" alt="Preview ${index + 1}">
-                    <button type="button" class="remove-image" onclick="removeImage(${index})">×</button>
-                </div>
-            `).join('');
-        }
-
-        function removeImage(index) {
-            selectedImages.splice(index, 1);
-            updateImagePreview();
-        }
-
+        // Form submission
         document.getElementById('listingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
-            if (selectedImages.length === 0) {
-                alert('Por favor sube al menos una foto');
+            
+            if (!localStorage.getItem('isLoggedIn')) {
+                alert('⚠️ Debes iniciar sesión para publicar un anuncio');
+                window.location.href = '/auth.html';
                 return;
             }
-
-            const listing = {
-                id: 'listing_' + Date.now(),
-                category: document.getElementById('category').value,
+            
+            const formData = {
                 title: document.getElementById('title').value,
                 description: document.getElementById('description').value,
-                images: selectedImages,
-                price: parseFloat(document.getElementById('price').value),
-                priceType: document.getElementById('priceType').value,
-                city: document.getElementById('city').value,
+                category: document.getElementById('category').value,
+                location: document.getElementById('location').value,
+                price: document.getElementById('price').value,
+                pricePeriod: document.getElementById('pricePeriod').value,
                 phone: document.getElementById('phone').value,
-                whatsapp: document.getElementById('whatsapp').value || document.getElementById('phone').value,
-                deposit: parseInt(document.getElementById('deposit').value) || 0,
-                referralCode: document.getElementById('referralCode').value || '',
-                conditions: document.getElementById('conditions').value,
-                date: new Date().toISOString(),
+                whatsapp: document.getElementById('whatsapp').value,
+                email: document.getElementById('email').value,
+                userId: localStorage.getItem('userId'),
+                userName: localStorage.getItem('userName'),
+                createdAt: new Date().toISOString(),
                 views: 0,
-                rating: (4.5 + Math.random() * 0.5).toFixed(1)
+                clicks: 0,
+                contacts: 0,
+                status: 'active'
             };
-
-            const listings = JSON.parse(localStorage.getItem('renthub_listings') || '[]');
-            listings.unshift(listing);
-            localStorage.setItem('renthub_listings', JSON.stringify(listings));
-
-            // Track referral
-            if (listing.referralCode) {
-                const affiliates = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
-                const affiliate = affiliates.find(a => a.code === listing.referralCode);
-                if (affiliate) {
-                    if (!affiliate.clients) affiliate.clients = [];
-                    affiliate.clients.push({
-                        id: listing.id,
-                        date: new Date().toISOString(),
-                        type: 'listing'
-                    });
-                    localStorage.setItem('renthub_affiliates', JSON.stringify(affiliates));
-                }
+            
+            if (document.querySelector('.service-specific.active')) {
+                formData.serviceType = document.getElementById('serviceType').value;
+                formData.skills = Array.from(document.querySelectorAll('.skill-tag.selected'))
+                    .map(tag => tag.dataset.skill);
             }
-
-            document.getElementById('successModal').style.display = 'flex';
+            
+            console.log('✅ Datos del anuncio:', formData);
+            
+            alert('🎉 ¡Anuncio publicado exitosamente!\n\n(Próximamente se guardará en la base de datos Firebase)');
+            
+            setTimeout(() => {
+                window.location.href = '/dashboard.html';
+            }, 1500);
         });
     </script>
 </body>
