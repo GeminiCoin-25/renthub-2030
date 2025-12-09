@@ -126,6 +126,12 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
 
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .divider {
             text-align: center;
             margin: 30px 0;
@@ -243,6 +249,21 @@
             font-size: 14px;
         }
 
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .auth-container {
                 padding: 30px 20px;
@@ -283,10 +304,10 @@
                 </div>
 
                 <div class="forgot-password">
-                    <a href="#" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
+                    <a href="#" onclick="showForgotPassword(); return false;">¿Olvidaste tu contraseña?</a>
                 </div>
 
-                <button type="submit" class="btn-primary">🔐 Iniciar Sesión</button>
+                <button type="submit" class="btn-primary" id="loginBtn">🔐 Iniciar Sesión</button>
             </form>
 
             <div class="divider">
@@ -329,7 +350,7 @@
                     <input type="password" class="form-input" id="registerPasswordConfirm" placeholder="Repite tu contraseña" required>
                 </div>
 
-                <button type="submit" class="btn-primary">🚀 Crear Cuenta</button>
+                <button type="submit" class="btn-primary" id="registerBtn">🚀 Crear Cuenta</button>
             </form>
 
             <div class="divider">
@@ -349,7 +370,7 @@
             </div>
 
             <div class="terms">
-                Al registrarte, aceptas nuestros <a href="/terms.html">Términos y Condiciones</a> y <a href="/terms.html">Política de Privacidad</a>
+                Al registrarte, aceptas nuestros <a href="/terms.html">Términos y Condiciones</a> y <a href="/privacy.html">Política de Privacidad</a>
             </div>
         </div>
 
@@ -359,19 +380,19 @@
     </div>
 
     <script type="module">
-        // Firebase Configuration (سنضيف Firebase config هنا)
+        // Firebase Configuration
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // Firebase config (ستضع config الخاص بك هنا)
+        // ✅ Firebase config - ACTUALIZADO CON TUS DATOS
         const firebaseConfig = {
-            // سنضيف البيانات لاحقاً
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
+            authDomain: "renthub-2030.firebaseapp.com",
+            projectId: "renthub-2030",
+            storageBucket: "renthub-2030.firebasestorage.app",
+            messagingSenderId: "23301901800",
+            appId: "1:23301901800:web:2679c834aac406c72d685d",
+            measurementId: "G-7JJ40H01FM"
         };
 
         // Initialize Firebase
@@ -390,6 +411,9 @@
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('registerTab').classList.add('active');
             }
+            
+            // Clear messages
+            hideMessages();
         };
 
         // Login Form
@@ -397,18 +421,30 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '🔐 Iniciando sesión<span class="loading"></span>';
 
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                showSuccess('¡Inicio de sesión exitoso!');
+                showSuccess('¡Inicio de sesión exitoso! Redirigiendo...');
+                
                 // Save to localStorage
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', userCredential.user.email);
                 localStorage.setItem('userId', userCredential.user.uid);
+                localStorage.setItem('userName', userCredential.user.displayName || email.split('@')[0]);
+                
                 // Redirect
-                setTimeout(() => window.location.href = '/dashboard.html', 1000);
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1500);
             } catch (error) {
-                showError('Error: ' + getErrorMessage(error.code));
+                console.error('Login error:', error);
+                showError(getErrorMessage(error.code));
+                btn.disabled = false;
+                btn.innerHTML = '🔐 Iniciar Sesión';
             }
         });
 
@@ -419,24 +455,48 @@
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+            const btn = document.getElementById('registerBtn');
 
             if (password !== confirmPassword) {
                 showError('Las contraseñas no coinciden');
                 return;
             }
 
+            if (password.length < 6) {
+                showError('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '🚀 Creando cuenta<span class="loading"></span>';
+
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                showSuccess('¡Cuenta creada exitosamente!');
+                
+                // Update profile with name
+                await updateProfile(userCredential.user, {
+                    displayName: name
+                });
+                
+                showSuccess('¡Cuenta creada exitosamente! Redirigiendo...');
+                
                 // Save to localStorage
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userName', name);
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userId', userCredential.user.uid);
+                localStorage.setItem('userPlan', 'free');
+                localStorage.setItem('userListings', '0');
+                
                 // Redirect
-                setTimeout(() => window.location.href = '/dashboard.html', 1000);
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1500);
             } catch (error) {
-                showError('Error: ' + getErrorMessage(error.code));
+                console.error('Registration error:', error);
+                showError(getErrorMessage(error.code));
+                btn.disabled = false;
+                btn.innerHTML = '🚀 Crear Cuenta';
             }
         });
 
@@ -445,14 +505,24 @@
             const provider = new GoogleAuthProvider();
             try {
                 const result = await signInWithPopup(auth, provider);
-                showSuccess('¡Inicio de sesión con Google exitoso!');
+                showSuccess('¡Inicio de sesión con Google exitoso! Redirigiendo...');
+                
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userName', result.user.displayName);
+                localStorage.setItem('userName', result.user.displayName || 'Usuario');
                 localStorage.setItem('userEmail', result.user.email);
                 localStorage.setItem('userId', result.user.uid);
-                setTimeout(() => window.location.href = '/dashboard.html', 1000);
+                localStorage.setItem('userPlan', localStorage.getItem('userPlan') || 'free');
+                
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1500);
             } catch (error) {
-                showError('Error con Google: ' + error.message);
+                console.error('Google login error:', error);
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showError('Inicio de sesión cancelado');
+                } else {
+                    showError('Error con Google: ' + getErrorMessage(error.code));
+                }
             }
         };
 
@@ -461,14 +531,24 @@
             const provider = new FacebookAuthProvider();
             try {
                 const result = await signInWithPopup(auth, provider);
-                showSuccess('¡Inicio de sesión con Facebook exitoso!');
+                showSuccess('¡Inicio de sesión con Facebook exitoso! Redirigiendo...');
+                
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userName', result.user.displayName);
+                localStorage.setItem('userName', result.user.displayName || 'Usuario');
                 localStorage.setItem('userEmail', result.user.email);
                 localStorage.setItem('userId', result.user.uid);
-                setTimeout(() => window.location.href = '/dashboard.html', 1000);
+                localStorage.setItem('userPlan', localStorage.getItem('userPlan') || 'free');
+                
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1500);
             } catch (error) {
-                showError('Error con Facebook: ' + error.message);
+                console.error('Facebook login error:', error);
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showError('Inicio de sesión cancelado');
+                } else {
+                    showError('Error con Facebook: ' + getErrorMessage(error.code));
+                }
             }
         };
 
@@ -480,36 +560,58 @@
                     await sendPasswordResetEmail(auth, email);
                     showSuccess('Email de recuperación enviado. Revisa tu bandeja de entrada.');
                 } catch (error) {
-                    showError('Error: ' + error.message);
+                    console.error('Password reset error:', error);
+                    showError(getErrorMessage(error.code));
                 }
             }
         };
 
         // Helper Functions
         function showError(message) {
+            hideMessages();
             const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
+            errorDiv.textContent = '❌ ' + message;
             errorDiv.style.display = 'block';
-            setTimeout(() => errorDiv.style.display = 'none', 5000);
+            setTimeout(() => errorDiv.style.display = 'none', 6000);
         }
 
         function showSuccess(message) {
+            hideMessages();
             const successDiv = document.getElementById('successMessage');
-            successDiv.textContent = message;
+            successDiv.textContent = '✅ ' + message;
             successDiv.style.display = 'block';
-            setTimeout(() => successDiv.style.display = 'none', 3000);
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
         }
 
         function getErrorMessage(code) {
             const messages = {
                 'auth/email-already-in-use': 'Este email ya está registrado',
                 'auth/invalid-email': 'Email inválido',
-                'auth/weak-password': 'Contraseña muy débil',
+                'auth/weak-password': 'Contraseña muy débil (mínimo 6 caracteres)',
                 'auth/user-not-found': 'Usuario no encontrado',
-                'auth/wrong-password': 'Contraseña incorrecta'
+                'auth/wrong-password': 'Contraseña incorrecta',
+                'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde',
+                'auth/network-request-failed': 'Error de conexión. Verifica tu internet',
+                'auth/invalid-credential': 'Credenciales inválidas',
+                'auth/user-disabled': 'Esta cuenta ha sido deshabilitada',
+                'auth/operation-not-allowed': 'Operación no permitida',
+                'auth/popup-blocked': 'Popup bloqueado. Permite popups para este sitio',
+                'auth/popup-closed-by-user': 'Ventana cerrada',
+                'auth/unauthorized-domain': 'Dominio no autorizado'
             };
-            return messages[code] || 'Error desconocido';
+            return messages[code] || 'Error: ' + code;
         }
+
+        // Check if already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = '/dashboard.html';
+        }
+
+        console.log('🔥 Firebase initialized successfully!');
     </script>
 </body>
 </html>
