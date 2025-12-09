@@ -1,4 +1,3 @@
-<!DOCTYPE إلى </html>:
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentHub - Plataforma de Alquiler Integral</title>
     <style>
+        /* [الـ CSS هنا يظل كما هو دون تغيير] */
         * {
             margin: 0;
             padding: 0;
@@ -103,7 +103,8 @@
             color: #667eea;
         }
 
-        .btn-login {
+        /* هذا التنسيق مخصص لزر تسجيل/دخول القديم وللتنسيق الجديد */
+        .primary-auth-btn { 
             padding: 10px 25px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -113,11 +114,30 @@
             transition: all 0.3s;
         }
 
-        .btn-login:hover {
+        .primary-auth-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
+        /* تنسيق زر الحساب الجديد (يتحكم فيه JavaScript) */
+        .user-profile-btn {
+            display: none; /* مخفي مبدئياً */
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 25px;
+            background: #e0e0e0;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .user-profile-btn:hover {
+             background: #667eea;
+             color: white;
+        }
+        
         .lang-switcher {
             display: flex;
             gap: 8px;
@@ -392,7 +412,12 @@
                 <a href="/publicar.html">Publicar</a>
                 <a href="/about.html">Nosotros</a>
                 <a href="/contact.html">Contacto</a>
-                <a href="/register.html" class="btn-login">Iniciar Sesión</a>
+                
+                <a href="/auth.html" class="primary-auth-btn">Iniciar Sesión</a>
+                
+                <a href="/dashboard.html" class="user-profile-btn" style="display: none;">
+                    Mi Cuenta
+                </a>
             </div>
 
             <div class="lang-switcher">
@@ -473,7 +498,7 @@
     </section>
 
     <section class="cta-section">
-        <h2>Empieza a alquilar o ganar hoy</h2>
+        <h2>Empieza a alquilar أو ganar hoy</h2>
         <p>Únete a miles de usuarios que se benefician de nuestra plataforma todos los días.<br>¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</p>
         <div class="cta-buttons">
             <a href="/publicar.html" class="btn-cta btn-primary">Regístrate como arrendador</a>
@@ -515,8 +540,8 @@
                 <ul>
                     <li><a href="/contact.html">Centro de Ayuda</a></li>
                     <li><a href="/terms.html">Términos y Condiciones</a></li>
-                    <li><a href="/terms.html">Política de Privacidad</a></li>
-                    <li><a href="/profile.html">Mi Cuenta</a></li>
+                    <li><a href="/privacy.html">Política de Privacidad</a></li> 
+                    <li><a href="/dashboard.html">Mi Cuenta</a></li> 
                     <li><a href="/favorites.html">Favoritos</a></li>
                     <li><a href="/messages.html">Mensajes</a></li>
                 </ul>
@@ -527,12 +552,15 @@
             © 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España
         </div>
     </footer>
-
+    
+    <script type="module" src="backend_logic.js"></script> 
+    
     <script>
         function performSearch() {
             const query = document.getElementById('searchInput').value;
             if (query) {
-                window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
+                // يفترض وجود ملف search.html
+                window.location.href = `/search.html?q=${encodeURIComponent(query)}`; 
             }
         }
 
@@ -541,12 +569,9 @@
                 performSearch();
             }
         });
-
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        if (isLoggedIn) {
-            const loginBtn = document.querySelector('.btn-login');
-            loginBtn.textContent = 'Mi Perfil';
-            loginBtn.href = '/profile.html';
-        }
+        
+        // ** ملاحظة: تم حذف المنطق القديم الذي كان يعتمد على localStorage هنا، 
+        // لأن backend_logic.js هو من يدير تبديل الأزرار الآن عبر Firebase. **
     </script>
 </body>
+</html>
