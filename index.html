@@ -1,27 +1,10 @@
-
-<html lang="es" dir="ltr">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentHub - Plataforma de Alquiler Integral</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0A0E27;
-            --secondary: #FF6B35;
-            --accent: #00D9FF;
-            --success: #00E396;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -29,624 +12,255 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
-            color: var(--primary);
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
         }
 
-        body[dir="rtl"] {
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        /* Language Switcher */
-        .language-switcher {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            z-index: 2000;
-            background: white;
-            border-radius: 50px;
-            box-shadow: var(--shadow-lg);
-            padding: 8px;
-            display: flex;
-            gap: 5px;
-        }
-
-        body[dir="rtl"] .language-switcher {
-            right: auto;
-            left: 20px;
-        }
-
-        .lang-btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 50px;
-            background: transparent;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: var(--transition);
-            color: #666;
-        }
-
-        .lang-btn:hover {
-            background: #f0f0f0;
-        }
-
-        .lang-btn.active {
-            background: var(--gradient-3);
+        .banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        /* Header */
+        .banner strong {
+            color: #ffd700;
+        }
+
         header {
-            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
-            padding: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .top-bar {
-            background: rgba(255, 107, 53, 0.1);
-            padding: 8px 0;
-            text-align: center;
-            color: #fff;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .top-bar strong {
-            color: var(--secondary);
-            font-weight: 700;
         }
 
         nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .logo {
-            font-size: 32px;
-            font-weight: 900;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
             text-decoration: none;
-        }
-
-        body[dir="rtl"] .logo {
-            font-family: 'Cairo', sans-serif;
         }
 
         .search-bar {
             flex: 1;
-            max-width: 600px;
-            margin: 0 40px;
+            max-width: 500px;
             position: relative;
         }
 
         .search-bar input {
             width: 100%;
-            padding: 14px 50px 14px 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            background: rgba(255,255,255,0.1);
-            color: white;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
             font-size: 15px;
-            font-family: inherit;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-        }
-
-        body[dir="rtl"] .search-bar input {
-            padding: 14px 20px 14px 50px;
         }
 
         .search-bar input:focus {
             outline: none;
-            border-color: var(--accent);
-            background: rgba(255,255,255,0.15);
+            border-color: #667eea;
         }
 
-        .search-bar input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .search-btn {
+        .search-icon {
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--gradient-3);
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            font-size: 20px;
+            color: #667eea;
             cursor: pointer;
+        }
+
+        .nav-links {
             display: flex;
+            gap: 25px;
             align-items: center;
-            justify-content: center;
-            transition: var(--transition);
         }
 
-        body[dir="rtl"] .search-btn {
-            right: auto;
-            left: 15px;
-        }
-
-        .search-btn:hover {
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 12px 28px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: inherit;
-            transition: var(--transition);
+        .nav-links a {
+            color: #333;
             text-decoration: none;
-            display: inline-block;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .btn-outline {
-            background: transparent;
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .btn-login {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--accent);
+        .btn-login:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #FF6B35 0%, #ff8f6b 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        .lang-btn {
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            transition: transform 0.2s;
         }
 
-        /* Hero Section */
+        .lang-btn:hover {
+            transform: scale(1.2);
+        }
+
         .hero {
-            background: linear-gradient(135deg, #0A0E27 0%, #2d1b3d 50%, #1a1f3a 100%);
-            padding: 80px 5% 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        body[dir="rtl"] .hero::before {
-            right: auto;
-            left: -200px;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
-            bottom: -150px;
-            left: -150px;
-            animation: pulse 6s ease-in-out infinite;
-        }
-
-        body[dir="rtl"] .hero::after {
-            left: auto;
-            right: -150px;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 64px;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 24px;
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.2;
-        }
-
-        body[dir="rtl"] .hero h1 {
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .hero-gradient {
-            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
 
         .hero p {
-            font-size: 22px;
-            color: rgba(255,255,255,0.8);
+            font-size: 20px;
             margin-bottom: 40px;
-            line-height: 1.6;
+            opacity: 0.9;
         }
 
-        /* Categories */
         .categories {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin: -50px 5% 60px;
-            position: relative;
-            z-index: 10;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .category-card {
             background: white;
-            padding: 30px 20px;
+            padding: 40px;
             border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             text-align: center;
+            transition: all 0.3s;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            border: 2px solid transparent;
         }
 
         .category-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
         .category-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            font-size: 60px;
+            margin-bottom: 20px;
         }
 
         .category-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #333;
         }
 
-        .category-card p {
-            font-size: 13px;
-            color: #666;
+        .category-count {
+            color: #667eea;
+            font-weight: 600;
         }
 
-        /* Main Content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 5%;
+        .featured-section {
+            background: #f5f7fa;
+            padding: 80px 20px;
         }
 
-        section {
-            margin-bottom: 80px;
-        }
-
-        .section-header {
+        .featured-header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
         }
 
-        .section-header h2 {
+        .featured-title {
             font-size: 36px;
-            font-weight: 800;
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary);
-        }
-
-        body[dir="rtl"] .section-header h2 {
-            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
         }
 
         .view-all {
-            color: var(--secondary);
-            font-weight: 600;
+            color: #667eea;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-        }
-
-        .view-all:hover {
-            gap: 12px;
-        }
-
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 240px;
-            position: relative;
-            overflow: hidden;
-            background: #f0f0f0;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, #FF6B35 0%, #ff8f6b 100%);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-            z-index: 10;
-        }
-
-        body[dir="rtl"] .product-badge {
-            right: auto;
-            left: 15px;
-        }
-
-        .product-info {
-            padding: 20px;
-        }
-
-        .product-category {
-            font-size: 12px;
-            color: var(--secondary);
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .product-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .product-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .product-rating {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 14px;
-            color: #666;
+            gap: 5px;
         }
 
-        .stars {
-            color: #FFB800;
-            font-size: 16px;
-        }
-
-        .product-location {
-            font-size: 13px;
-            color: #888;
-        }
-
-        .product-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .price-period {
-            font-size: 14px;
-            color: #666;
-            font-weight: 400;
-        }
-
-        .rent-btn {
-            background: linear-gradient(135deg, #00D9FF 0%, #0099ff 100%);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            border: none;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        .rent-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 153, 255, 0.4);
-        }
-
-        /* Stats Section */
         .stats {
-            background: linear-gradient(135deg, #0A0E27 0%, #2d1b3d 100%);
-            padding: 80px 5%;
-            margin: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
             max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+            margin: 80px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
         }
 
-        .stat-card {
-            text-align: center;
+        .stat-item {
+            padding: 30px;
         }
 
         .stat-number {
-            font-size: 56px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #00D9FF 0%, #FF6B35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
             margin-bottom: 10px;
         }
 
-        body[dir="rtl"] .stat-number {
-            font-family: 'Cairo', sans-serif;
-        }
-
         .stat-label {
-            font-size: 18px;
-            color: rgba(255,255,255,0.8);
-            font-weight: 500;
+            color: #666;
+            font-size: 16px;
         }
 
-        /* CTA Section */
-        .cta {
+        .cta-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 80px 5%;
-            text-align: center;
-            border-radius: 30px;
-            margin: 80px 5%;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            top: -100px;
-            right: -100px;
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        body[dir="rtl"] .cta::before {
-            right: auto;
-            left: -100px;
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .cta h2 {
-            font-size: 42px;
-            font-weight: 900;
             color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
             margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
         }
 
-        body[dir="rtl"] .cta h2 {
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .cta p {
-            font-size: 20px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 35px;
-            line-height: 1.6;
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
         }
 
         .cta-buttons {
@@ -656,44 +270,59 @@
             flex-wrap: wrap;
         }
 
-        .btn-white {
+        .btn-cta {
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
             background: white;
             color: #667eea;
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 700;
         }
 
-        .btn-white:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+        .btn-secondary {
+            background: transparent;
             color: white;
-            padding: 60px 5% 30px;
-            margin-top: 80px;
+            border: 2px solid white;
         }
 
-        .footer-grid {
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto 40px;
+            margin-bottom: 40px;
         }
 
         .footer-section h3 {
-            font-size: 20px;
-            font-weight: 700;
             margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
         }
 
-        body[dir="rtl"] .footer-section h3 {
-            font-family: 'Cairo', sans-serif;
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.8;
         }
 
         .footer-section ul {
@@ -704,605 +333,220 @@
             margin-bottom: 12px;
         }
 
-        .footer-section ul li a {
-            color: rgba(255,255,255,0.7);
+        .footer-section a {
+            color: white;
             text-decoration: none;
-            transition: var(--transition);
-            font-size: 15px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
 
-        .footer-section ul li a:hover {
-            color: var(--accent);
-            padding-inline-start: 5px;
+        .footer-section a:hover {
+            opacity: 1;
         }
 
         .footer-bottom {
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
+            text-align: center;
+            opacity: 0.8;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 42px;
+                font-size: 32px;
             }
-            
+
             .hero p {
-                font-size: 18px;
+                font-size: 16px;
             }
 
-            .section-header h2 {
-                font-size: 28px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 20px;
-            }
-
-            .search-bar {
-                margin: 20px 0;
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 20px;
+            .nav-links {
+                display: none;
             }
 
             .categories {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
+                grid-template-columns: 1fr;
             }
-
-            .language-switcher {
-                top: auto;
-                bottom: 20px;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Language Switcher -->
-    <div class="language-switcher">
-        <button class="lang-btn active" onclick="switchLanguage('es')">🇪🇸 ES</button>
-        <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
-        <button class="lang-btn" onclick="switchLanguage('ar')">🇸🇦 AR</button>
+    <div class="banner">
+        🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20
     </div>
 
-    <!-- Header -->
     <header>
-        <div class="top-bar">
-            <span id="promo-text">🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20</span>
-        </div>
         <nav>
-            <a href="index.html" class="logo">RentHub</a>
+            <a href="/" class="logo">🏠 RentHub</a>
+            
             <div class="search-bar">
-                <input type="text" id="search-placeholder" placeholder="Busca coches, equipos, ropa o cualquier cosa...">
-                <button class="search-btn">🔍</button>
+                <input type="text" placeholder="¿Qué estás buscando?" id="searchInput">
+                <span class="search-icon" onclick="performSearch()">🔍</span>
             </div>
-            <div class="nav-buttons">
-                <a href="pricing.html" class="btn btn-outline" id="pricing-btn">Planes</a>
-                <a href="publicar.html" class="btn btn-primary" id="add-btn">Publica tu anuncio</a>
+
+            <div class="nav-links">
+                <a href="/pricing.html">Planes</a>
+                <a href="/publicar.html">Publicar</a>
+                <a href="/about.html">Nosotros</a>
+                <a href="/contact.html">Contacto</a>
+                <a href="/register.html" class="btn-login">Iniciar Sesión</a>
+            </div>
+
+            <div class="lang-switcher">
+                <span class="lang-btn" title="Español">🇪🇸</span>
+                <span class="lang-btn" title="English">🇬🇧</span>
+                <span class="lang-btn" title="العربية">🇸🇦</span>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1 id="hero-title">Alquila <span class="hero-gradient">cualquier cosa</span><br>en cualquier momento</h1>
-            <p id="hero-subtitle">La primera plataforma de alquiler en la región - coches, equipos, ropa y más de 50,000 productos disponibles</p>
-        </div>
+        <h1>Alquila cualquier cosa<br>en cualquier momento</h1>
+        <p>La primera plataforma de alquiler en la región - coches, equipos, ropa y más de 50,000 productos disponibles</p>
     </section>
 
-    <!-- Categories -->
-    <div class="categories container">
-        <div class="category-card">
+    <section class="categories">
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🚗</div>
-            <h3 class="cat-title">Coches</h3>
-            <p class="cat-count">12,450 anuncios</p>
+            <h3>Coches</h3>
+            <div class="category-count">12,450 anuncios</div>
         </div>
-        <div class="category-card">
+
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🏗️</div>
-            <h3 class="cat-title">Equipos de construcción</h3>
-            <p class="cat-count">8,320 anuncios</p>
+            <h3>Equipos de construcción</h3>
+            <div class="category-count">8,320 anuncios</div>
         </div>
-        <div class="category-card">
+
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🚜</div>
-            <h3 class="cat-title">Maquinaria agrícola</h3>
-            <p class="cat-count">5,680 anuncios</p>
+            <h3>Maquinaria agrícola</h3>
+            <div class="category-count">5,680 anuncios</div>
         </div>
-        <div class="category-card">
+
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">👔</div>
-            <h3 class="cat-title">Ropa</h3>
-            <p class="cat-count">15,240 anuncios</p>
+            <h3>Ropa</h3>
+            <div class="category-count">15,240 anuncios</div>
         </div>
-        <div class="category-card">
+
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🏠</div>
-            <h3 class="cat-title">Artículos del hogar</h3>
-            <p class="cat-count">9,870 anuncios</p>
+            <h3>Artículos del hogar</h3>
+            <div class="category-count">9,870 anuncios</div>
         </div>
-        <div class="category-card">
+
+        <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🎮</div>
-            <h3 class="cat-title">Electrónica</h3>
-            <p class="cat-count">7,530 anuncios</p>
+            <h3>Electrónica</h3>
+            <div class="category-count">7,530 anuncios</div>
         </div>
-    </div>
+    </section>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Featured Products -->
-        <section>
-            <div class="section-header">
-                <h2 id="featured-title">⭐ Más solicitados</h2>
-                <a href="pricing.html" class="view-all" id="view-all-1">Ver planes →</a>
-            </div>
-            <div class="products-grid" id="products-grid">
-                <!-- Products will be dynamically generated -->
-            </div>
-        </section>
-    </div>
+    <section class="featured-section">
+        <div class="featured-header">
+            <h2 class="featured-title">⭐ Más solicitados</h2>
+            <a href="/search.html" class="view-all">Ver todo →</a>
+        </div>
+    </section>
 
-    <!-- Stats Section -->
     <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">50K+</div>
-                <div class="stat-label" id="stat1">Productos disponibles</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">25K+</div>
-                <div class="stat-label" id="stat2">Usuarios activos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">98%</div>
-                <div class="stat-label" id="stat3">Satisfacción del cliente</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">150K+</div>
-                <div class="stat-label" id="stat4">Alquileres exitosos</div>
-            </div>
+        <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Productos disponibles</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">25K+</div>
+            <div class="stat-label">Usuarios activos</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Satisfacción del cliente</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">150K+</div>
+            <div class="stat-label">Alquileres exitosos</div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-content">
-            <h2 id="cta-title">Empieza a alquilar o ganar hoy</h2>
-            <p id="cta-subtitle">Únete a miles de usuarios que se benefician de nuestra plataforma todos los días. ¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</p>
-            <div class="cta-buttons">
-                <a href="publicar.html" class="btn btn-white btn-primary" id="cta-btn1">Regístrate como arrendador</a>
-                <a href="pricing.html" class="btn btn-outline" id="cta-btn2">Ver planes</a>
-            </div>
+    <section class="cta-section">
+        <h2>Empieza a alquilar o ganar hoy</h2>
+        <p>Únete a miles de usuarios que se benefician de nuestra plataforma todos los días.<br>¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</p>
+        <div class="cta-buttons">
+            <a href="/publicar.html" class="btn-cta btn-primary">Regístrate como arrendador</a>
+            <a href="/pricing.html" class="btn-cta btn-secondary">Ver planes</a>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <div class="footer-grid">
+        <div class="footer-content">
             <div class="footer-section">
                 <h3>RentHub</h3>
-                <p style="color: rgba(255,255,255,0.7); line-height: 1.8;" id="footer-desc">La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.</p>
+                <p>La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.</p>
             </div>
+
             <div class="footer-section">
-                <h3 id="footer-cat">Categorías</h3>
-                <ul id="footer-categories">
-                    <!-- Dynamic content -->
+                <h3>Categorías</h3>
+                <ul>
+                    <li><a href="/search.html">Coches</a></li>
+                    <li><a href="/search.html">Equipos</a></li>
+                    <li><a href="/search.html">Maquinaria</a></li>
+                    <li><a href="/search.html">Ropa</a></li>
+                    <li><a href="/search.html">Hogar</a></li>
+                    <li><a href="/search.html">Electrónica</a></li>
                 </ul>
             </div>
+
             <div class="footer-section">
-                <h3 id="footer-company">Empresa</h3>
-                <ul id="footer-company-links">
-                    <!-- Dynamic content -->
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="/about.html">Sobre Nosotros</a></li>
+                    <li><a href="/contact.html">Contacto</a></li>
+                    <li><a href="/pricing.html">Precios</a></li>
+                    <li><a href="/affiliate.html">Programa de Afiliados</a></li>
                 </ul>
             </div>
+
             <div class="footer-section">
-                <h3 id="footer-support">Soporte</h3>
-                <ul id="footer-support-links">
-                    <!-- Dynamic content -->
+                <h3>Soporte</h3>
+                <ul>
+                    <li><a href="/contact.html">Centro de Ayuda</a></li>
+                    <li><a href="/terms.html">Términos y Condiciones</a></li>
+                    <li><a href="/terms.html">Política de Privacidad</a></li>
+                    <li><a href="/profile.html">Mi Cuenta</a></li>
+                    <li><a href="/favorites.html">Favoritos</a></li>
+                    <li><a href="/messages.html">Mensajes</a></li>
                 </ul>
             </div>
         </div>
+
         <div class="footer-bottom">
-            <p id="footer-copyright">© 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España</p>
+            © 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España
         </div>
     </footer>
 
     <script>
-        // Translation data
-        const translations = {
-            es: {
-                promo: '🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20',
-                searchPlaceholder: 'Busca coches, equipos, ropa o cualquier cosa...',
-                pricingBtn: 'Planes',
-                addListing: 'Publica tu anuncio',
-                heroTitle: 'Alquila <span class="hero-gradient">cualquier cosa</span><br>en cualquier momento',
-                heroSubtitle: 'La primera plataforma de alquiler en la región - coches, equipos, ropa y más de 50,000 productos disponibles',
-                categories: {
-                    cars: 'Coches',
-                    construction: 'Equipos de construcción',
-                    agriculture: 'Maquinaria agrícola',
-                    clothing: 'Ropa',
-                    home: 'Artículos del hogar',
-                    electronics: 'Electrónica'
-                },
-                listings: 'anuncios',
-                featured: '⭐ Más solicitados',
-                viewAll: 'Ver planes →',
-                bookNow: 'Ver detalles',
-                day: '/día',
-                stats: {
-                    products: 'Productos disponibles',
-                    users: 'Usuarios activos',
-                    satisfaction: 'Satisfacción del cliente',
-                    rentals: 'Alquileres exitosos'
-                },
-                ctaTitle: 'Empieza a alquilar o ganar hoy',
-                ctaSubtitle: 'Únete a miles de usuarios que se benefician de nuestra plataforma todos los días. ¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!',
-                ctaBtn1: 'Regístrate como arrendador',
-                ctaBtn2: 'Ver planes',
-                footerDesc: 'La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.',
-                footerCategories: 'Categorías',
-                footerCompany: 'Empresa',
-                footerSupport: 'Soporte',
-                footerCopyright: '© 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España',
-                products: [
-                    { category: 'Coches', title: 'BMW X5 2023 - Lujo y totalmente equipado', location: 'Madrid', price: '45', badge: 'Destacado', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
-                    { category: 'Equipos', title: 'Excavadora Caterpillar - Excelente estado', location: 'Barcelona', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
-                    { category: 'Ropa', title: 'Traje de boda italiano - Diseño exclusivo', location: 'Valencia', price: '28', badge: 'Nuevo', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
-                    { category: 'Agrícola', title: 'Tractor John Deere - Potencia y eficiencia', location: 'Sevilla', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
-                    { category: 'Electrónica', title: 'Cámara Sony A7 IV - Lentes profesionales', location: 'Bilbao', price: '35', badge: 'Destacado', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
-                    { category: 'Hogar', title: 'Limpiador a vapor profesional', location: 'Málaga', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
-                    { category: 'Coches', title: 'Mercedes-Benz GLE 2024 - Viajes VIP', location: 'Zaragoza', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
-                    { category: 'Camping', title: 'Tienda familiar + equipo completo', location: 'Granada', price: '8', badge: 'Nuevo', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
-                ],
-                footerLinks: {
-                    categories: ['Coches de lujo', 'Equipos de construcción', 'Maquinaria agrícola', 'Ropa y eventos', 'Artículos del hogar', 'Electrónica'],
-                    company: ['Sobre nosotros', 'Cómo funciona', 'Empleos', 'Blog', 'Socios'],
-                    support: ['Centro de ayuda', 'Política de privacidad', 'Términos y condiciones', 'Contáctanos', 'Reportar problema']
-                }
-            },
-            en: {
-                promo: '🎉 Special offer: <strong>20% discount</strong> on all monthly rentals - Use code: RENT20',
-                searchPlaceholder: 'Search for cars, equipment, clothing or anything...',
-                pricingBtn: 'Plans',
-                addListing: 'Post your ad',
-                heroTitle: 'Rent <span class="hero-gradient">anything</span><br>anytime',
-                heroSubtitle: 'The first rental platform in the region - cars, equipment, clothing and over 50,000 available products',
-                categories: {
-                    cars: 'Cars',
-                    construction: 'Construction equipment',
-                    agriculture: 'Agricultural machinery',
-                    clothing: 'Clothing',
-                    home: 'Home items',
-                    electronics: 'Electronics'
-                },
-                listings: 'listings',
-                featured: '⭐ Most requested',
-                viewAll: 'View plans →',
-                bookNow: 'View details',
-                day: '/day',
-                stats: {
-                    products: 'Available products',
-                    users: 'Active users',
-                    satisfaction: 'Customer satisfaction',
-                    rentals: 'Successful rentals'
-                },
-                ctaTitle: 'Start renting or earning today',
-                ctaSubtitle: 'Join thousands of users who benefit from our platform every day. Sign up now and get 20% off your first rental!',
-                ctaBtn1: 'Register as landlord',
-                ctaBtn2: 'View plans',
-                footerDesc: 'The comprehensive rental platform in Spain. We connect landlords with tenants safely and easily.',
-                footerCategories: 'Categories',
-                footerCompany: 'Company',
-                footerSupport: 'Support',
-                footerCopyright: '© 2024 RentHub. All rights reserved | Made with ❤️ in Spain',
-                products: [
-                    { category: 'Cars', title: 'BMW X5 2023 - Luxury fully equipped', location: 'Madrid', price: '45', badge: 'Featured', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
-                    { category: 'Equipment', title: 'Caterpillar Excavator - Excellent condition', location: 'Barcelona', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
-                    { category: 'Clothing', title: 'Italian wedding suit - Exclusive design', location: 'Valencia', price: '28', badge: 'New', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
-                    { category: 'Agricultural', title: 'John Deere Tractor - Power and efficiency', location: 'Seville', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
-                    { category: 'Electronics', title: 'Sony A7 IV Camera - Professional lenses', location: 'Bilbao', price: '35', badge: 'Featured', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
-                    { category: 'Home', title: 'Professional steam cleaner', location: 'Malaga', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
-                    { category: 'Cars', title: 'Mercedes-Benz GLE 2024 - VIP trips', location: 'Zaragoza', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
-                    { category: 'Camping', title: 'Family tent + complete equipment', location: 'Granada', price: '8', badge: 'New', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
-                ],
-                footerLinks: {
-                    categories: ['Luxury cars', 'Construction equipment', 'Agricultural machinery', 'Clothing & events', 'Home items', 'Electronics'],
-                    company: ['About us', 'How it works', 'Jobs', 'Blog', 'Partners'],
-                    support: ['Help center', 'Privacy policy', 'Terms & conditions', 'Contact us', 'Report issue']
-                }
-            },
-            ar: {
-                promo: '🎉 عرض خاص: <strong>خصم 20%</strong> على جميع الإيجارات الشهرية - استخدم الكود: RENT20',
-                searchPlaceholder: 'ابحث عن سيارات، معدات، ملابس، أو أي شيء...',
-                pricingBtn: 'الباقات',
-                addListing: 'أضف إعلانك',
-                heroTitle: 'استأجر <span class="hero-gradient">أي شيء</span><br>في أي وقت',
-                heroSubtitle: 'منصة التأجير الأولى في المنطقة - سيارات، معدات، ملابس، وأكثر من 50,000 منتج متاح للإيجار',
-                categories: {
-                    cars: 'سيارات',
-                    construction: 'معدات بناء',
-                    agriculture: 'آليات فلاحية',
-                    clothing: 'ملابس',
-                    home: 'أدوات منزلية',
-                    electronics: 'إلكترونيات'
-                },
-                listings: 'إعلان',
-                featured: '⭐ الأكثر طلباً',
-                viewAll: '← عرض الباقات',
-                bookNow: 'عرض التفاصيل',
-                day: '/يوم',
-                stats: {
-                    products: 'منتج متاح',
-                    users: 'مستخدم نشط',
-                    satisfaction: 'رضا العملاء',
-                    rentals: 'عملية تأجير ناجحة'
-                },
-                ctaTitle: 'ابدأ التأجير أو الربح اليوم',
-                ctaSubtitle: 'انضم لآلاف المستخدمين الذين يستفيدون من منصتنا يومياً. سجل الآن واحصل على خصم 20% على أول إيجار!',
-                ctaBtn1: 'سجل كمؤجر',
-                ctaBtn2: 'عرض الباقات',
-                footerDesc: 'منصة التأجير الشاملة في إسبانيا. نربط المؤجرين بالمستأجرين بطريقة آمنة وسهلة.',
-                footerCategories: 'الفئات',
-                footerCompany: 'الشركة',
-                footerSupport: 'الدعم',
-                footerCopyright: '© 2024 RentHub. جميع الحقوق محفوظة | صُنع بـ ❤️ في إسبانيا',
-                products: [
-                    { category: 'سيارات', title: 'BMW X5 2023 - فاخرة ومجهزة بالكامل', location: 'مدريد', price: '45', badge: 'مميز', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=400&fit=crop' },
-                    { category: 'معدات', title: 'حفارة كاتربيلر - حالة ممتازة', location: 'برشلونة', price: '320', image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=500&h=400&fit=crop' },
-                    { category: 'ملابس', title: 'بدلة زفاف إيطالية - تفصيل حصري', location: 'فالنسيا', price: '28', badge: 'جديد', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=400&fit=crop' },
-                    { category: 'فلاحية', title: 'جرار زراعي John Deere - قوة وكفاءة', location: 'إشبيلية', price: '180', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=400&fit=crop' },
-                    { category: 'إلكترونيات', title: 'كاميرا Sony A7 IV - عدسات احترافية', location: 'بلباو', price: '35', badge: 'مميز', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&h=400&fit=crop' },
-                    { category: 'منزلية', title: 'منظف بالبخار احترافي', location: 'مالقة', price: '12', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500&h=400&fit=crop' },
-                    { category: 'سيارات', title: 'Mercedes-Benz GLE 2024 - رحلات VIP', location: 'سرقسطة', price: '55', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=400&fit=crop' },
-                    { category: 'تخييم', title: 'خيمة عائلية + معدات كاملة', location: 'غرناطة', price: '8', badge: 'جديد', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=400&fit=crop' }
-                ],
-                footerLinks: {
-                    categories: ['سيارات فاخرة', 'معدات بناء', 'آليات فلاحية', 'ملابس ومناسبات', 'أدوات منزلية', 'إلكترونيات'],
-                    company: ['من نحن', 'كيف يعمل', 'الوظائف', 'المدونة', 'الشركاء'],
-                    support: ['مركز المساعدة', 'سياسة الخصوصية', 'الشروط والأحكام', 'اتصل بنا', 'تقديم شكوى']
-                }
-            }
-        };
-
-        // Current language
-        let currentLang = localStorage.getItem('language') || 'es';
-
-        // Switch language function
-        function switchLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('language', lang);
-            
-            // Update HTML attributes
-            document.documentElement.lang = lang;
-            document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            
-            // Update active button
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update content
-            updateContent(lang);
-        }
-
-        // Update content based on language
-        function updateContent(lang) {
-            const t = translations[lang];
-            
-            // Update text content
-            document.getElementById('promo-text').innerHTML = t.promo;
-            document.getElementById('search-placeholder').placeholder = t.searchPlaceholder;
-            document.getElementById('pricing-btn').textContent = t.pricingBtn;
-            document.getElementById('add-btn').textContent = t.addListing;
-            document.getElementById('hero-title').innerHTML = t.heroTitle;
-            document.getElementById('hero-subtitle').textContent = t.heroSubtitle;
-            document.getElementById('featured-title').textContent = t.featured;
-            document.getElementById('view-all-1').textContent = t.viewAll;
-            
-            // Update categories
-            const catTitles = document.querySelectorAll('.cat-title');
-            const catCounts = document.querySelectorAll('.cat-count');
-            const categories = Object.values(t.categories);
-            catTitles.forEach((el, i) => el.textContent = categories[i]);
-            catCounts.forEach(el => el.textContent = `12,${Math.floor(Math.random() * 900 + 100)} ${t.listings}`);
-            
-            // Update stats
-            document.getElementById('stat1').textContent = t.stats.products;
-            document.getElementById('stat2').textContent = t.stats.users;
-            document.getElementById('stat3').textContent = t.stats.satisfaction;
-            document.getElementById('stat4').textContent = t.stats.rentals;
-            
-            // Update CTA
-            document.getElementById('cta-title').textContent = t.ctaTitle;
-            document.getElementById('cta-subtitle').textContent = t.ctaSubtitle;
-            document.getElementById('cta-btn1').textContent = t.ctaBtn1;
-            document.getElementById('cta-btn2').textContent = t.ctaBtn2;
-            
-            // Update footer
-            document.getElementById('footer-desc').textContent = t.footerDesc;
-            document.getElementById('footer-cat').textContent = t.footerCategories;
-            document.getElementById('footer-company').textContent = t.footerCompany;
-            document.getElementById('footer-support').textContent = t.footerSupport;
-            document.getElementById('footer-copyright').textContent = t.footerCopyright;
-            
-            // Update footer links
-            const footerCategories = document.getElementById('footer-categories');
-            const footerCompanyLinks = document.getElementById('footer-company-links');
-            const footerSupportLinks = document.getElementById('footer-support-links');
-            
-            footerCategories.innerHTML = t.footerLinks.categories.map(item => `<li><a href="#">${item}</a></li>`).join('');
-            footerCompanyLinks.innerHTML = t.footerLinks.company.map(item => `<li><a href="#">${item}</a></li>`).join('');
-            footerSupportLinks.innerHTML = t.footerLinks.support.map(item => `<li><a href="#">${item}</a></li>`).join('');
-            
-            // Update products
-            updateProducts(lang);
-        }
-
-        // Update products
-        function updateProducts(lang) {
-            const t = translations[lang];
-            const grid = document.getElementById('products-grid');
-            
-            grid.innerHTML = t.products.map((product, i) => `
-                <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s" data-id="demo_${i}">
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.title}" loading="lazy">
-                    </div>
-                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                    <div class="product-info">
-                        <div class="product-category">${product.category}</div>
-                        <h3 class="product-title">${product.title}</h3>
-                        <div class="product-meta">
-                            <div class="product-rating">
-                                <span class="stars">⭐⭐⭐⭐⭐</span>
-                                <span>(${(4.7 + Math.random() * 0.3).toFixed(1)})</span>
-                            </div>
-                            <div class="product-location">📍 ${product.location}</div>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">${product.price}</span>
-                                <span class="price-period">€${t.day}</span>
-                            </div>
-                            <button class="rent-btn" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=demo_${i}'">${t.bookNow}</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Load user listings from localStorage
-        function loadUserListings() {
-            const userListings = JSON.parse(localStorage.getItem('renthub_listings') || '[]');
-            
-            if (userListings.length > 0) {
-                const currentLang = localStorage.getItem('language') || 'es';
-                const t = translations[currentLang];
-                
-                // Add user listings to the grid
-                const grid = document.getElementById('products-grid');
-                const userListingsHTML = userListings.slice(0, 8).map((listing, i) => {
-                    const categoryName = listing.category === 'coches' ? '🚗 Coches' :
-                                       listing.category === 'construccion' ? '🏗️ Equipos' :
-                                       listing.category === 'agricola' ? '🚜 Agrícola' :
-                                       listing.category === 'ropa' ? '👔 Ropa' :
-                                       listing.category === 'hogar' ? '🏠 Hogar' :
-                                       listing.category === 'electronica' ? '🎮 Electrónica' :
-                                       '📦 Otros';
-                    
-                    return `
-                        <div class="product-card animate-in" style="animation-delay: ${i * 0.1}s" data-id="${listing.id}">
-                            <div class="product-image">
-                                <img src="${listing.images[0]}" alt="${listing.title}" loading="lazy">
-                            </div>
-                            <div class="product-badge">Nuevo</div>
-                            <div class="product-info">
-                                <div class="product-category">${categoryName}</div>
-                                <h3 class="product-title">${listing.title}</h3>
-                                <div class="product-meta">
-                                    <div class="product-rating">
-                                        <span class="stars">⭐⭐⭐⭐⭐</span>
-                                        <span>(${listing.rating.toFixed(1)})</span>
-                                    </div>
-                                    <div class="product-location">📍 ${listing.city}</div>
-                                </div>
-                                <div class="product-price">
-                                    <div>
-                                        <span class="price">${listing.price}</span>
-                                        <span class="price-period">€/${listing.priceType}</span>
-                                    </div>
-                                    <button class="rent-btn" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=${listing.id}'">${t.bookNow}</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                grid.innerHTML = userListingsHTML + grid.innerHTML;
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (query) {
+                window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
             }
         }
 
-        // Make product cards clickable
-        document.addEventListener('click', (e) => {
-            const card = e.target.closest('.product-card');
-            if (card && !e.target.closest('.rent-btn')) {
-                const productId = card.dataset.id;
-                if (productId) window.location.href = `product-detail.html?id=${productId}`;
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
             }
         });
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateContent(currentLang);
-            loadUserListings();
-            
-            // Set active language button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if (btn.textContent.includes(currentLang.toUpperCase())) {
-                    btn.classList.add('active');
-                }
-            });
-        });
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe product cards after they're created
-        setTimeout(() => {
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'all 0.6s ease-out';
-                observer.observe(card);
-            });
-        }, 100);
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn) {
+            const loginBtn = document.querySelector('.btn-login');
+            loginBtn.textContent = 'Mi Perfil';
+            loginBtn.href = '/profile.html';
+        }
     </script>
 </body>
 </html>
