@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - RentHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .mission-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .mission-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .mission-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .value-item {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .value-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .value-item h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .value-item p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            margin: 80px 0;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .team-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .team-role {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .team-bio {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cta-section {
+            background: #f5f7fa;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="logo">🏠 RentHub</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Sobre RentHub</h1>
+        <p>La plataforma líder en España para alquilar y compartir cualquier cosa. Conectamos personas que tienen productos con quienes los necesitan.</p>
+    </div>
+
+    <div class="section">
+        <div class="mission-vision">
+            <div class="mission-card">
+                <div class="mission-icon">🎯</div>
+                <h3>Nuestra Misión</h3>
+                <p>Democratizar el acceso a productos y servicios mediante una plataforma segura, fácil de usar y accesible para todos. Creemos en la economía compartida como el futuro del consumo sostenible.</p>
+            </div>
+            <div class="mission-card">
+                <div class="mission-icon">🔮</div>
+                <h3>Nuestra Visión</h3>
+                <p>Ser la plataforma de alquiler número uno en España, transformando la forma en que las personas acceden a productos. Un mundo donde compartir es la norma, no la excepción.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Productos disponibles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">25K+</div>
+                <div class="stat-label">Usuarios activos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">150K+</div>
+                <div class="stat-label">Alquileres exitosos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfacción del cliente</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Nuestros Valores</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <div class="value-icon">🤝</div>
+                <h4>Confianza</h4>
+                <p>Construimos relaciones basadas en la transparencia y seguridad entre arrendadores y arrendatarios.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">🌱</div>
+                <h4>Sostenibilidad</h4>
+                <p>Promovemos el consumo responsable y la economía circular para un futuro más verde.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">💡</div>
+                <h4>Innovación</h4>
+                <p>Mejoramos constantemente nuestra plataforma con tecnología de vanguardia.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">🎨</div>
+                <h4>Simplicidad</h4>
+                <p>Diseñamos experiencias intuitivas que hacen el alquiler fácil para todos.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">🛡️</div>
+                <h4>Seguridad</h4>
+                <p>Protegemos cada transacción con sistemas de pago seguros y verificación de usuarios.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">❤️</div>
+                <h4>Comunidad</h4>
+                <p>Creamos una comunidad solidaria donde todos ganan compartiendo recursos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Nuestro Equipo</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-avatar">👨‍💼</div>
+                <div class="team-name">Carlos Martínez</div>
+                <div class="team-role">CEO & Fundador</div>
+                <div class="team-bio">Emprendedor apasionado por la economía colaborativa con más de 10 años de experiencia en startups.</div>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">👩‍💻</div>
+                <div class="team-name">Ana García</div>
+                <div class="team-role">CTO</div>
+                <div class="team-bio">Experta en desarrollo de plataformas escalables y arquitectura de software moderna.</div>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">👨‍🎨</div>
+                <div class="team-name">Miguel López</div>
+                <div class="team-role">Head of Design</div>
+                <div class="team-bio">Diseñador UX/UI especializado en crear experiencias memorables y accesibles.</div>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">👩‍💼</div>
+                <div class="team-name">Laura Sánchez</div>
+                <div class="team-role">CMO</div>
+                <div class="team-bio">Estratega de marketing digital con enfoque en crecimiento sostenible y retención de usuarios.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>¿Listo para unirte a RentHub?</h2>
+        <p>Únete a miles de usuarios que ya están ganando dinero alquilando sus productos o ahorrando al alquilar lo que necesitan.</p>
+        <a href="/register.html" class="cta-btn">Crear Cuenta Gratis</a>
+    </div>
+</body>
+</html>
