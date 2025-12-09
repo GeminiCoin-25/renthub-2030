@@ -1,22 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Socios - RentHub 🚀</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+    <title>Panel de Afiliado - RentHub</title>
     <style>
-        :root {
-            --primary: #0A0E27; /* Dark Blue */
-            --secondary: #FF6B35; /* Orange/Accent */
-            --success: #00E396; /* Green */
-            --danger: #FF4560; /* Red */
-            --background: #F4F7FC;
-            --card-bg: white;
-            --shadow: 0 4px 20px rgba(0,0,0,0.05);
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -24,422 +12,775 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--primary);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #333;
         }
 
-        .dashboard-container {
-            max-width: 1500px;
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* --- Header / Navigation --- */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
+        .welcome-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
             margin-bottom: 40px;
-            border-bottom: 3px solid #e0e0e0;
         }
 
-        .logo {
+        .welcome-banner h1 {
             font-size: 32px;
-            font-weight: 900;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 10px;
         }
 
-        .user-info {
-            text-align: right;
+        .welcome-banner p {
+            opacity: 0.95;
+            font-size: 16px;
         }
 
-        .user-info h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .user-info p {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* --- Stats Grid (NASA-like Vibe) --- */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
             margin-bottom: 40px;
         }
 
         .stat-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
+            background: white;
             padding: 30px;
-            box-shadow: var(--shadow);
-            border-left: 5px solid;
-            transition: var(--transition);
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
         }
 
-        .stat-card.green { border-color: var(--success); }
-        .stat-card.red { border-color: var(--danger); }
-        .stat-card.blue { border-color: #00D9FF; }
-        .stat-card.orange { border-color: var(--secondary); }
-
-        .stat-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 10px;
+        .stat-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            font-size: 36px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
         .stat-value {
-            font-size: 42px;
-            font-weight: 900;
-            font-family: 'Poppins', sans-serif;
-            margin-bottom: 5px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
         }
 
-        .stat-unit {
-            font-size: 18px;
-            font-weight: 600;
-            color: #888;
+        .stat-subtext {
+            color: #999;
+            font-size: 13px;
+            margin-top: 5px;
         }
 
-        /* --- Code & Withdrawal Section --- */
-        .tools-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
+        .code-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             margin-bottom: 40px;
         }
 
-        .code-display-card, .withdrawal-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .code-display-card h3, .withdrawal-card h3 {
-            font-size: 24px;
+        .section-title {
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
+            margin-bottom: 25px;
+            color: #333;
         }
 
-        #referralCodeDisplay {
-            background-color: #f0f3ff;
-            color: var(--primary);
-            padding: 15px 25px;
+        .code-box {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 20px;
             border-radius: 10px;
-            font-size: 28px;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            border: 2px dashed #aeb8ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #667eea;
+            font-weight: 600;
         }
 
         .copy-btn {
-            background: var(--secondary);
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 700;
-            width: 100%;
-            transition: var(--transition);
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
         .copy-btn:hover {
-            background: #e35a29;
+            transform: scale(1.05);
         }
 
-        /* Withdrawal Card */
-        .withdrawal-card {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .current-balance {
-            margin-bottom: 20px;
-        }
-        
-        .balance-value {
-            font-size: 50px;
-            font-weight: 900;
-            color: var(--success);
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .withdraw-btn {
-            background: var(--primary);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .withdraw-btn:hover {
-            background: #1a224a;
-        }
-
-        /* --- Client List (Optional Table) --- */
-        .client-list-section {
-            background-color: var(--card-bg);
-            border-radius: 16px;
+        .referrals-section {
+            background: white;
             padding: 30px;
-            box-shadow: var(--shadow);
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
         }
 
-        .client-list-section h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .client-list {
+        .referrals-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
+            margin-top: 20px;
         }
 
-        .client-list th, .client-list td {
+        .referrals-table th {
+            background: #f8f9fa;
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
         }
 
-        .client-list th {
-            background-color: #f9f9f9;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 13px;
-            color: #888;
+        .referrals-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .referrals-table tr:hover {
+            background: #f8f9fa;
         }
 
         .status-badge {
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 12px;
-            text-align: center;
             display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .status-active {
-            background-color: rgba(0, 227, 150, 0.1);
-            color: var(--success);
+            background: #d4edda;
+            color: #155724;
         }
 
         .status-inactive {
-            background-color: rgba(255, 69, 96, 0.1);
-            color: var(--danger);
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .earnings-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .earnings-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .withdraw-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .withdraw-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .withdraw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .withdraw-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #0d47a1;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        .earnings-chart {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .earnings-section {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .referrals-table {
+                font-size: 12px;
+            }
+
+            .referrals-table th,
+            .referrals-table td {
+                padding: 10px;
+            }
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
     </style>
 </head>
 <body>
-
-<div class="dashboard-container">
-    
     <div class="header">
-        <div class="logo">RentHub Socios</div>
-        <div class="user-info">
-            <h3 id="affiliateName">Cargando...</h3>
-            <p>ID de Socio: <span id="affiliateID">N/A</span></p>
-        </div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card green">
-            <div class="stat-title">✅ Clientes Activos</div>
-            <div class="stat-value" id="activeClientsCount">0</div>
-            <div class="stat-unit">Usuarios pagando</div>
-        </div>
-
-        <div class="stat-card red">
-            <div class="stat-title">❌ Clientes Perdidos</div>
-            <div class="stat-value" id="lostClientsCount">0</div>
-            <div class="stat-unit">Usuarios dados de baja</div>
-        </div>
-
-        <div class="stat-card blue">
-            <div class="stat-title">💰 Ganancias Totales</div>
-            <div class="stat-value"><span id="totalEarnings">0.00</span>€</div>
-            <div class="stat-unit">Comisiones acumuladas</div>
-        </div>
-
-        <div class="stat-card orange">
-            <div class="stat-title">🌟 Valoración Promedio</div>
-            <div class="stat-value" id="averageRating">4.9</div>
-            <div class="stat-unit">Basado en 50+ reseñas</div>
-        </div>
-    </div>
-
-    <div class="tools-section">
-        <div class="code-display-card">
-            <h3>🔗 Tu Código Exclusivo de Afiliado</h3>
-            <div id="referralCodeDisplay">REF-000000</div>
-            <button class="copy-btn" onclick="copyCode()">📋 Copiar código y compartir</button>
-        </div>
-
-        <div class="withdrawal-card">
-            <h3>💸 Balance Disponible</h3>
-            <div class="current-balance">
-                <div class="balance-value" id="currentBalance">0.00€</div>
-                <div class="stat-unit">Disponible para retiro</div>
+        <div class="header-content">
+            <a href="/" class="logo">🏠 RentHub</a>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">MH</div>
+                <div>
+                    <div class="user-name" id="userName">Mohamed Hassan</div>
+                    <div style="font-size: 12px; color: #999;">Afiliado desde Nov 2024</div>
+                </div>
             </div>
-            <button class="withdraw-btn" onclick="simulateWithdrawal()">Retiro Instantáneo ⚡</button>
         </div>
     </div>
 
-    <div class="client-list-section">
-        <h3>👥 Lista Detallada de Clientes</h3>
-        <table class="client-list">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Estado</th>
-                    <th>Ganancia/Mes</th>
-                </tr>
-            </thead>
-            <tbody id="clientsTableBody">
-                <tr><td colspan="4" style="text-align: center; color: #999;">Cargando datos de clientes...</td></tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="welcome-banner">
+            <h1>👋 ¡Hola, <span id="welcomeName">Mohamed</span>!</h1>
+            <p>Bienvenido a tu panel de afiliado. Aquí puedes ver todas tus estadísticas, referidos y ganancias en tiempo real.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">👥</div>
+                </div>
+                <div class="stat-label">Total Referidos</div>
+                <div class="stat-value" id="totalReferrals">0</div>
+                <div class="stat-subtext">+0 este mes</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">✅</div>
+                </div>
+                <div class="stat-label">Referidos Activos</div>
+                <div class="stat-value" id="activeReferrals">0</div>
+                <div class="stat-subtext">Actualmente suscritos</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">💰</div>
+                </div>
+                <div class="stat-label">Ganancias Totales</div>
+                <div class="stat-value" id="totalEarnings">€0.00</div>
+                <div class="stat-subtext">Desde el inicio</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">💵</div>
+                </div>
+                <div class="stat-label">Saldo Disponible</div>
+                <div class="stat-value" id="availableBalance">€0.00</div>
+                <div class="stat-subtext">Listo para retirar</div>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <h2 class="section-title">🔗 Tu Código y Enlaces de Afiliado</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 10px; display: block;">Tu Código Único:</label>
+                <div class="code-box">
+                    <span class="code-text" id="affiliateCode">MOHAMED2024</span>
+                    <button class="copy-btn" onclick="copyCode()">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 10px; display: block;">Enlace de Referido:</label>
+                <div class="code-box">
+                    <span class="code-text" id="affiliateLink" style="font-size: 14px;">https://renthub.app/?ref=MOHAMED2024</span>
+                    <button class="copy-btn" onclick="copyLink()">📋 Copiar</button>
+                </div>
+            </div>
+
+            <div class="info-box">
+                💡 <strong>Consejo:</strong> Comparte este código en YouTube, Facebook, Instagram, TikTok o tu blog. Cada persona que se registre usando tu código o enlace será contado como tu referido.
+            </div>
+        </div>
+
+        <div class="earnings-section">
+            <div class="earnings-card">
+                <h2 class="section-title">📊 Historial de Ganancias</h2>
+                <div class="earnings-chart">
+                    📈 Gráfico de ganancias (próximamente)
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3 style="font-size: 18px; margin-bottom: 15px;">Desglose Mensual</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Diciembre 2024</span>
+                            <strong style="color: #667eea;">€0.00</strong>
+                        </div>
+                        <div style="font-size: 12px; color: #999;">0 referidos activos</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Noviembre 2024</span>
+                            <strong style="color: #667eea;">€0.00</strong>
+                        </div>
+                        <div style="font-size: 12px; color: #999;">0 referidos activos</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="earnings-card">
+                <h2 class="section-title">💳 Retirar Fondos</h2>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Saldo Disponible</div>
+                    <div style="font-size: 36px; font-weight: 700; color: #667eea;" id="withdrawBalance">€0.00</div>
+                </div>
+
+                <form class="withdraw-form" id="withdrawForm">
+                    <div class="form-group">
+                        <label class="form-label">Cantidad a Retirar (€)</label>
+                        <input type="number" class="form-input" id="withdrawAmount" placeholder="Mínimo €50" min="50" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Método de Pago</label>
+                        <select class="form-input" id="paymentMethod">
+                            <option value="">Seleccionar método</option>
+                            <option value="bank">Transferencia Bancaria</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Cuenta / Email</label>
+                        <input type="text" class="form-input" id="paymentAccount" placeholder="IBAN o email de PayPal">
+                    </div>
+
+                    <button type="submit" class="withdraw-btn" disabled>
+                        💸 Solicitar Retiro
+                    </button>
+                </form>
+
+                <div class="warning-box">
+                    ⚠️ <strong>Importante:</strong> El mínimo de retiro es €50. Los pagos se procesan el día 1 de cada mes.
+                </div>
+            </div>
+        </div>
+
+        <div class="referrals-section">
+            <h2 class="section-title">👥 Tus Referidos</h2>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterReferrals('all')">Todos (<span id="countAll">0</span>)</button>
+                <button class="filter-tab" onclick="filterReferrals('active')">Activos (<span id="countActive">0</span>)</button>
+                <button class="filter-tab" onclick="filterReferrals('inactive')">Inactivos (<span id="countInactive">0</span>)</button>
+                <button class="filter-tab" onclick="filterReferrals('pending')">Pendientes (<span id="countPending">0</span>)</button>
+            </div>
+
+            <div id="referralsTableContainer">
+                <table class="referrals-table" id="referralsTable">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Fecha de Registro</th>
+                            <th>Plan</th>
+                            <th>Estado</th>
+                            <th>Tu Comisión/mes</th>
+                            <th>Total Generado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referralsTableBody">
+                        <!-- Los datos se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-state-icon">📭</div>
+                    <h3>Aún no tienes referidos</h3>
+                    <p>Comparte tu código de afiliado para empezar a ganar comisiones</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-</div>
+    <script>
+        // Datos de ejemplo (en producción vendrían de Firebase/Backend)
+        const affiliateData = {
+            userName: 'Mohamed Hassan',
+            firstName: 'Mohamed',
+            affiliateCode: 'MOHAMED2024',
+            affiliateLink: 'https://renthub.app/?ref=MOHAMED2024',
+            totalReferrals: 0,
+            activeReferrals: 0,
+            totalEarnings: 0,
+            availableBalance: 0,
+            referrals: [
+                // Ejemplo de datos:
+                // {
+                //     id: 1,
+                //     userName: 'Juan P.',
+                //     email: 'juan@example.com',
+                //     registrationDate: '2024-11-15',
+                //     plan: 'Plata',
+                //     planPrice: 19.99,
+                //     status: 'active', // active, inactive, pending
+                //     commission: 6.00,
+                //     totalGenerated: 36.00,
+                //     monthsActive: 6
+                // }
+            ]
+        };
 
-<script>
-    // 🔴 وظيفة استدعاء البيانات الوهمية من localStorage
-    function getAffiliateData(affiliateEmail) {
-        const affiliates = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
-        return affiliates.find(a => a.email === affiliateEmail);
-    }
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            setupWithdrawForm();
+        });
 
-    // 🔴 وظيفة محاكاة بيانات الزبائن (لتشغيل لوحة التحكم)
-    function generateClients(count) {
-        const clients = [];
-        const names = ["Elena G.", "Javier R.", "Sofia L.", "Miguel C.", "Laura P.", "David M."];
-        const status = ['active', 'inactive'];
+        function loadDashboardData() {
+            // Cargar datos del usuario
+            document.getElementById('userName').textContent = affiliateData.userName;
+            document.getElementById('welcomeName').textContent = affiliateData.firstName;
+            document.getElementById('userAvatar').textContent = getInitials(affiliateData.userName);
+            
+            // Cargar código y enlace
+            document.getElementById('affiliateCode').textContent = affiliateData.affiliateCode;
+            document.getElementById('affiliateLink').textContent = affiliateData.affiliateLink;
+            
+            // Cargar estadísticas
+            document.getElementById('totalReferrals').textContent = affiliateData.totalReferrals;
+            document.getElementById('activeReferrals').textContent = affiliateData.activeReferrals;
+            document.getElementById('totalEarnings').textContent = '€' + affiliateData.totalEarnings.toFixed(2);
+            document.getElementById('availableBalance').textContent = '€' + affiliateData.availableBalance.toFixed(2);
+            document.getElementById('withdrawBalance').textContent = '€' + affiliateData.availableBalance.toFixed(2);
+            
+            // Cargar referidos
+            loadReferrals();
+            
+            // Actualizar contadores de filtros
+            updateFilterCounts();
+        }
 
-        for (let i = 0; i < count; i++) {
-            const clientStatus = status[Math.floor(Math.random() * status.length)];
-            clients.push({
-                name: names[Math.floor(Math.random() * names.length)] + ' ' + (i + 1),
-                email: `client${i + 1}@email.com`,
-                status: clientStatus,
-                earnings: clientStatus === 'active' ? (Math.random() * 50 + 10).toFixed(2) : '0.00' // 10€ - 60€
+        function loadReferrals(filter = 'all') {
+            const tbody = document.getElementById('referralsTableBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (affiliateData.referrals.length === 0) {
+                document.getElementById('referralsTable').style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('referralsTable').style.display = 'table';
+            emptyState.style.display = 'none';
+            
+            let filteredReferrals = affiliateData.referrals;
+            if (filter !== 'all') {
+                filteredReferrals = affiliateData.referrals.filter(r => r.status === filter);
+            }
+            
+            tbody.innerHTML = filteredReferrals.map(referral => `
+                <tr>
+                    <td>
+                        <strong>${referral.userName}</strong><br>
+                        <span style="font-size: 12px; color: #999;">${referral.email}</span>
+                    </td>
+                    <td>${formatDate(referral.registrationDate)}</td>
+                    <td><strong>${referral.plan}</strong> (€${referral.planPrice}/mes)</td>
+                    <td>${getStatusBadge(referral.status)}</td>
+                    <td><strong style="color: #667eea;">€${referral.commission.toFixed(2)}</strong></td>
+                    <td><strong style="color: #4caf50;">€${referral.totalGenerated.toFixed(2)}</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'active': '<span class="status-badge status-active">✅ Activo</span>',
+                'inactive': '<span class="status-badge status-inactive">❌ Inactivo</span>',
+                'pending': '<span class="status-badge status-pending">⏳ Pendiente</span>'
+            };
+            return badges[status] || badges['pending'];
+        }
+
+        function filterReferrals(filter) {
+            // Actualizar tabs activos
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filtrar tabla
+            loadReferrals(filter);
+        }
+
+        function updateFilterCounts() {
+            const counts = {
+                all: affiliateData.referrals.length,
+                active: affiliateData.referrals.filter(r => r.status === 'active').length,
+                inactive: affiliateData.referrals.filter(r => r.status === 'inactive').length,
+                pending: affiliateData.referrals.filter(r => r.status === 'pending').length
+            };
+            
+            document.getElementById('countAll').textContent = counts.all;
+            document.getElementById('countActive').textContent = counts.active;
+            document.getElementById('countInactive').textContent = counts.inactive;
+            document.getElementById('countPending').textContent = counts.pending;
+        }
+
+        function setupWithdrawForm() {
+            const form = document.getElementById('withdrawForm');
+            const amountInput = document.getElementById('withdrawAmount');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Validar formulario
+            form.addEventListener('input', function() {
+                const amount = parseFloat(amountInput.value) || 0;
+                const method = document.getElementById('paymentMethod').value;
+                const account = document.getElementById('paymentAccount').value;
+                
+                const isValid = amount >= 50 && 
+                               amount <= affiliateData.availableBalance && 
+                               method && 
+                               account;
+                
+                submitBtn.disabled = !isValid;
+            });
+            
+            // Enviar solicitud
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amount = parseFloat(amountInput.value);
+                const method = document.getElementById('paymentMethod').value;
+                const account = document.getElementById('paymentAccount').value;
+                
+                // Aquí se enviaría al backend
+                alert(`Solicitud de retiro enviada:\nCantidad: €${amount.toFixed(2)}\nMétodo: ${method}\nCuenta: ${account}\n\nTu solicitud será procesada el día 1 del próximo mes.`);
+                
+                form.reset();
             });
         }
-        return clients;
-    }
 
-    // 🔴 وظيفة ملء لوحة التحكم بالبيانات
-    function loadDashboard() {
-        // بما أننا لا نملك حالياً نظام دخول/تسجيل، سنفترض أن الشريك الأول هو الذي دخل.
-        const ALL_AFFILIATES = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
-        
-        if (ALL_AFFILIATES.length === 0) {
-            alert("No hay datos de socios. Por favor, regístrate primero en affiliate.html");
-            return;
+        function copyCode() {
+            const code = document.getElementById('affiliateCode').textContent;
+            navigator.clipboard.writeText(code);
+            alert('✅ Código copiado: ' + code);
         }
 
-        // نستخدم بيانات الشريك الأول كمثال
-        const affiliate = ALL_AFFILIATES[0];
-        
-        // 1. ملء معلومات المستخدم الأساسية
-        document.getElementById('affiliateName').textContent = affiliate.name;
-        document.getElementById('affiliateID').textContent = affiliate.code;
-        document.getElementById('referralCodeDisplay').textContent = affiliate.code;
-
-        // 2. محاكاة بيانات العملاء والأرباح
-        const simulatedClients = generateClients(Math.floor(Math.random() * 30) + 10); // 10 - 40 clients
-        
-        const activeClients = simulatedClients.filter(c => c.status === 'active');
-        const lostClients = simulatedClients.filter(c => c.status === 'inactive');
-
-        const totalEarned = activeClients.reduce((sum, client) => sum + parseFloat(client.earnings), 0) + 
-                            (Math.random() * 500); // إضافة مبلغ وهمي لمظهر أفضل
-        
-        // 3. ملء بطاقات الإحصائيات (الـ Stats)
-        document.getElementById('activeClientsCount').textContent = activeClients.length;
-        document.getElementById('lostClientsCount').textContent = lostClients.length;
-        document.getElementById('totalEarnings').textContent = totalEarned.toFixed(2);
-        
-        // محاكاة الرصيد المتاح (20% من الأرباح الكلية كمثال)
-        const currentBalance = (totalEarned * 0.20).toFixed(2);
-        document.getElementById('currentBalance').textContent = currentBalance + '€';
-
-        // 4. ملء جدول العملاء
-        const tbody = document.getElementById('clientsTableBody');
-        tbody.innerHTML = ''; // تنظيف البيانات القديمة
-        
-        simulatedClients.forEach(client => {
-            const row = tbody.insertRow();
-            
-            const statusClass = client.status === 'active' ? 'status-active' : 'status-inactive';
-            const statusText = client.status === 'active' ? 'ACTIVO' : 'PERDIDO';
-
-            row.innerHTML = `
-                <td>${client.name}</td>
-                <td>${client.email}</td>
-                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                <td>${client.earnings}€</td>
-            `;
-        });
-    }
-
-    // 🔴 وظيفة محاكاة السحب الفوري
-    function simulateWithdrawal() {
-        const balanceElement = document.getElementById('currentBalance');
-        const currentBalance = parseFloat(balanceElement.textContent.replace('€', ''));
-
-        if (currentBalance > 0) {
-            // محاكاة عملية سحب
-            alert(`✅ Retiro Instantáneo Aprobado: ${currentBalance}€ se ha enviado a tu método de pago preferido (PayPal/Banco).`);
-            
-            // إعادة ضبط الرصيد إلى الصفر
-            balanceElement.textContent = '0.00€';
-            
-            // يمكن هنا إضافة منطق لحفظ الرصيد الجديد في localStorage إذا أردت استمرارية البيانات.
-        } else {
-            alert('⚠️ No tienes balance disponible para retirar.');
+        function copyLink() {
+            const link = document.getElementById('affiliateLink').textContent;
+            navigator.clipboard.writeText(link);
+            alert('✅ Enlace copiado al portapapeles');
         }
-    }
 
-    function copyCode() {
-        const code = document.getElementById('referralCodeDisplay').textContent;
-        navigator.clipboard.writeText(code);
-        alert('✅ Código copiado: ' + code);
-    }
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase();
+        }
 
-    // تشغيل تحميل لوحة التحكم عند بدء الصفحة
-    loadDashboard();
-</script>
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Función para agregar referidos de prueba (solo para demo)
+        function addDemoReferral() {
+            const demoReferral = {
+                id: affiliateData.referrals.length + 1,
+                userName: 'Usuario Demo ' + (affiliateData.referrals.length + 1),
+                email: 'demo' + (affiliateData.referrals.length + 1) + '@example.com',
+                registrationDate: new Date().toISOString().split('T')[0],
+                plan: 'Plata',
+                planPrice: 19.99,
+                status: 'active',
+                commission: 6.00,
+                totalGenerated: 6.00,
+                monthsActive: 1
+            };
+            
+            affiliateData.referrals.push(demoReferral);
+            affiliateData.totalReferrals++;
+            affiliateData.activeReferrals++;
+            affiliateData.totalEarnings += 6.00;
+            affiliateData.availableBalance += 6.00;
+            
+            loadDashboardData();
+        }
+    </script>
 </body>
 </html>
