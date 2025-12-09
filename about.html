@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nosotros - RentHub</title>
     <style>
+        /* الأنماط القديمة تم الاحتفاظ بها */
         * {
             margin: 0;
             padding: 0;
@@ -178,6 +179,63 @@
             opacity: 0.9;
         }
 
+        /* --- New/Modified Styles for Testimonials & Achievements --- */
+        .testimonial-card {
+            background: #f9f9ff;
+            border-left: 5px solid #667eea;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        .testimonial-quote {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .testimonial-author {
+            font-weight: 700;
+            color: #667eea;
+        }
+        .testimonial-role {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .achievement-item {
+            background: #e8eaf6; /* Light Blue Background */
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+        .achievement-icon {
+            font-size: 30px;
+            margin-right: 20px;
+            color: #764ba2;
+        }
+        .achievement-text h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .achievement-text p {
+            font-size: 14px;
+            color: #555;
+        }
+        /* --- End New/Modified Styles --- */
+
+
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -276,13 +334,13 @@
 <body>
     <div class="header">
         <div class="header-content">
-            <a href="/" class="logo">🏠 RentHub</a>
+            <a href="index.html" class="logo">🏠 RentHub</a>
         </div>
     </div>
 
     <div class="hero">
         <h1>Sobre RentHub</h1>
-        <p>La plataforma líder en España para alquilar y compartir cualquier cosa. Conectamos personas que tienen productos con quienes los necesitan.</p>
+        <p>منذ تأسيسها في **2018**، أصبحت RentHub المنصة الرائدة في إسبانيا لتأجير ومشاركة أي شيء. نحن نربط الأشخاص الذين يمتلكون المنتجات بمن يحتاجونها، لبناء اقتصاد تشاركي مستدام وموثوق.</p>
     </div>
 
     <div class="section">
@@ -290,12 +348,39 @@
             <div class="mission-card">
                 <div class="mission-icon">🎯</div>
                 <h3>Nuestra Misión</h3>
-                <p>Democratizar el acceso a productos y servicios mediante una plataforma segura, fácil de usar y accesible para todos. Creemos en la economía compartida como el futuro del consumo sostenible.</p>
+                <p>Democratizar el acceso a productos y servicios mediante una plataforma segura، fácil de usar y accesible para todos. Creemos en la economía compartida como el futuro del consumo sostenible.</p>
             </div>
             <div class="mission-card">
                 <div class="mission-icon">🔮</div>
                 <h3>Nuestra Visión</h3>
-                <p>Ser la plataforma de alquiler número uno en España, transformando la forma en que las personas acceden a productos. Un mundo donde compartir es la norma, no la excepción.</p>
+                <p>Ser la plataforma de alquiler número uno en España، transformando la forma en que las personas acceden a productos. Un mundo donde compartir es la norma، no la excepción.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2 class="section-title">مسيرة RentHub</h2>
+        <div class="achievements-grid">
+            <div class="achievement-item">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-text">
+                    <h4>تأسيس المنصة (2018)</h4>
+                    <p>بدأت كفكرة بسيطة في إشبيلية لتقاسم أدوات البناء بين الجيران.</p>
+                </div>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-icon">📈</div>
+                <div class="achievement-text">
+                    <h4>تجاوز 10,000 مستخدم (2020)</h4>
+                    <p>توسعنا إلى مدريد وبرشلونة وحصلنا على أول استثمار خارجي.</p>
+                </div>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-icon">🇪🇸</div>
+                <div class="achievement-text">
+                    <h4>الريادة على مستوى إسبانيا (2022)</h4>
+                    <p>إطلاق نظام الشراكة الاحترافي (Affiliate Program) وتغطية 90% من المدن الكبرى.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -321,6 +406,27 @@
         </div>
     </div>
 
+    <div class="section">
+        <h2 class="section-title">قصص نجاح من مجتمعنا (المتعاملون الوهميون)</h2>
+        <div class="values-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"أفضل منصة على الإطلاق! أتمكن من استئجار كاميرات عالية الدقة لمشروعي دون الحاجة لشرائها. وفرت أكثر من 4,000 يورو في عام واحد."</div>
+                <div class="testimonial-author">Alejandro G.</div>
+                <div class="testimonial-role">صانع محتوى ومالك مشاريع - إشبيلية</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"أقوم بتأجير دراجتي النارية عندما لا أستخدمها. أحصل على دخل شهري ثابت يغطي مصاريف الصيانة والوقود. المنصة آمنة جداً والدفع فوري."</div>
+                <div class="testimonial-author">Sara P.</div>
+                <div class="testimonial-role">أستاذة جامعية ومؤجرة - برشلونة</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"كنت متشككاً في البداية، لكن نظام التحقق من الهوية جعلني أشعر بالثقة. لقد استأجرت خيمة تخييم فاخرة بسعر ممتاز لعطلة نهاية الأسبوع."</div>
+                <div class="testimonial-author">David M.</div>
+                <div class="testimonial-role">مهندس برمجيات - مدريد</div>
+            </div>
+        </div>
+    </div>
+    
     <div class="section">
         <h2 class="section-title">Nuestros Valores</h2>
         <div class="values-grid">
@@ -363,25 +469,25 @@
             <div class="team-member">
                 <div class="team-avatar">👨‍💼</div>
                 <div class="team-name">Carlos Martínez</div>
-                <div class="team-role">CEO & Fundador</div>
-                <div class="team-bio">Emprendedor apasionado por la economía colaborativa con más de 10 años de experiencia en startups.</div>
+                <div class="team-role">CEO & Fundador (بدأ في 2017)</div>
+                <div class="team-bio">Emprendedor apasionado por la economía colaborativa con más من 10 años de experiencia en startups.</div>
             </div>
             <div class="team-member">
                 <div class="team-avatar">👩‍💻</div>
                 <div class="team-name">Ana García</div>
-                <div class="team-role">CTO</div>
+                <div class="team-role">CTO (انضمت في 2019)</div>
                 <div class="team-bio">Experta en desarrollo de plataformas escalables y arquitectura de software moderna.</div>
             </div>
             <div class="team-member">
                 <div class="team-avatar">👨‍🎨</div>
                 <div class="team-name">Miguel López</div>
-                <div class="team-role">Head of Design</div>
+                <div class="team-role">Head of Design (انضم في 2018)</div>
                 <div class="team-bio">Diseñador UX/UI especializado en crear experiencias memorables y accesibles.</div>
             </div>
             <div class="team-member">
                 <div class="team-avatar">👩‍💼</div>
                 <div class="team-name">Laura Sánchez</div>
-                <div class="team-role">CMO</div>
+                <div class="team-role">CMO (انضمت في 2021)</div>
                 <div class="team-bio">Estratega de marketing digital con enfoque en crecimiento sostenible y retención de usuarios.</div>
             </div>
         </div>
@@ -390,7 +496,7 @@
     <div class="cta-section">
         <h2>¿Listo para unirte a RentHub?</h2>
         <p>Únete a miles de usuarios que ya están ganando dinero alquilando sus productos o ahorrando al alquilar lo que necesitan.</p>
-        <a href="/register.html" class="cta-btn">Crear Cuenta Gratis</a>
+        <a href="auth.html" class="cta-btn">Crear Cuenta Gratis</a>
     </div>
 </body>
 </html>
