@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Socios - RentHub 🚀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0E27; /* Dark Blue */
+            --secondary: #FF6B35; /* Orange/Accent */
+            --success: #00E396; /* Green */
+            --danger: #FF4560; /* Red */
+            --background: #F4F7FC;
+            --card-bg: white;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 1500px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header / Navigation --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #e0e0e0;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* --- Stats Grid (NASA-like Vibe) --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .stat-card.green { border-color: var(--success); }
+        .stat-card.red { border-color: var(--danger); }
+        .stat-card.blue { border-color: #00D9FF; }
+        .stat-card.orange { border-color: var(--secondary); }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-unit {
+            font-size: 18px;
+            font-weight: 600;
+            color: #888;
+        }
+
+        /* --- Code & Withdrawal Section --- */
+        .tools-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .code-display-card, .withdrawal-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .code-display-card h3, .withdrawal-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        #referralCodeDisplay {
+            background-color: #f0f3ff;
+            color: var(--primary);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            border: 2px dashed #aeb8ff;
+        }
+
+        .copy-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: #e35a29;
+        }
+
+        /* Withdrawal Card */
+        .withdrawal-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .current-balance {
+            margin-bottom: 20px;
+        }
+        
+        .balance-value {
+            font-size: 50px;
+            font-weight: 900;
+            color: var(--success);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .withdraw-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .withdraw-btn:hover {
+            background: #1a224a;
+        }
+
+        /* --- Client List (Optional Table) --- */
+        .client-list-section {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .client-list-section h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .client-list {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .client-list th, .client-list td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .client-list th {
+            background-color: #f9f9f9;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 12px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .status-active {
+            background-color: rgba(0, 227, 150, 0.1);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: rgba(255, 69, 96, 0.1);
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    
+    <div class="header">
+        <div class="logo">RentHub Socios</div>
+        <div class="user-info">
+            <h3 id="affiliateName">Cargando...</h3>
+            <p>ID de Socio: <span id="affiliateID">N/A</span></p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card green">
+            <div class="stat-title">✅ Clientes Activos</div>
+            <div class="stat-value" id="activeClientsCount">0</div>
+            <div class="stat-unit">Usuarios pagando</div>
+        </div>
+
+        <div class="stat-card red">
+            <div class="stat-title">❌ Clientes Perdidos</div>
+            <div class="stat-value" id="lostClientsCount">0</div>
+            <div class="stat-unit">Usuarios dados de baja</div>
+        </div>
+
+        <div class="stat-card blue">
+            <div class="stat-title">💰 Ganancias Totales</div>
+            <div class="stat-value"><span id="totalEarnings">0.00</span>€</div>
+            <div class="stat-unit">Comisiones acumuladas</div>
+        </div>
+
+        <div class="stat-card orange">
+            <div class="stat-title">🌟 Valoración Promedio</div>
+            <div class="stat-value" id="averageRating">4.9</div>
+            <div class="stat-unit">Basado en 50+ reseñas</div>
+        </div>
+    </div>
+
+    <div class="tools-section">
+        <div class="code-display-card">
+            <h3>🔗 Tu Código Exclusivo de Afiliado</h3>
+            <div id="referralCodeDisplay">REF-000000</div>
+            <button class="copy-btn" onclick="copyCode()">📋 Copiar código y compartir</button>
+        </div>
+
+        <div class="withdrawal-card">
+            <h3>💸 Balance Disponible</h3>
+            <div class="current-balance">
+                <div class="balance-value" id="currentBalance">0.00€</div>
+                <div class="stat-unit">Disponible para retiro</div>
+            </div>
+            <button class="withdraw-btn" onclick="simulateWithdrawal()">Retiro Instantáneo ⚡</button>
+        </div>
+    </div>
+
+    <div class="client-list-section">
+        <h3>👥 Lista Detallada de Clientes</h3>
+        <table class="client-list">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Estado</th>
+                    <th>Ganancia/Mes</th>
+                </tr>
+            </thead>
+            <tbody id="clientsTableBody">
+                <tr><td colspan="4" style="text-align: center; color: #999;">Cargando datos de clientes...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // 🔴 وظيفة استدعاء البيانات الوهمية من localStorage
+    function getAffiliateData(affiliateEmail) {
+        const affiliates = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
+        return affiliates.find(a => a.email === affiliateEmail);
+    }
+
+    // 🔴 وظيفة محاكاة بيانات الزبائن (لتشغيل لوحة التحكم)
+    function generateClients(count) {
+        const clients = [];
+        const names = ["Elena G.", "Javier R.", "Sofia L.", "Miguel C.", "Laura P.", "David M."];
+        const status = ['active', 'inactive'];
+
+        for (let i = 0; i < count; i++) {
+            const clientStatus = status[Math.floor(Math.random() * status.length)];
+            clients.push({
+                name: names[Math.floor(Math.random() * names.length)] + ' ' + (i + 1),
+                email: `client${i + 1}@email.com`,
+                status: clientStatus,
+                earnings: clientStatus === 'active' ? (Math.random() * 50 + 10).toFixed(2) : '0.00' // 10€ - 60€
+            });
+        }
+        return clients;
+    }
+
+    // 🔴 وظيفة ملء لوحة التحكم بالبيانات
+    function loadDashboard() {
+        // بما أننا لا نملك حالياً نظام دخول/تسجيل، سنفترض أن الشريك الأول هو الذي دخل.
+        const ALL_AFFILIATES = JSON.parse(localStorage.getItem('renthub_affiliates') || '[]');
+        
+        if (ALL_AFFILIATES.length === 0) {
+            alert("No hay datos de socios. Por favor, regístrate primero en affiliate.html");
+            return;
+        }
+
+        // نستخدم بيانات الشريك الأول كمثال
+        const affiliate = ALL_AFFILIATES[0];
+        
+        // 1. ملء معلومات المستخدم الأساسية
+        document.getElementById('affiliateName').textContent = affiliate.name;
+        document.getElementById('affiliateID').textContent = affiliate.code;
+        document.getElementById('referralCodeDisplay').textContent = affiliate.code;
+
+        // 2. محاكاة بيانات العملاء والأرباح
+        const simulatedClients = generateClients(Math.floor(Math.random() * 30) + 10); // 10 - 40 clients
+        
+        const activeClients = simulatedClients.filter(c => c.status === 'active');
+        const lostClients = simulatedClients.filter(c => c.status === 'inactive');
+
+        const totalEarned = activeClients.reduce((sum, client) => sum + parseFloat(client.earnings), 0) + 
+                            (Math.random() * 500); // إضافة مبلغ وهمي لمظهر أفضل
+        
+        // 3. ملء بطاقات الإحصائيات (الـ Stats)
+        document.getElementById('activeClientsCount').textContent = activeClients.length;
+        document.getElementById('lostClientsCount').textContent = lostClients.length;
+        document.getElementById('totalEarnings').textContent = totalEarned.toFixed(2);
+        
+        // محاكاة الرصيد المتاح (20% من الأرباح الكلية كمثال)
+        const currentBalance = (totalEarned * 0.20).toFixed(2);
+        document.getElementById('currentBalance').textContent = currentBalance + '€';
+
+        // 4. ملء جدول العملاء
+        const tbody = document.getElementById('clientsTableBody');
+        tbody.innerHTML = ''; // تنظيف البيانات القديمة
+        
+        simulatedClients.forEach(client => {
+            const row = tbody.insertRow();
+            
+            const statusClass = client.status === 'active' ? 'status-active' : 'status-inactive';
+            const statusText = client.status === 'active' ? 'ACTIVO' : 'PERDIDO';
+
+            row.innerHTML = `
+                <td>${client.name}</td>
+                <td>${client.email}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td>${client.earnings}€</td>
+            `;
+        });
+    }
+
+    // 🔴 وظيفة محاكاة السحب الفوري
+    function simulateWithdrawal() {
+        const balanceElement = document.getElementById('currentBalance');
+        const currentBalance = parseFloat(balanceElement.textContent.replace('€', ''));
+
+        if (currentBalance > 0) {
+            // محاكاة عملية سحب
+            alert(`✅ Retiro Instantáneo Aprobado: ${currentBalance}€ se ha enviado a tu método de pago preferido (PayPal/Banco).`);
+            
+            // إعادة ضبط الرصيد إلى الصفر
+            balanceElement.textContent = '0.00€';
+            
+            // يمكن هنا إضافة منطق لحفظ الرصيد الجديد في localStorage إذا أردت استمرارية البيانات.
+        } else {
+            alert('⚠️ No tienes balance disponible para retirar.');
+        }
+    }
+
+    function copyCode() {
+        const code = document.getElementById('referralCodeDisplay').textContent;
+        navigator.clipboard.writeText(code);
+        alert('✅ Código copiado: ' + code);
+    }
+
+    // تشغيل تحميل لوحة التحكم عند بدء الصفحة
+    loadDashboard();
+</script>
+</body>
+</html>
