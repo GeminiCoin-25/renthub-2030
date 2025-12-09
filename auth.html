@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل / دخول - RentHub</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* إضافة تصميم خاص بصفحة التسجيل */
+        body {
+            background-color: #1a1a2e; /* خلفية داكنة */
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .auth-container {
+            background: #2c2c54; /* لون أغمق للصندوق */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-container h2 {
+            font-size: 28px;
+            color: #00bcd4; /* اللون السماوي البارز */
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #4a4e69;
+        }
+
+        .tab-button {
+            flex-grow: 1;
+            padding: 12px 10px;
+            background: none;
+            border: none;
+            color: #8f90a6;
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .tab-button.active {
+            color: #00bcd4;
+            border-bottom: 3px solid #00bcd4;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a9a9b6;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #4a4e69;
+            border-radius: 8px;
+            background: #1a1a2e;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+        }
+
+        /* تنسيق زر الإجراء الرئيسي */
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea; /* لون أزرق جذاب */
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #5364e0;
+            transform: translateY(-1px);
+        }
+
+        .auth-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #00bcd4;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h2>أهلاً بك في RentHub</h2>
+        
+        <div class="tab-buttons">
+            <button class="tab-button active" id="show-login-tab">تسجيل الدخول</button>
+            <button class="tab-button" id="show-register-tab">إنشاء حساب جديد</button>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email-input">البريد الإلكتروني</label>
+                <input type="email" id="login-email-input" required placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            <div class="form-group">
+                <label for="login-password-input">كلمة المرور</label>
+                <input type="password" id="login-password-input" required placeholder="أدخل كلمة المرور">
+            </div>
+            <button type="submit" class="auth-btn" id="login-button">تسجيل الدخول</button>
+            <a href="#" class="auth-link">هل نسيت كلمة المرور؟</a>
+        </form>
+
+        <form id="register-form" style="display:none;">
+             <div class="form-group">
+                <label for="register-email-input">البريد الإلكتروني</label>
+                <input type="email" id="register-email-input" required placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            <div class="form-group">
+                <label for="register-password-input">كلمة المرور</label>
+                <input type="password" id="register-password-input" required placeholder="يجب أن تكون 6 أحرف على الأقل">
+            </div>
+            <button type="submit" class="auth-btn" id="register-button">إنشاء الحساب</button>
+        </form>
+    </div>
+
+    <script src="backend_logic.js"></script>
+    <script>
+        // منطق تبديل النماذج في الواجهة الأمامية (لتجنب تعقيد backend_logic.js)
+        document.getElementById('show-login-tab').addEventListener('click', function() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('show-login-tab').classList.add('active');
+            document.getElementById('show-register-tab').classList.remove('active');
+        });
+
+        document.getElementById('show-register-tab').addEventListener('click', function() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById('show-register-tab').classList.add('active');
+            document.getElementById('show-login-tab').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
