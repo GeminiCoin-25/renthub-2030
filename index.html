@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentHub - Plataforma de Alquiler Integral</title>
     <style>
-        /* [الـ CSS هنا يظل كما هو دون تغيير] */
         * {
             margin: 0;
             padding: 0;
@@ -103,8 +102,7 @@
             color: #667eea;
         }
 
-        /* هذا التنسيق مخصص لزر تسجيل/دخول القديم وللتنسيق الجديد */
-        .primary-auth-btn { 
+        .btn-login {
             padding: 10px 25px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -114,30 +112,11 @@
             transition: all 0.3s;
         }
 
-        .primary-auth-btn:hover {
+        .btn-login:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        /* تنسيق زر الحساب الجديد (يتحكم فيه JavaScript) */
-        .user-profile-btn {
-            display: none; /* مخفي مبدئياً */
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            border-radius: 25px;
-            background: #e0e0e0;
-            color: #333;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        
-        .user-profile-btn:hover {
-             background: #667eea;
-             color: white;
-        }
-        
         .lang-switcher {
             display: flex;
             gap: 8px;
@@ -145,13 +124,21 @@
 
         .lang-btn {
             cursor: pointer;
-            font-size: 16px;
-            padding: 5px;
-            transition: transform 0.2s;
+            font-size: 20px;
+            padding: 5px 8px;
+            transition: all 0.2s;
+            border-radius: 5px;
+            opacity: 0.6;
         }
 
         .lang-btn:hover {
-            transform: scale(1.2);
+            transform: scale(1.15);
+            opacity: 1;
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+            background: rgba(102, 126, 234, 0.1);
         }
 
         .hero {
@@ -395,7 +382,9 @@
 </head>
 <body>
     <div class="banner">
-        🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20
+        <span data-lang="es">🎉 Oferta especial: <strong>20% de descuento</strong> en todos los alquileres mensuales - Usa el código: RENT20</span>
+        <span data-lang="en" style="display:none;">🎉 Special offer: <strong>20% discount</strong> on all monthly rentals - Use code: RENT20</span>
+        <span data-lang="ar" style="display:none;">🎉 عرض خاص: <strong>خصم 20%</strong> على جميع الإيجارات الشهرية - استخدم الكود: RENT20</span>
     </div>
 
     <header>
@@ -403,110 +392,215 @@
             <a href="/" class="logo">🏠 RentHub</a>
             
             <div class="search-bar">
-                <input type="text" placeholder="¿Qué estás buscando?" id="searchInput">
+                <input type="text" id="searchInput" 
+                    data-placeholder-es="¿Qué estás buscando?"
+                    data-placeholder-en="What are you looking for?"
+                    data-placeholder-ar="ماذا تبحث عن؟"
+                    placeholder="¿Qué estás buscando?">
                 <span class="search-icon" onclick="performSearch()">🔍</span>
             </div>
 
             <div class="nav-links">
-                <a href="/pricing.html">Planes</a>
-                <a href="/publicar.html">Publicar</a>
-                <a href="/about.html">Nosotros</a>
-                <a href="/contact.html">Contacto</a>
-                
-                <a href="/auth.html" class="primary-auth-btn" style="background: #059669; margin-right: 15px;">
-                    ¡Hazte Cliente! 🚀
-                </a>
-                
-                <a href="/auth.html" class="primary-auth-btn">Iniciar Sesión</a>
-                
-                <a href="/dashboard.html" class="user-profile-btn" style="display: none;">
-                    Mi Cuenta
-                </a>
+                <a href="/pricing.html" data-lang="es">Planes</a>
+                <a href="/pricing.html" data-lang="en" style="display:none;">Plans</a>
+                <a href="/pricing.html" data-lang="ar" style="display:none;">الأسعار</a>
+
+                <a href="/publicar.html" data-lang="es">Publicar</a>
+                <a href="/publicar.html" data-lang="en" style="display:none;">Post</a>
+                <a href="/publicar.html" data-lang="ar" style="display:none;">نشر إعلان</a>
+
+                <a href="/about.html" data-lang="es">Nosotros</a>
+                <a href="/about.html" data-lang="en" style="display:none;">About</a>
+                <a href="/about.html" data-lang="ar" style="display:none;">من نحن</a>
+
+                <a href="/contact.html" data-lang="es">Contacto</a>
+                <a href="/contact.html" data-lang="en" style="display:none;">Contact</a>
+                <a href="/contact.html" data-lang="ar" style="display:none;">اتصل بنا</a>
+
+                <a href="/register.html" class="btn-login" data-lang="es">Iniciar Sesión</a>
+                <a href="/register.html" class="btn-login" data-lang="en" style="display:none;">Login</a>
+                <a href="/register.html" class="btn-login" data-lang="ar" style="display:none;">تسجيل دخول</a>
             </div>
 
             <div class="lang-switcher">
-                <span class="lang-btn" title="Español">🇪🇸</span>
-                <span class="lang-btn" title="English">🇬🇧</span>
-                <span class="lang-btn" title="العربية">🇸🇦</span>
+                <span class="lang-btn active" data-lang-switch="es" title="Español">🇪🇸</span>
+                <span class="lang-btn" data-lang-switch="en" title="English">🇬🇧</span>
+                <span class="lang-btn" data-lang-switch="ar" title="العربية">🇸🇦</span>
             </div>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Alquila cualquier cosa<br>en cualquier momento</h1>
-        <p>La primera plataforma de alquiler **en la región** - coches, equipos, ropa y más de 50,000 productos disponibles</p>
+        <h1>
+            <span data-lang="es">Alquila cualquier cosa<br>en cualquier momento</span>
+            <span data-lang="en" style="display:none;">Rent anything<br>anytime</span>
+            <span data-lang="ar" style="display:none;">استأجر أي شيء<br>في أي وقت</span>
+        </h1>
+        <p>
+            <span data-lang="es">La primera plataforma de alquiler en la región - coches, equipos, ropa y más de 50,000 productos disponibles</span>
+            <span data-lang="en" style="display:none;">The first rental platform in the region - cars, equipment, clothing and over 50,000 products available</span>
+            <span data-lang="ar" style="display:none;">أول منصة تأجير في المنطقة - سيارات، معدات، ملابس وأكثر من 50,000 منتج متاح</span>
+        </p>
     </section>
 
     <section class="categories">
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🚗</div>
-            <h3>Coches</h3>
-            <div class="category-count">12,450 anuncios</div>
+            <h3>
+                <span data-lang="es">Coches</span>
+                <span data-lang="en" style="display:none;">Cars</span>
+                <span data-lang="ar" style="display:none;">سيارات</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">12,450 anuncios</span>
+                <span data-lang="en" style="display:none;">12,450 listings</span>
+                <span data-lang="ar" style="display:none;">12,450 إعلان</span>
+            </div>
         </div>
 
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🏗️</div>
-            <h3>Equipos de construcción</h3>
-            <div class="category-count">8,320 anuncios</div>
+            <h3>
+                <span data-lang="es">Equipos de construcción</span>
+                <span data-lang="en" style="display:none;">Construction Equipment</span>
+                <span data-lang="ar" style="display:none;">معدات بناء</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">8,320 anuncios</span>
+                <span data-lang="en" style="display:none;">8,320 listings</span>
+                <span data-lang="ar" style="display:none;">8,320 إعلان</span>
+            </div>
         </div>
 
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🚜</div>
-            <h3>Maquinaria agrícola</h3>
-            <div class="category-count">5,680 anuncios</div>
+            <h3>
+                <span data-lang="es">Maquinaria agrícola</span>
+                <span data-lang="en" style="display:none;">Agricultural Machinery</span>
+                <span data-lang="ar" style="display:none;">معدات زراعية</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">5,680 anuncios</span>
+                <span data-lang="en" style="display:none;">5,680 listings</span>
+                <span data-lang="ar" style="display:none;">5,680 إعلان</span>
+            </div>
         </div>
 
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">👔</div>
-            <h3>Ropa</h3>
-            <div class="category-count">15,240 anuncios</div>
+            <h3>
+                <span data-lang="es">Ropa</span>
+                <span data-lang="en" style="display:none;">Clothing</span>
+                <span data-lang="ar" style="display:none;">ملابس</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">15,240 anuncios</span>
+                <span data-lang="en" style="display:none;">15,240 listings</span>
+                <span data-lang="ar" style="display:none;">15,240 إعلان</span>
+            </div>
         </div>
 
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🏠</div>
-            <h3>Artículos del hogar</h3>
-            <div class="category-count">9,870 anuncios</div>
+            <h3>
+                <span data-lang="es">Artículos del hogar</span>
+                <span data-lang="en" style="display:none;">Home Items</span>
+                <span data-lang="ar" style="display:none;">أدوات منزلية</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">9,870 anuncios</span>
+                <span data-lang="en" style="display:none;">9,870 listings</span>
+                <span data-lang="ar" style="display:none;">9,870 إعلان</span>
+            </div>
         </div>
 
         <div class="category-card" onclick="window.location.href='/search.html'">
             <div class="category-icon">🎮</div>
-            <h3>Electrónica</h3>
-            <div class="category-count">7,530 anuncios</div>
+            <h3>
+                <span data-lang="es">Electrónica</span>
+                <span data-lang="en" style="display:none;">Electronics</span>
+                <span data-lang="ar" style="display:none;">إلكترونيات</span>
+            </h3>
+            <div class="category-count">
+                <span data-lang="es">7,530 anuncios</span>
+                <span data-lang="en" style="display:none;">7,530 listings</span>
+                <span data-lang="ar" style="display:none;">7,530 إعلان</span>
+            </div>
         </div>
     </section>
 
     <section class="featured-section">
         <div class="featured-header">
-            <h2 class="featured-title">⭐ Más solicitados</h2>
-            <a href="/search.html" class="view-all">Ver todo →</a>
+            <h2 class="featured-title">
+                <span data-lang="es">⭐ Más solicitados</span>
+                <span data-lang="en" style="display:none;">⭐ Most Popular</span>
+                <span data-lang="ar" style="display:none;">⭐ الأكثر طلباً</span>
+            </h2>
+            <a href="/search.html" class="view-all">
+                <span data-lang="es">Ver todo →</span>
+                <span data-lang="en" style="display:none;">View all →</span>
+                <span data-lang="ar" style="display:none;">عرض الكل ←</span>
+            </a>
         </div>
     </section>
 
     <section class="stats">
         <div class="stat-item">
             <div class="stat-number">50K+</div>
-            <div class="stat-label">Productos disponibles</div>
+            <div class="stat-label">
+                <span data-lang="es">Productos disponibles</span>
+                <span data-lang="en" style="display:none;">Available Products</span>
+                <span data-lang="ar" style="display:none;">منتج متاح</span>
+            </div>
         </div>
         <div class="stat-item">
             <div class="stat-number">25K+</div>
-            <div class="stat-label">Usuarios activos</div>
+            <div class="stat-label">
+                <span data-lang="es">Usuarios activos</span>
+                <span data-lang="en" style="display:none;">Active Users</span>
+                <span data-lang="ar" style="display:none;">مستخدم نشط</span>
+            </div>
         </div>
         <div class="stat-item">
             <div class="stat-number">98%</div>
-            <div class="stat-label">Satisfacción del cliente</div>
+            <div class="stat-label">
+                <span data-lang="es">Satisfacción del cliente</span>
+                <span data-lang="en" style="display:none;">Customer Satisfaction</span>
+                <span data-lang="ar" style="display:none;">رضا العملاء</span>
+            </div>
         </div>
         <div class="stat-item">
             <div class="stat-number">150K+</div>
-            <div class="stat-label">Alquileres exitosos</div>
+            <div class="stat-label">
+                <span data-lang="es">Alquileres exitosos</span>
+                <span data-lang="en" style="display:none;">Successful Rentals</span>
+                <span data-lang="ar" style="display:none;">تأجير ناجح</span>
+            </div>
         </div>
     </section>
 
     <section class="cta-section">
-        <h2>Empieza a alquilar **o ganar hoy**</h2>
-        <p>Únete a **miles de usuarios que se benefician de nuestra plataforma todos los días.**<br>**¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!**</p>
+        <h2>
+            <span data-lang="es">Empieza a alquilar o ganar hoy</span>
+            <span data-lang="en" style="display:none;">Start renting or earning today</span>
+            <span data-lang="ar" style="display:none;">ابدأ التأجير أو الربح اليوم</span>
+        </h2>
+        <p>
+            <span data-lang="es">Únete a miles de usuarios que se benefician de nuestra plataforma todos los días.<br>¡Regístrate ahora y obtén un 20% de descuento en tu primer alquiler!</span>
+            <span data-lang="en" style="display:none;">Join thousands of users who benefit from our platform every day.<br>Sign up now and get 20% off your first rental!</span>
+            <span data-lang="ar" style="display:none;">انضم إلى آلاف المستخدمين الذين يستفيدون من منصتنا كل يوم.<br>سجل الآن واحصل على خصم 20% على أول إيجار!</span>
+        </p>
         <div class="cta-buttons">
-            <a href="/publicar.html" class="btn-cta btn-primary">Regístrate como arrendador</a>
-            <a href="/pricing.html" class="btn-cta btn-secondary">Ver planes</a>
+            <a href="/publicar.html" class="btn-cta btn-primary">
+                <span data-lang="es">Regístrate como arrendador</span>
+                <span data-lang="en" style="display:none;">Register as a landlord</span>
+                <span data-lang="ar" style="display:none;">سجل كمؤجر</span>
+            </a>
+            <a href="/pricing.html" class="btn-cta btn-secondary">
+                <span data-lang="es">Ver planes</span>
+                <span data-lang="en" style="display:none;">View plans</span>
+                <span data-lang="ar" style="display:none;">عرض الأسعار</span>
+            </a>
         </div>
     </section>
 
@@ -514,56 +608,151 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>RentHub</h3>
-                <p>La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.</p>
+                <p>
+                    <span data-lang="es">La plataforma de alquiler integral en España. Conectamos arrendadores con arrendatarios de forma segura y fácil.</span>
+                    <span data-lang="en" style="display:none;">The comprehensive rental platform in Spain. We connect landlords with tenants safely and easily.</span>
+                    <span data-lang="ar" style="display:none;">منصة التأجير الشاملة في إسبانيا. نربط المؤجرين بالمستأجرين بشكل آمن وسهل.</span>
+                </p>
             </div>
 
             <div class="footer-section">
-                <h3>Categorías</h3>
+                <h3>
+                    <span data-lang="es">Categorías</span>
+                    <span data-lang="en" style="display:none;">Categories</span>
+                    <span data-lang="ar" style="display:none;">الفئات</span>
+                </h3>
                 <ul>
-                    <li><a href="/search.html">Coches</a></li>
-                    <li><a href="/search.html">Equipos</a></li>
-                    <li><a href="/search.html">Maquinaria</a></li>
-                    <li><a href="/search.html">Ropa</a></li>
-                    <li><a href="/search.html">Hogar</a></li>
-                    <li><a href="/search.html">Electrónica</a></li>
+                    <li><a href="/search.html" data-lang="es">Coches</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Cars</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">سيارات</a></li>
+                    <li><a href="/search.html" data-lang="es">Equipos</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Equipment</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">معدات</a></li>
+                    <li><a href="/search.html" data-lang="es">Maquinaria</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Machinery</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">آلات</a></li>
+                    <li><a href="/search.html" data-lang="es">Ropa</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Clothing</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">ملابس</a></li>
+                    <li><a href="/search.html" data-lang="es">Hogar</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Home</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">منزل</a></li>
+                    <li><a href="/search.html" data-lang="es">Electrónica</a>
+                        <a href="/search.html" data-lang="en" style="display:none;">Electronics</a>
+                        <a href="/search.html" data-lang="ar" style="display:none;">إلكترونيات</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
-                <h3>Empresa</h3>
+                <h3>
+                    <span data-lang="es">Empresa</span>
+                    <span data-lang="en" style="display:none;">Company</span>
+                    <span data-lang="ar" style="display:none;">الشركة</span>
+                </h3>
                 <ul>
-                    <li><a href="/about.html">Sobre Nosotros</a></li>
-                    <li><a href="/contact.html">Contacto</a></li>
-                    <li><a href="/pricing.html">Precios</a></li>
-                    <li><a href="/affiliate_dashboard.html">Programa de Afiliados</a></li>
+                    <li><a href="/about.html" data-lang="es">Sobre Nosotros</a>
+                        <a href="/about.html" data-lang="en" style="display:none;">About Us</a>
+                        <a href="/about.html" data-lang="ar" style="display:none;">من نحن</a></li>
+                    <li><a href="/contact.html" data-lang="es">Contacto</a>
+                        <a href="/contact.html" data-lang="en" style="display:none;">Contact</a>
+                        <a href="/contact.html" data-lang="ar" style="display:none;">اتصل بنا</a></li>
+                    <li><a href="/pricing.html" data-lang="es">Precios</a>
+                        <a href="/pricing.html" data-lang="en" style="display:none;">Pricing</a>
+                        <a href="/pricing.html" data-lang="ar" style="display:none;">الأسعار</a></li>
+                    <li><a href="/affiliate.html" data-lang="es">Programa de Afiliados</a>
+                        <a href="/affiliate.html" data-lang="en" style="display:none;">Affiliate Program</a>
+                        <a href="/affiliate.html" data-lang="ar" style="display:none;">برنامج الشراكة</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
-                <h3>Soporte</h3>
+                <h3>
+                    <span data-lang="es">Soporte</span>
+                    <span data-lang="en" style="display:none;">Support</span>
+                    <span data-lang="ar" style="display:none;">الدعم</span>
+                </h3>
                 <ul>
-                    <li><a href="/contact.html">Centro de Ayuda</a></li>
-                    <li><a href="/terms.html">Términos y Condiciones</a></li>
-                    <li><a href="/privacy.html">Política de Privacidad</a></li> 
-                    <li><a href="/dashboard.html">Mi Cuenta</a></li> 
-                    <li><a href="/favorites.html">Favoritos</a></li>
+                    <li><a href="/contact.html" data-lang="es">Centro de Ayuda</a>
+                        <a href="/contact.html" data-lang="en" style="display:none;">Help Center</a>
+                        <a href="/contact.html" data-lang="ar" style="display:none;">مركز المساعدة</a></li>
+                    <li><a href="/terms.html" data-lang="es">Términos y Condiciones</a>
+                        <a href="/terms.html" data-lang="en" style="display:none;">Terms & Conditions</a>
+                        <a href="/terms.html" data-lang="ar" style="display:none;">الشروط والأحكام</a></li>
+                    <li><a href="/terms.html" data-lang="es">Política de Privacidad</a>
+                        <a href="/terms.html" data-lang="en" style="display:none;">Privacy Policy</a>
+                        <a href="/terms.html" data-lang="ar" style="display:none;">سياسة الخصوصية</a></li>
+                    <li><a href="/profile.html" data-lang="es">Mi Cuenta</a>
+                        <a href="/profile.html" data-lang="en" style="display:none;">My Account</a>
+                        <a href="/profile.html" data-lang="ar" style="display:none;">حسابي</a></li>
+                    <li><a href="/favorites.html" data-lang="es">Favoritos</a>
+                        <a href="/favorites.html" data-lang="en" style="display:none;">Favorites</a>
+                        <a href="/favorites.html" data-lang="ar" style="display:none;">المفضلة</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            © 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España
+            <span data-lang="es">© 2024 RentHub. Todos los derechos reservados | Hecho con ❤️ en España</span>
+            <span data-lang="en" style="display:none;">© 2024 RentHub. All rights reserved | Made with ❤️ in Spain</span>
+            <span data-lang="ar" style="display:none;">© 2024 RentHub. جميع الحقوق محفوظة | صُنع بـ ❤️ في إسبانيا</span>
         </div>
     </footer>
-    
-    <script type="module" src="backend_logic.js"></script> 
-    
+
     <script>
+        // Language System
+        let currentLang = localStorage.getItem('siteLang') || 'es';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('siteLang', lang);
+            
+            // Update HTML lang attribute
+            document.getElementById('htmlRoot').setAttribute('lang', lang);
+            
+            // Hide all language elements
+            const allLangElements = document.querySelectorAll('[data-lang]');
+            allLangElements.forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show only selected language elements
+            const selectedLangElements = document.querySelectorAll(`[data-lang="${lang}"]`);
+            selectedLangElements.forEach(el => {
+                el.style.display = '';
+            });
+            
+            // Update search placeholder
+            const searchInput = document.getElementById('searchInput');
+            const placeholder = searchInput.getAttribute(`data-placeholder-${lang}`);
+            if (placeholder) {
+                searchInput.placeholder = placeholder;
+            }
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang-switch="${lang}"]`).classList.add('active');
+        }
+
+        // Initialize language
+        document.addEventListener('DOMContentLoaded', function() {
+            setLanguage(currentLang);
+            
+            // Language switcher event listeners
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang-switch');
+                    setLanguage(lang);
+                });
+            });
+        });
+
+        // Search function
         function performSearch() {
             const query = document.getElementById('searchInput').value;
             if (query) {
-                // يفترض وجود ملف search.html
-                window.location.href = `/search.html?q=${encodeURIComponent(query)}`; 
+                window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
             }
         }
 
@@ -572,9 +761,22 @@
                 performSearch();
             }
         });
-        
-        // ** ملاحظة: تم حذف المنطق القديم الذي كان يعتمد على localStorage هنا، 
-        // لأن backend_logic.js هو من يدير تبديل الأزرار الآن عبر Firebase. **
+
+        // Check login status
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn) {
+            const loginBtns = document.querySelectorAll('.btn-login');
+            loginBtns.forEach(btn => {
+                if (btn.getAttribute('data-lang') === 'es') {
+                    btn.textContent = 'Mi Perfil';
+                } else if (btn.getAttribute('data-lang') === 'en') {
+                    btn.textContent = 'My Profile';
+                } else if (btn.getAttribute('data-lang') === 'ar') {
+                    btn.textContent = 'حسابي';
+                }
+                btn.href = '/profile.html';
+            });
+        }
     </script>
 </body>
 </html>
