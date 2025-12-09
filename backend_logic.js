@@ -3,6 +3,33 @@
 // هذا الملف يجب أن يعمل مع index.html و item_detail.html
 // ==============================================================================
 
+// ==============================================================================
+// 0. تهيئة Firebase Authentication (المفتاح السري)
+// ==============================================================================
+// استيراد دوال Firebase اللازمة
+import { initializeApp } from "firebase/app";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged,
+    signOut 
+} from "firebase/auth";
+
+// *** قم بتحديث هذا الكونفيج ببياناتك الحقيقية من Firebase Console ***
+const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY", // (يجب استبداله بالبيانات الحقيقية)
+    authDomain: "renthub-2030.firebaseapp.com", //
+    projectId: "renthub-2030", //
+    // ... rest of the config
+};
+
+// تهيئة Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); 
+// ==============================================================================
+
+
 // 1. هياكل البيانات ونظام الأرباح (SUBSCRIPTION PLANS)
 const SUBSCRIPTION_PLANS = {
     'GOLD': { name: 'ذهبية', price: 59, bumpFrequencyHours: 1, maxListings: Infinity },
@@ -10,7 +37,7 @@ const SUBSCRIPTION_PLANS = {
     'BRONZE': { name: 'نحاسية', price: 9, bumpFrequencyHours: 24, maxListings: 50 }
 };
 
-// 2. جدول المستخدمين (USERS)
+// 2. جدول المستخدمين (USERS) - هذه البيانات سيتم استبدالها لاحقاً ببيانات Firestore
 let USERS = [
     {
         id: 1, name: "أحمد محمد", nameEs: "Ahmed Mohamed", email: "ahmed@rh.com", phoneNumber: "+34 612 345 678", city: "Madrid", ratingAvg: 4.9, totalRatings: 38, verified: true, memberSince: "2023-01-15",
@@ -112,6 +139,103 @@ function getUserById(userId) {
     return USERS.find(user => user.id === parseInt(userId)) || null;
 }
 
+// ==============================================================================
+// 8. دوال التسجيل والدخول (Firebase Authentication Logic)
+// ==============================================================================
+
+async function handleUserRegistration(email, password) {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        console.log("تم تسجيل المستخدم بنجاح:", user.uid);
+        alert("تم إنشاء حسابك بنجاح! سيتم تحويلك إلى لوحة التحكم.");
+        
+        // ** ملاحظة: هنا يجب إضافة منطق إنشاء وثيقة المستخدم في Firestore **
+        
+        window.location.href = '/dashboard.html'; // أو /لوحة_التحكم.html 
+        return user;
+    } catch (error) {
+        const errorCode = error.code;
+        console.error("خطأ في التسجيل:", error.message);
+        alert(`فشل التسجيل. ربما البريد مستخدم أو كلمة المرور ضعيفة. خطأ: ${errorCode}`);
+    }
+}
+
+async function handleUserLogin(email, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        console.log("تم تسجيل دخول المستخدم بنجاح:", user.uid);
+        alert("تم تسجيل الدخول بنجاح! مرحباً بعودتك.");
+        
+        window.location.href = '/dashboard.html'; // أو /لوحة_التحكم.html 
+        return user;
+    } catch (error) {
+        const errorCode = error.code;
+        console.error("خطأ في الدخول:", error.message);
+        alert(`فشل تسجيل الدخول. تأكد من البريد وكلمة المرور. خطأ: ${errorCode}`);
+    }
+}
+
+// ==============================================================================
+// 9. ربط نموذج AUTH.HTML بـ Firebase و التحكم في واجهة المستخدم (UI)
+// ==============================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. ربط نموذج الدخول في auth.html
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email-input').value;
+            const password = document.getElementById('login-password-input').value;
+            
+            handleUserLogin(email, password);
+        });
+    }
+
+    // 2. ربط نموذج التسجيل في auth.html
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('register-email-input').value;
+            const password = document.getElementById('register-password-input').value;
+            
+            handleUserRegistration(email, password);
+        });
+    }
+
+    // 3. منطق التبديل بين الأزرار في الواجهة الرئيسية (index.html)
+    listenForAuthChangesInHeader();
+
+});
+
+// دالة التحكم في عرض زر "تسجيل/دخول" أو "حسابي" في الشريط العلوي
+function listenForAuthChangesInHeader() {
+    onAuthStateChanged(auth, (user) => {
+        // نستخدم selectors بناءً على الكود الذي تم إعداده في index.html
+        const loginBtn = document.querySelector('.primary-auth-btn'); // زر التسجيل/الدخول
+        const profileBtn = document.querySelector('.user-profile-btn'); // زر حسابي
+
+        if (loginBtn && profileBtn) {
+            if (user) {
+                // المستخدم مسجل الدخول
+                loginBtn.style.display = 'none'; 
+                profileBtn.style.display = 'flex'; // يظهر زر الحساب
+            } else {
+                // المستخدم غير مسجل الدخول
+                loginBtn.style.display = 'flex'; 
+                profileBtn.style.display = 'none'; // يختفي زر الحساب
+            }
+        }
+    });
+}
+
+
 // التنفيذ: تشغيل دالة الترقية عند تحميل الصفحة
 runScheduledBumps(); 
 
@@ -119,6 +243,8 @@ runScheduledBumps();
 if (typeof window !== 'undefined') {
     window.RentHubDB = {
         USERS, ITEMS, SUBSCRIPTION_PLANS,
-        searchItems, getItemById, getUserById
+        searchItems, getItemById, getUserById,
+        // تصدير دوال المصادقة لجعلها متاحة عالمياً إذا لزم الأمر
+        handleUserRegistration, handleUserLogin, listenForAuthChangesInHeader
     };
 }
