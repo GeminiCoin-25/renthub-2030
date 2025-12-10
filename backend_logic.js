@@ -7,26 +7,31 @@
 // 0. تهيئة Firebase Authentication (المفتاح السري)
 // ==============================================================================
 // استيراد دوال Firebase اللازمة
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     onAuthStateChanged,
     signOut 
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// *** قم بتحديث هذا الكونفيج ببياناتك الحقيقية من Firebase Console ***
+// ✅ Firebase Configuration - بياناتك الحقيقية من Firebase Console
 const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY", // (يجب استبداله بالبيانات الحقيقية)
-    authDomain: "renthub-2030.firebaseapp.com", //
-    projectId: "renthub-2030", //
-    // ... rest of the config
+    apiKey: "AIzaSyDA223bKAr9kWXKLVBYMGZYrP0RGZEzrDM",
+    authDomain: "renthub-2030.firebaseapp.com",
+    projectId: "renthub-2030",
+    storageBucket: "renthub-2030.firebasestorage.app",
+    messagingSenderId: "23301901800",
+    appId: "1:23301901800:web:2679c834aac406c72d685d",
+    measurementId: "G-7JJ4G1LLPE"
 };
 
 // تهيئة Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); 
+
+console.log("✅ Firebase تم تهيئته بنجاح!");
 // ==============================================================================
 
 
@@ -148,7 +153,7 @@ async function handleUserRegistration(email, password) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
-        console.log("تم تسجيل المستخدم بنجاح:", user.uid);
+        console.log("✅ تم تسجيل المستخدم بنجاح:", user.uid);
         alert("تم إنشاء حسابك بنجاح! سيتم تحويلك إلى لوحة التحكم.");
         
         // ** ملاحظة: هنا يجب إضافة منطق إنشاء وثيقة المستخدم في Firestore **
@@ -157,8 +162,21 @@ async function handleUserRegistration(email, password) {
         return user;
     } catch (error) {
         const errorCode = error.code;
-        console.error("خطأ في التسجيل:", error.message);
-        alert(`فشل التسجيل. ربما البريد مستخدم أو كلمة المرور ضعيفة. خطأ: ${errorCode}`);
+        console.error("❌ خطأ في التسجيل:", error.message);
+        
+        // رسائل خطأ مخصصة بالعربية
+        let errorMessage = "فشل التسجيل. ";
+        if (errorCode === 'auth/email-already-in-use') {
+            errorMessage += "البريد الإلكتروني مستخدم بالفعل.";
+        } else if (errorCode === 'auth/weak-password') {
+            errorMessage += "كلمة المرور ضعيفة. يجب أن تكون 6 أحرف على الأقل.";
+        } else if (errorCode === 'auth/invalid-email') {
+            errorMessage += "البريد الإلكتروني غير صالح.";
+        } else {
+            errorMessage += `خطأ: ${errorCode}`;
+        }
+        
+        alert(errorMessage);
     }
 }
 
@@ -167,15 +185,28 @@ async function handleUserLogin(email, password) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
-        console.log("تم تسجيل دخول المستخدم بنجاح:", user.uid);
+        console.log("✅ تم تسجيل دخول المستخدم بنجاح:", user.uid);
         alert("تم تسجيل الدخول بنجاح! مرحباً بعودتك.");
         
         window.location.href = '/dashboard.html'; // أو /لوحة_التحكم.html 
         return user;
     } catch (error) {
         const errorCode = error.code;
-        console.error("خطأ في الدخول:", error.message);
-        alert(`فشل تسجيل الدخول. تأكد من البريد وكلمة المرور. خطأ: ${errorCode}`);
+        console.error("❌ خطأ في الدخول:", error.message);
+        
+        // رسائل خطأ مخصصة بالعربية
+        let errorMessage = "فشل تسجيل الدخول. ";
+        if (errorCode === 'auth/user-not-found') {
+            errorMessage += "لا يوجد حساب بهذا البريد الإلكتروني.";
+        } else if (errorCode === 'auth/wrong-password') {
+            errorMessage += "كلمة المرور غير صحيحة.";
+        } else if (errorCode === 'auth/invalid-email') {
+            errorMessage += "البريد الإلكتروني غير صالح.";
+        } else {
+            errorMessage += `خطأ: ${errorCode}`;
+        }
+        
+        alert(errorMessage);
     }
 }
 
@@ -185,14 +216,18 @@ async function handleUserLogin(email, password) {
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    console.log("📄 تم تحميل الصفحة - backend_logic.js جاهز!");
+    
     // 1. ربط نموذج الدخول في auth.html
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
+        console.log("✅ تم العثور على نموذج تسجيل الدخول");
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email-input').value;
             const password = document.getElementById('login-password-input').value;
             
+            console.log("🔐 محاولة تسجيل الدخول...");
             handleUserLogin(email, password);
         });
     }
@@ -200,11 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. ربط نموذج التسجيل في auth.html
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
+        console.log("✅ تم العثور على نموذج التسجيل");
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('register-email-input').value;
             const password = document.getElementById('register-password-input').value;
             
+            console.log("📝 محاولة التسجيل...");
             handleUserRegistration(email, password);
         });
     }
@@ -224,10 +261,12 @@ function listenForAuthChangesInHeader() {
         if (loginBtn && profileBtn) {
             if (user) {
                 // المستخدم مسجل الدخول
+                console.log("👤 المستخدم مسجل الدخول:", user.email);
                 loginBtn.style.display = 'none'; 
                 profileBtn.style.display = 'flex'; // يظهر زر الحساب
             } else {
                 // المستخدم غير مسجل الدخول
+                console.log("🚪 المستخدم غير مسجل الدخول");
                 loginBtn.style.display = 'flex'; 
                 profileBtn.style.display = 'none'; // يختفي زر الحساب
             }
@@ -245,6 +284,8 @@ if (typeof window !== 'undefined') {
         USERS, ITEMS, SUBSCRIPTION_PLANS,
         searchItems, getItemById, getUserById,
         // تصدير دوال المصادقة لجعلها متاحة عالمياً إذا لزم الأمر
-        handleUserRegistration, handleUserLogin, listenForAuthChangesInHeader
+        handleUserRegistration, handleUserLogin, listenForAuthChangesInHeader, auth
     };
+    
+    console.log("✅ RentHubDB متاح عالمياً!");
 }
