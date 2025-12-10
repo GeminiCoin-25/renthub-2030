@@ -154,11 +154,10 @@ async function handleUserRegistration(email, password) {
         const user = userCredential.user;
         
         console.log("✅ تم تسجيل المستخدم بنجاح:", user.uid);
-        alert("تم إنشاء حسابك بنجاح! سيتم تحويلك إلى لوحة التحكم.");
+        alert("تم إنشاء حسابك بنجاح! مرحباً بك في RentHub!");
         
-        // ** ملاحظة: هنا يجب إضافة منطق إنشاء وثيقة المستخدم في Firestore **
-        
-        window.location.href = '/dashboard.html'; // أو /لوحة_التحكم.html 
+        // التحويل للصفحة الرئيسية
+        window.location.href = '/index.html';
         return user;
     } catch (error) {
         const errorCode = error.code;
@@ -188,7 +187,8 @@ async function handleUserLogin(email, password) {
         console.log("✅ تم تسجيل دخول المستخدم بنجاح:", user.uid);
         alert("تم تسجيل الدخول بنجاح! مرحباً بعودتك.");
         
-        window.location.href = '/dashboard.html'; // أو /لوحة_التحكم.html 
+        // التحويل للصفحة الرئيسية
+        window.location.href = '/index.html';
         return user;
     } catch (error) {
         const errorCode = error.code;
