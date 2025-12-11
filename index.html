@@ -1,118 +1,320 @@
 <!DOCTYPE html>
-<html lang="es" id="htmlRoot">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RentHub</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,sans-serif;color:#333}
-.banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 20px;text-align:center}
-header{background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:1000}
-nav{max-width:1200px;margin:0 auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
-.logo{font-size:24px;font-weight:700;color:#667eea;text-decoration:none}
-.search-bar{flex:1;max-width:400px;position:relative}
-.search-bar input{width:100%;padding:12px 45px 12px 15px;border:2px solid #e0e0e0;border-radius:25px}
-.search-icon{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:20px;color:#667eea;cursor:pointer}
-.btn-become-client{padding:14px 35px;background:linear-gradient(135deg,#ff6b6b,#ee5a6f);color:white;border-radius:30px;text-decoration:none;font-weight:700;font-size:17px;box-shadow:0 4px 15px rgba(255,107,107,0.3);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 4px 15px rgba(255,107,107,0.3)}50%{box-shadow:0 4px 25px rgba(255,107,107,0.6)}}
-.nav-links{display:flex;gap:25px}
-.nav-links a{color:#333;text-decoration:none;font-weight:500}
-.lang-switcher{display:flex;gap:8px}
-.lang-btn{cursor:pointer;font-size:20px;padding:5px 8px;opacity:0.6}
-.lang-btn.active{opacity:1;background:rgba(102,126,234,0.1)}
-.hero{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:80px 20px;text-align:center}
-.hero h1{font-size:48px;margin-bottom:20px}
-.categories{max-width:1200px;margin:60px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-.category-card{background:white;padding:40px;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,0.08);text-align:center;cursor:pointer}
-.category-card:hover{transform:translateY(-10px)}
-.category-icon{font-size:60px;margin-bottom:20px}
-.category-count{color:#667eea;font-weight:600}
-@media(max-width:768px){.hero h1{font-size:32px}.nav-links{display:none}.categories{grid-template-columns:1fr}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentHub - أؤجر أي شيء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        .navbar { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo h1 { font-size: 1.8rem; }
+        .logo h1 i { margin-left: 10px; }
+        .search-bar { display: flex; flex-grow: 0.5; }
+        .search-bar input { padding: 0.8rem 1rem; border: none; border-radius: 30px 0 0 30px; width: 100%; font-size: 1rem; }
+        .search-bar button { padding: 0.8rem 1.5rem; background-color: #ff7e30; color: white; border: none; border-radius: 0 30px 30px 0; cursor: pointer; font-weight: bold; }
+        .nav-buttons { display: flex; gap: 1rem; align-items: center; }
+        .btn-auth, .btn-publish { padding: 0.7rem 1.2rem; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-auth { background-color: #3498db; color: white; }
+        .btn-publish { background-color: #2ecc71; color: white; }
+        .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+        .auth-box { background: white; padding: 2.5rem; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; }
+        .auth-box h2 { color: #6a11cb; margin-bottom: 1.5rem; }
+        .auth-box input { width: 100%; padding: 1rem; margin: 0.8rem 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .auth-buttons { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+        .btn-login, .btn-signup { padding: 0.9rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-login { background: #6a11cb; color: white; }
+        .btn-signup { background: #2ecc71; color: white; }
+        .btn-cancel { background: #95a5a6; color: white; }
+        .auth-message { margin-top: 1rem; padding: 0.8rem; border-radius: 5px; }
+        .hero { text-align: center; padding: 4rem 2rem; background: linear-gradient(to right, #fdfcfb, #f5f7fa); }
+        .hero h2 { font-size: 2.8rem; margin-bottom: 1rem; color: #2c3e50; }
+        .highlight { color: #6a11cb; font-weight: bold; }
+        .hero p { font-size: 1.2rem; color: #666; max-width: 700px; margin: 0 auto; }
+        .categories, .live-ads { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .categories h2, .live-ads h2 { color: #2c3e50; margin-bottom: 2rem; font-size: 2rem; border-right: 5px solid #6a11cb; padding-right: 15px; }
+        .categories-grid, .ads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .category-card, .ad-card { background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; cursor: pointer; text-align: center; }
+        .category-card:hover, .ad-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+        .category-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .category-card h3 { color: #2c3e50; margin-bottom: 0.5rem; }
+        .category-card p, .ad-card p { color: #7f8c8d; }
+        .ad-card h3 { color: #6a11cb; }
+        .ad-price { color: #2ecc71 !important; font-size: 1.3rem; font-weight: bold; }
+        .ad-category { display: inline-block; background-color: #e8f4fc; color: #2575fc; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; margin-top: 0.5rem; }
+        footer { text-align: center; padding: 2rem; background-color: #2c3e50; color: #ecf0f1; margin-top: 3rem; }
+        .user-logged-in { background: #2ecc71 !important; }
+        .user-name { font-weight: bold; margin-right: 0.5rem; }
+        .btn-reset { background: #9b59b6; color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 30px; cursor: pointer; margin-top: 1rem; font-weight: bold; }
+    </style>
 </head>
 <body>
-<div class="banner">🎉 Oferta: 20% descuento - RENT20</div>
-<header>
-<nav>
-<a href="/" class="logo">🏠 RentHub</a>
-<div class="search-bar">
-<input type="text" id="searchInput" placeholder="¿Qué buscas?">
-<span class="search-icon">🔍</span>
-</div>
-<a href="/auth.html" class="btn-become-client">🚀 ¡Hazte Cliente!</a>
-<div class="nav-links">
-<a href="/pricing.html">Planes</a>
-<a href="/publicar.html">Publicar</a>
-<a href="/about.html">Nosotros</a>
-<a href="/contact.html">Contacto</a>
-</div>
-<div class="lang-switcher">
-<span class="lang-btn active">🇪🇸</span>
-<span class="lang-btn">🇬🇧</span>
-<span class="lang-btn">🇸🇦</span>
-</div>
-</nav>
-</header>
-<section class="hero">
-<h1>Alquila cualquier cosa en cualquier momento</h1>
-<p>Coches, equipos, servicios profesionales y más</p>
-</section>
-<section class="categories">
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">🚗</div>
-<h3>Coches</h3>
-<div class="category-count">12,450 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">🏗️</div>
-<h3>Equipos construcción</h3>
-<div class="category-count">8,320 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">🚜</div>
-<h3>Maquinaria agrícola</h3>
-<div class="category-count">5,680 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">👔</div>
-<h3>Ropa</h3>
-<div class="category-count">15,240 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">🏠</div>
-<h3>Hogar</h3>
-<div class="category-count">9,870 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">🎮</div>
-<h3>Electrónica</h3>
-<div class="category-count">7,530 anuncios</div>
-</div>
-<div class="category-card" onclick="location.href='/search.html'">
-<div class="category-icon">👷</div>
-<h3>Servicios Profesionales</h3>
-<div class="category-count">3,240 profesionales</div>
-</div>
-</section>
-<script>
-let currentLang=localStorage.getItem('siteLang')||'es';
-function setLanguage(lang){currentLang=lang;localStorage.setItem('siteLang',lang)}
-document.addEventListener('DOMContentLoaded',function(){
-document.querySelectorAll('.lang-btn').forEach((btn,i)=>{
-btn.addEventListener('click',()=>{
-document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-setLanguage(['es','en','ar'][i]);
-});
-});
-});
-document.getElementById('searchInput').addEventListener('keypress',function(e){
-if(e.key==='Enter'){
-const q=this.value;
-if(q)location.href=`/search.html?q=${encodeURIComponent(q)}`;
-}
-});
-</script>
+    <header class="navbar">
+        <div class="logo">
+            <h1><i class="fas fa-handshake"></i> RentHub</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ماذا تريد أن تؤجر؟">
+            <button onclick="searchItems()"><i class="fas fa-search"></i> بحث</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-auth" onclick="showAuthModal()" id="userAuthBtn">
+                <i class="fas fa-user"></i> دخول
+            </button>
+            <button class="btn-publish" onclick="showAdForm()" id="publishBtn">
+                <i class="fas fa-plus-circle"></i> نشر إعلان
+            </button>
+        </div>
+    </header>
+    <div class="auth-modal" id="authModal">
+        <div class="auth-box">
+            <h2><i class="fas fa-user-circle"></i> تسجيل الدخول / إنشاء حساب</h2>
+            <input type="email" id="authEmail" placeholder="بريدك الإلكتروني">
+            <input type="password" id="authPassword" placeholder="كلمة المرور (6 أحرف على الأقل)">
+            <div class="auth-buttons">
+                <button class="btn-login" onclick="loginUser()">
+                    <i class="fas fa-sign-in-alt"></i> دخول
+                </button>
+                <button class="btn-signup" onclick="signupUser()">
+                    <i class="fas fa-user-plus"></i> حساب جديد
+                </button>
+                <button class="btn-cancel" onclick="hideAuthModal()">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+            </div>
+            <p id="authMessage" class="auth-message"></p>
+        </div>
+    </div>
+    <main>
+        <section class="hero">
+            <h2>أؤجر <span class="highlight">أي شيء</span>، في <span class="highlight">أي وقت</span></h2>
+            <p>انضم إلى أكبر مجتمع لتأجير الأشياء من حولك. وفر المال، كسب دخل إضافي، وساهم في اقتصاد المشاركة.</p>
+        </section>
+        <section class="categories">
+            <h2><i class="fas fa-th-list"></i> الفئات الشائعة</h2>
+            <div class="categories-grid" id="categoriesContainer"></div>
+        </section>
+        <section class="live-ads">
+            <h2><i class="fas fa-bolt"></i> إعلانات حية من المجتمع</h2>
+            <div class="ads-grid" id="adsContainer"></div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 RentHub. هذا مشروع تعليمي قيد التطوير.</p>
+    </footer>
+        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDA223bKAr9kWXKLVBYMGZYrP0RGZEzrDM",
+            authDomain: "renthub-2030.firebaseapp.com",
+            projectId: "renthub-2030",
+            storageBucket: "renthub-2030.firebasestorage.app",
+            messagingSenderId: "23301901800",
+            appId: "1:23301901800:web:2679c834aac406c72d685d"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        console.log("✅ Firebase جاهز!");
+        const categories = [
+            { id: 1, name: "الكترونيات 🎮", icon: "fas fa-gamepad", count: "7,530 إعلان", color: "#FF6B8B" },
+            { id: 2, name: "أدوات يدوية 🔧", icon: "fas fa-tools", count: "8,320 إعلان", color: "#36D7B7" },
+            { id: 3, name: "رياضة وترفيه ⚽", icon: "fas fa-futbol", count: "4,210 إعلان", color: "#FFCE56" },
+            { id: 4, name: "أزياء وعمل 👔", icon: "fas fa-tshirt", count: "15,240 إعلان", color: "#9B59B6" },
+            { id: 5, name: "سيارات ومواصلات 🚗", icon: "fas fa-car", count: "12,450 إعلان", color: "#3498DB" },
+            { id: 6, name: "منزل وحديقة 🏠", icon: "fas fa-home", count: "9,870 إعلان", color: "#E74C3C" }
+        ];
+        let ads = [];
+        function displayCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.style.borderTop = `5px solid ${cat.color}`;
+                card.innerHTML = `
+                    <div class="category-icon">
+                        <i class="${cat.icon}"></i>
+                    </div>
+                    <h3>${cat.name}</h3>
+                    <p>${cat.count}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        function displayAds() {
+            const container = document.getElementById('adsContainer');
+            container.innerHTML = '';
+            if (ads.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#666; grid-column:1/-1;">لا توجد إعلانات حالياً. كن أول من ينشر إعلان!</p>';
+                return;
+            }
+            ads.forEach(ad => {
+                const card = document.createElement('div');
+                card.className = 'ad-card';
+                card.innerHTML = `
+                    <h3>${ad.title}</h3>
+                    <p>${ad.description || 'لا يوجد وصف'}</p>
+                    <p class="ad-price">${ad.price} ريال/ساعة</p>
+                    <span class="ad-category">${ad.category}</span>
+                    <p style="margin-top:10px; color:#888; font-size:0.9rem;">
+                        <i class="fas fa-user"></i> ${ad.userEmail || 'مستخدم'}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        function showAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+        function hideAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+            document.getElementById('authMessage').textContent = '';
+            document.getElementById('authEmail').value = '';
+            document.getElementById('authPassword').value = '';
+        }
+        async function signupUser() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const messageEl = document.getElementById('authMessage');
+            if (!email || !password || password.length < 6) {
+                messageEl.textContent = '⚠️ أدخل بريداً صحيحاً وكلمة مرور (6 أحرف على الأقل)';
+                messageEl.style.color = '#e74c3c';
+                return;
+            }
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                messageEl.textContent = '✅ تم إنشاء حسابك بنجاح!';
+                messageEl.style.color = '#2ecc71';
+                updateUI();
+                setTimeout(() => {
+                    hideAuthModal();
+                    loadAdsFromFirebase();
+                    alert('مرحباً بك في RentHub!');
+                }, 1500);
+            } catch (error) {
+                messageEl.textContent = `❌ خطأ: ${error.message}`;
+                messageEl.style.color = '#e74c3c';
+            }
+        }
+        async function loginUser() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const messageEl = document.getElementById('authMessage');
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                messageEl.textContent = '✅ تم تسجيل الدخول بنجاح!';
+                messageEl.style.color = '#2ecc71';
+                updateUI();
+                setTimeout(() => {
+                    hideAuthModal();
+                    loadAdsFromFirebase();
+                }, 1500);
+            } catch (error) {
+                messageEl.textContent = `❌ خطأ في الدخول: ${error.message}`;
+                messageEl.style.color = '#e74c3c';
+            }
+        }
+        function logoutUser() {
+            auth.signOut().then(() => {
+                updateUI();
+                ads = [];
+                displayAds();
+                alert('تم تسجيل الخروج');
+            });
+        }
+        function updateUI() {
+            const user = auth.currentUser;
+            const authBtn = document.getElementById('userAuthBtn');
+            const publishBtn = document.getElementById('publishBtn');
+            if (user) {
+                authBtn.innerHTML = `<i class="fas fa-user-check"></i> ${user.email.split('@')[0]}`;
+                authBtn.className = 'btn-auth user-logged-in';
+                authBtn.onclick = logoutUser;
+                publishBtn.disabled = false;
+                publishBtn.style.opacity = '1';
+                publishBtn.title = 'انشر إعلانك الآن';
+            } else {
+                authBtn.innerHTML = '<i class="fas fa-user"></i> دخول';
+                authBtn.className = 'btn-auth';
+                authBtn.onclick = showAuthModal;
+                publishBtn.disabled = true;
+                publishBtn.style.opacity = '0.6';
+                publishBtn.title = 'سجل دخول أولاً لنشر إعلان';
+            }
+        }
+        async function loadAdsFromFirebase() {
+            try {
+                const querySnapshot = await db.collection('ads').orderBy('createdAt', 'desc').limit(10).get();
+                ads = [];
+                querySnapshot.forEach((doc) => {
+                    ads.push({ id: doc.id, ...doc.data() });
+                });
+                displayAds();
+                console.log("✅ تم تحميل الإعلانات من Firebase");
+            } catch (error) {
+                console.error("❌ خطأ في تحميل الإعلانات:", error);
+            }
+        }
+        function showAdForm() {
+            const user = auth.currentUser;
+            if (!user) {
+                showAuthModal();
+                alert('❗ سجل دخول أولاً لنشر إعلان');
+                return;
+            }
+            const title = prompt("عنوان الإعلان:");
+            if (!title) return;
+            const price = prompt("السعر بالريال للساعة:");
+            if (!price) return;
+            const category = prompt("الفئة (اكتب: أدوات، سيارات، الكترونيات، إلخ):");
+            db.collection('ads').add({
+                title: title,
+                price: parseInt(price),
+                category: category || "عام",
+                description: "إعلان مضافة عبر الموقع",
+                userEmail: user.email,
+                userId: user.uid,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert(`✅ تم نشر إعلانك "${title}" بنجاح!`);
+                loadAdsFromFirebase();
+            })
+            .catch(error => {
+                alert(`❌ خطأ: ${error.message}`);
+            });
+        }
+        function searchItems() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!query) return;
+            const results = ads.filter(ad => 
+                ad.title.toLowerCase().includes(query) || 
+                (ad.description && ad.description.toLowerCase().includes(query))
+            );
+            if (results.length > 0) {
+                const originalAds = [...ads];
+                ads = results;
+                displayAds();
+                ads = originalAds;
+            } else {
+                alert(`🔍 لم يتم العثور على نتائج لـ "${query}"`);
+            }
+        }
+        auth.onAuthStateChanged((user) => {
+            updateUI();
+            if (user) {
+                loadAdsFromFirebase();
+            }
+        });
+        window.onload = function() {
+            displayCategories();
+            displayAds();
+            console.log("🚀 RentHub جاهز للعمل!");
+        };
+    </script>
 </body>
 </html>
