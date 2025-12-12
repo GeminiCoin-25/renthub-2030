@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentHub 2030 - تأجير كل ما تحتاجه</title>
+    <title>RentHub 2030 - Alquila lo que necesites</title>
     <style>
         * {
             box-sizing: border-box;
@@ -25,7 +25,7 @@
             padding: 20px;
         }
         
-        /* الهيدر */
+        /* Header */
         header {
             padding: 25px 0;
             margin-bottom: 40px;
@@ -47,6 +47,33 @@
         
         .logo-icon {
             font-size: 40px;
+        }
+        
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .nav-links {
@@ -83,7 +110,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
-        /* المحتوى الرئيسي */
+        /* Contenido principal */
         .hero {
             text-align: center;
             padding: 60px 20px;
@@ -149,7 +176,7 @@
             transform: translateY(-3px);
         }
         
-        /* إحصائيات */
+        /* Estadísticas */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -176,7 +203,7 @@
             opacity: 0.9;
         }
         
-        /* ميزات */
+        /* Características */
         .features {
             margin-bottom: 60px;
         }
@@ -225,7 +252,7 @@
             line-height: 1.6;
         }
         
-        /* خطط التسعير */
+        /* Planes de precios */
         .pricing {
             margin-bottom: 60px;
         }
@@ -259,7 +286,7 @@
         .plan-badge {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: #667eea;
             color: white;
             padding: 8px 20px;
@@ -332,7 +359,7 @@
             color: #667eea;
         }
         
-        /* الفوتر */
+        /* Pie de página */
         footer {
             text-align: center;
             padding: 50px 20px;
@@ -364,7 +391,7 @@
             font-size: 14px;
         }
         
-        /* تصميم متجاوب */
+        /* Diseño responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -426,7 +453,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- الهيدر -->
+        <!-- Header -->
         <header>
             <div class="header-content">
                 <div class="logo">
@@ -434,225 +461,231 @@
                     <span>RentHub 2030</span>
                 </div>
                 
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="es">ES</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">AR</button>
+                </div>
+                
                 <nav class="nav-links">
-                    <a href="#features">المميزات</a>
-                    <a href="#pricing">الخطط</a>
-                    <a href="#how-it-works">كيف تعمل</a>
+                    <a href="#features">Características</a>
+                    <a href="#pricing">Planes</a>
+                    <a href="#how-it-works">Cómo funciona</a>
                     <a href="dashboard.html" class="login-btn">
                         <span>🚀</span>
-                        <span>لوحة التحكم</span>
+                        <span>Panel de Control</span>
                     </a>
                 </nav>
             </div>
         </header>
 
-        <!-- المحتوى الرئيسي -->
+        <!-- Contenido principal -->
         <main>
             <section class="hero">
-                <h1>أجر ما تحتاجه،<br>عندما تحتاجه</h1>
-                <p>من أدوات المنزل إلى السيارات الفاخرة. ابحث، احجز، واستلم في نفس اليوم مع RentHub 2030</p>
+                <h1>Alquila lo que necesites,<br>cuando lo necesites</h1>
+                <p>Desde herramientas de bricolaje hasta coches de lujo. Encuentra, reserva y recibe el mismo día con RentHub 2030</p>
                 
                 <div class="cta-buttons">
                     <a href="dashboard.html" class="btn btn-primary">
                         <span>🚀</span>
-                        <span>ابدأ الآن مجاناً</span>
+                        <span>Empieza Gratis</span>
                     </a>
                     <a href="#pricing" class="btn btn-secondary">
                         <span>💎</span>
-                        <span>عرض الخطط</span>
+                        <span>Ver Planes</span>
                     </a>
                 </div>
             </section>
 
-            <!-- إحصائيات -->
+            <!-- Estadísticas -->
             <section class="stats">
                 <div class="stat-item">
                     <div class="stat-number">+5,000</div>
-                    <div class="stat-label">أداة متاحة</div>
+                    <div class="stat-label">Artículos disponibles</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">24h</div>
-                    <div class="stat-label">خدمة متواصلة</div>
+                    <div class="stat-label">Disponibilidad</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">98%</div>
-                    <div class="stat-label">رضا العملاء</div>
+                    <div class="stat-label">Satisfacción clientes</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">+10,000</div>
-                    <div class="stat-label">عملاء راضون</div>
+                    <div class="stat-label">Clientes satisfechos</div>
                 </div>
             </section>
 
-            <!-- المميزات -->
+            <!-- Características -->
             <section class="features" id="features">
-                <h2 class="section-title">✨ لماذا تختار RentHub؟</h2>
+                <h2 class="section-title">✨ ¿Por qué elegir RentHub?</h2>
                 
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">⚡</div>
-                        <h3 class="feature-title">سرعة فائقة</h3>
-                        <p class="feature-description">ابحث، احجز، واستلم خلال دقائق. نظامنا السريع يوفر لك الوقت والجهد.</p>
+                        <h3 class="feature-title">Super Rápido</h3>
+                        <p class="feature-description">Busca, reserva y recibe en minutos. Nuestro sistema rápido te ahorra tiempo y esfuerzo.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🔒</div>
-                        <h3 class="feature-title">أمان كامل</h3>
-                        <p class="feature-description">نظام تأمين متكامل مع تأمين على المنتجات وضمان استرجاع الأموال.</p>
+                        <h3 class="feature-title">Totalmente Seguro</h3>
+                        <p class="feature-description">Sistema de seguridad completo con seguro de productos y garantía de devolución.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">💰</div>
-                        <h3 class="feature-title">أسعار تنافسية</h3>
-                        <p class="feature-description">أفضل الأسعار في السوق مع خيارات دفع متعددة وتسهيلات مالية.</p>
+                        <h3 class="feature-title">Precios Competitivos</h3>
+                        <p class="feature-description">Los mejores precios del mercado con múltiples opciones de pago y facilidades.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">📱</div>
-                        <h3 class="feature-title">دعم متواصل</h3>
-                        <p class="feature-description">فريق دعم فني متاح 24/7 لمساعدتك في أي استفسار أو مشكلة.</p>
+                        <h3 class="feature-title">Soporte 24/7</h3>
+                        <p class="feature-description">Equipo de soporte técnico disponible 24/7 para ayudarte con cualquier consulta.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🌍</div>
-                        <h3 class="feature-title">تغطية واسعة</h3>
-                        <p class="feature-description">خدمتنا متاحة في جميع مدن المملكة مع توصيل سريع لنطاق واسع.</p>
+                        <h3 class="feature-title">Cobertura Amplia</h3>
+                        <p class="feature-description">Servicio disponible en toda España con entrega rápida en áreas extensas.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">⭐</div>
-                        <h3 class="feature-title">تقييم ومراجعات</h3>
-                        <p class="feature-description">نظام تقييم شفاف يضمن لك التعامل مع موردين موثوقين وخدمة ممتازة.</p>
+                        <h3 class="feature-title">Calificaciones y Reseñas</h3>
+                        <p class="feature-description">Sistema de calificación transparente que garantiza proveedores confiables.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- خطط التسعير -->
+            <!-- Planes de precios -->
             <section class="pricing" id="pricing">
-                <h2 class="section-title">📊 اختر خطتك المناسبة</h2>
+                <h2 class="section-title">📊 Elige tu plan ideal</h2>
                 
                 <div class="plans-grid">
                     <div class="plan-card">
                         <div class="plan-icon">🆓</div>
-                        <h3 class="plan-name">المجانية</h3>
-                        <div class="plan-price">0 ر.س</div>
-                        <div class="plan-period">ابدأ مجاناً</div>
+                        <h3 class="plan-name">Gratis</h3>
+                        <div class="plan-price">0€</div>
+                        <div class="plan-period">Empieza gratis</div>
                         
                         <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> نشر إعلان واحد</li>
-                            <li><span class="check-icon">✓</span> دعم عبر البريد</li>
-                            <li><span class="check-icon">✓</span> صفحة إعلان أساسية</li>
-                            <li><span class="check-icon">✓</span> ظهور في البحث</li>
+                            <li><span class="check-icon">✓</span> Publicar 1 anuncio</li>
+                            <li><span class="check-icon">✓</span> Soporte por email</li>
+                            <li><span class="check-icon">✓</span> Página básica de anuncio</li>
+                            <li><span class="check-icon">✓</span> Aparecer en búsquedas</li>
                         </ul>
                         
                         <button class="plan-btn" onclick="window.location.href='dashboard.html'">
-                            ابدأ مجاناً
+                            Empieza Gratis
                         </button>
                     </div>
                     
                     <div class="plan-card popular">
-                        <div class="plan-badge">الأكثر طلباً</div>
+                        <div class="plan-badge">Más Popular</div>
                         <div class="plan-icon">🥈</div>
-                        <h3 class="plan-name">الفضية</h3>
-                        <div class="plan-price">15 ر.س</div>
-                        <div class="plan-period">شهرياً</div>
+                        <h3 class="plan-name">Plata</h3>
+                        <div class="plan-price">15€</div>
+                        <div class="plan-period">por mes</div>
                         
                         <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> حتى 20 إعلان</li>
-                            <li><span class="check-icon">✓</span> تمييز الإعلان</li>
-                            <li><span class="check-icon">✓</span> دعم فوري 24/7</li>
-                            <li><span class="check-icon">✓</span> تقارير أداء</li>
-                            <li><span class="check-icon">✓</span> أولوية في البحث</li>
+                            <li><span class="check-icon">✓</span> Hasta 20 anuncios</li>
+                            <li><span class="check-icon">✓</span> Destacar anuncio</li>
+                            <li><span class="check-icon">✓</span> Soporte 24/7</li>
+                            <li><span class="check-icon">✓</span> Reportes de rendimiento</li>
+                            <li><span class="check-icon">✓</span> Prioridad en búsquedas</li>
                         </ul>
                         
                         <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
-                            اختر الفضية
+                            Elegir Plata
                         </button>
                     </div>
                     
                     <div class="plan-card">
                         <div class="plan-icon">🥇</div>
-                        <h3 class="plan-name">الذهبية</h3>
-                        <div class="plan-price">30 ر.س</div>
-                        <div class="plan-period">شهرياً</div>
+                        <h3 class="plan-name">Oro</h3>
+                        <div class="plan-price">30€</div>
+                        <div class="plan-period">por mes</div>
                         
                         <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> إعلانات غير محدودة</li>
-                            <li><span class="check-icon">✓</span> تمييز بارز</li>
-                            <li><span class="check-icon">✓</span> دعم هاتفي سريع</li>
-                            <li><span class="check-icon">✓</span> تحليلات متقدمة</li>
-                            <li><span class="check-icon">✓</span> مزايا حصرية</li>
+                            <li><span class="check-icon">✓</span> Anuncios ilimitados</li>
+                            <li><span class="check-icon">✓</span> Destacado premium</li>
+                            <li><span class="check-icon">✓</span> Soporte telefónico rápido</li>
+                            <li><span class="check-icon">✓</span> Análisis avanzados</li>
+                            <li><span class="check-icon">✓</span> Ventajas exclusivas</li>
                         </ul>
                         
                         <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
-                            اختر الذهبية
+                            Elegir Oro
                         </button>
                     </div>
                 </div>
             </section>
 
-            <!-- كيف تعمل -->
+            <!-- Cómo funciona -->
             <section class="features" id="how-it-works" style="margin-top: 80px;">
-                <h2 class="section-title">🔄 كيف تعمل منصتنا؟</h2>
+                <h2 class="section-title">🔄 ¿Cómo funciona?</h2>
                 
                 <div class="features-grid">
                     <div class="feature-card" style="text-align: center;">
                         <div class="feature-icon" style="font-size: 60px;">1️⃣</div>
-                        <h3 class="feature-title">سجل حسابك</h3>
-                        <p class="feature-description">أنشئ حسابك في دقائق وابدأ فوراً في استخدام المنصة.</p>
+                        <h3 class="feature-title">Crea tu cuenta</h3>
+                        <p class="feature-description">Regístrate en minutos y comienza a usar la plataforma inmediatamente.</p>
                     </div>
                     
                     <div class="feature-card" style="text-align: center;">
                         <div class="feature-icon" style="font-size: 60px;">2️⃣</div>
-                        <h3 class="feature-title">انشر إعلانك</h3>
-                        <p class="feature-description">أضف تفاصيل ما تريد تأجيره مع الصور والسعر المناسب.</p>
+                        <h3 class="feature-title">Publica tu anuncio</h3>
+                        <p class="feature-description">Añade detalles de lo que quieres alquilar con fotos y precio adecuado.</p>
                     </div>
                     
                     <div class="feature-card" style="text-align: center;">
                         <div class="feature-icon" style="font-size: 60px;">3️⃣</div>
-                        <h3 class="feature-title">تواصل مع العملاء</h3>
-                        <p class="feature-description">رد على استفسارات العملاء واتفق على تفاصيل التأجير.</p>
+                        <h3 class="feature-title">Conecta con clientes</h3>
+                        <p class="feature-description">Responde consultas y acuerda detalles del alquiler con los clientes.</p>
                     </div>
                     
                     <div class="feature-card" style="text-align: center;">
                         <div class="feature-icon" style="font-size: 60px;">4️⃣</div>
-                        <h3 class="feature-title">اكسب المال</h3>
-                        <p class="feature-description">استلم أموالك بشكل آمن وسريع بعد إتمام الصفقة.</p>
+                        <h3 class="feature-title">Gana dinero</h3>
+                        <p class="feature-description">Recibe tu dinero de forma segura y rápida después de cada transacción.</p>
                     </div>
                 </div>
             </section>
         </main>
 
-        <!-- الفوتر -->
+        <!-- Pie de página -->
         <footer>
             <div class="footer-links">
-                <a href="dashboard.html">لوحة التحكم</a>
-                <a href="publish.html">نشر إعلان</a>
-                <a href="my-ads.html">إعلاناتي</a>
-                <a href="profile.html">حسابي</a>
-                <a href="upgrade-plans.html">ترقية الخطة</a>
-                <a href="#features">المميزات</a>
-                <a href="#pricing">الخطط</a>
-                <a href="#how-it-works">كيف تعمل</a>
+                <a href="dashboard.html">Panel de Control</a>
+                <a href="publish.html">Publicar Anuncio</a>
+                <a href="my-ads.html">Mis Anuncios</a>
+                <a href="profile.html">Mi Cuenta</a>
+                <a href="upgrade-plans.html">Mejorar Plan</a>
+                <a href="#features">Características</a>
+                <a href="#pricing">Planes</a>
+                <a href="#how-it-works">Cómo funciona</a>
             </div>
             
             <div class="copyright">
-                © 2023 RentHub 2030. جميع الحقوق محفوظة.
+                © 2023 RentHub 2030. Todos los derechos reservados.
             </div>
         </footer>
     </div>
 
-    <!-- كود JavaScript -->
+    <!-- Código JavaScript -->
     <script>
-        // تحديث تاريخ حقوق النشر
+        // Sistema de cambio de idioma
         document.addEventListener('DOMContentLoaded', function() {
             const year = new Date().getFullYear();
             const copyrightElement = document.querySelector('.copyright');
             if (copyrightElement) {
-                copyrightElement.textContent = `© ${year} RentHub 2030. جميع الحقوق محفوظة.`;
+                copyrightElement.textContent = `© ${year} RentHub 2030. Todos los derechos reservados.`;
             }
             
-            // تحسين التنقل السلس
+            // Navegación suave
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -669,19 +702,49 @@
                 });
             });
             
-            console.log('🏠 الصفحة الرئيسية جاهزة!');
+            // Cambio de idioma
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const selectedLang = this.getAttribute('data-lang');
+                    
+                    // Remover activo de todos los botones
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Activar el botón seleccionado
+                    this.classList.add('active');
+                    
+                    // Guardar preferencia de idioma
+                    localStorage.setItem('preferred_language', selectedLang);
+                    
+                    // Aquí podrías cargar traducciones dinámicas
+                    if (selectedLang === 'en') {
+                        // Cambiar a inglés (sería dinámico en un sistema real)
+                        alert('English version coming soon! For now, continue in Spanish.');
+                        this.classList.remove('active');
+                        document.querySelector('[data-lang="es"]').classList.add('active');
+                    } else if (selectedLang === 'ar') {
+                        // Cambiar a árabe
+                        alert('النسخة العربية قريباً! للآن، استمر بالإسبانية.');
+                        this.classList.remove('active');
+                        document.querySelector('[data-lang="es"]').classList.add('active');
+                    }
+                });
+            });
+            
+            // Cargar idioma preferido
+            const savedLang = localStorage.getItem('preferred_language') || 'es';
+            const langBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (langBtn) {
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                langBtn.classList.add('active');
+            }
+            
+            console.log('🏠 ¡Página principal lista!');
         });
         
-        // إظهار رسالة ترحيب عند النقر على "ابدأ الآن"
-        function showWelcomeMessage() {
-            alert('مرحباً بك في RentHub 2030! سيتم توجيهك إلى لوحة التحكم حيث يمكنك:\n\n1. نشر إعلانك الأول\n2. استعراض خطط الاشتراك\n3. إدارة إعلاناتك\n4. تحديث ملفك الشخصي\n\nنتمنى لك تجربة ممتعة معنا! 🚀');
-        }
-        
-        // جعل الدالة متاحة عالمياً
-        window.showWelcomeMessage = showWelcomeMessage;
-        
-        // تأثير كتابة للنص الرئيسي (اختياري)
-        const heroText = "أجر ما تحتاجه،\nعندما تحتاجه";
+        // Efecto de máquina de escribir (opcional)
+        const heroText = "Alquila lo que necesites,\ncuando lo necesites";
         const heroElement = document.querySelector('.hero h1');
         
         if (heroElement) {
@@ -695,11 +758,10 @@
                 }
             };
             
-            // بدء تأثير الكتابة بعد تحميل الصفحة
             setTimeout(typeWriter, 1000);
         }
         
-        // إضافة CSS للوميض
+        // CSS para parpadeo
         const style = document.createElement('style');
         style.textContent = `
             @keyframes blink {
@@ -708,6 +770,13 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // Mensaje de bienvenida
+        function showWelcomeMessage() {
+            alert('¡Bienvenido a RentHub 2030! Serás redirigido al Panel de Control donde podrás:\n\n1. Publicar tu primer anuncio\n2. Explorar planes de suscripción\n3. Gestionar tus anuncios\n4. Actualizar tu perfil\n\n¡Te deseamos una excelente experiencia! 🚀');
+        }
+        
+        window.showWelcomeMessage = showWelcomeMessage;
     </script>
 </body>
 </html>
