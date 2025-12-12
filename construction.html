@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentHub - Equipos de Construcción</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; }
+        .navbar { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo h1 { font-size: 1.8rem; }
+        .logo h1 i { margin-right: 10px; }
+        .search-bar { display: flex; flex-grow: 0.5; }
+        .search-bar input { padding: 0.8rem 1rem; border: none; border-radius: 0 30px 30px 0; width: 100%; font-size: 1rem; }
+        .search-bar button { padding: 0.8rem 1.5rem; background-color: #ff7e30; color: white; border: none; border-radius: 30px 0 0 30px; cursor: pointer; font-weight: bold; }
+        .nav-buttons { display: flex; gap: 1rem; align-items: center; }
+        .btn-auth, .btn-publish { padding: 0.7rem 1.2rem; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-auth { background-color: #3498db; color: white; }
+        .btn-publish { background-color: #2ecc71; color: white; }
+        .back-home { margin: 1rem 2rem; }
+        .back-home a { color: #6a11cb; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .page-header { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #f46b45 0%, #eea849 100%); color: white; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+        .equipment-intro { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .equipment-intro h2 { color: #2c3e50; margin-bottom: 1.5rem; font-size: 2rem; }
+        .equipment-intro p { color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; }
+        .equipment-categories { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .category-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
+        .category-tab { padding: 12px 25px; background: #f0f0f0; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .category-tab.active { background: #f46b45; color: white; }
+        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .equipment-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.3s; border-left: 5px solid #f46b45; }
+        .equipment-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .equipment-icon { font-size: 2.5rem; color: #f46b45; margin-bottom: 1rem; }
+        .equipment-card h3 { color: #2c3e50; margin-bottom: 0.8rem; }
+        .equipment-card p { color: #666; line-height: 1.6; margin-bottom: 1rem; }
+        .equipment-specs { background: #f5f7fa; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; }
+        .equipment-price { color: #2ecc71; font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; }
+        .equipment-btn { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .stats { background: #f5f7fa; padding: 4rem 2rem; margin-top: 3rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .stat-item { text-align: center; padding: 2rem; }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #f46b45; margin-bottom: 0.5rem; }
+        footer { text-align: center; padding: 2rem; background-color: #2c3e50; color: #ecf0f1; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h1><i class="fas fa-handshake"></i> RentHub</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="equipmentSearch" placeholder="Buscar equipos...">
+            <button onclick="searchEquipment()"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-auth" onclick="window.location.href='index.html#auth'">
+                <i class="fas fa-user"></i> Iniciar Sesión
+            </button>
+            <button class="btn-publish" onclick="window.location.href='index.html#auth'">
+                <i class="fas fa-plus-circle"></i> Alquilar Equipo
+            </button>
+        </div>
+    </header>
+
+    <div class="back-home">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+    </div>
+
+    <section class="page-header">
+        <h1><i class="fas fa-tools"></i> Equipos de Construcción</h1>
+        <p>Alquila cualquier equipo de construcción que necesites - desde martillos hasta grúas - a menor costo y sin complicaciones</p>
+    </section>
+
+    <section class="equipment-intro">
+        <h2>Equipos de construcción en alquiler diario</h2>
+        <p>Ya no necesitas comprar equipos costosos para tu proyecto. Tenemos todos los equipos de construcción pequeños y grandes disponibles para alquiler diario o semanal. Taladro, sierra, mezcladora de cemento, grúa, ¡y mucho más!</p>
+    </section>
+
+    <section class="equipment-categories">
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="filterEquipment('all')">Todos</button>
+            <button class="category-tab" onclick="filterEquipment('small')">Herramientas manuales</button>
+            <button class="category-tab" onclick="filterEquipment('power')">Equipos eléctricos</button>
+            <button class="category-tab" onclick="filterEquipment('heavy')">Maquinaria pesada</button>
+            <button class="category-tab" onclick="filterEquipment('safety')">Equipos de seguridad</button>
+        </div>
+
+        <div class="equipment-grid" id="equipmentContainer">
+        </div>
+    </section>
+
+    <section class="stats">
+        <h2 style="text-align:center; color:#2c3e50; margin-bottom:2rem;">¿Por qué alquilar con RentHub?</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">1200+</div>
+                <h3>Equipos disponibles</h3>
+                <p>Mayor variedad de equipos</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">70%</div>
+                <h3>Ahorro en costos</h3>
+                <p>Comparado con la compra</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <h3>Soporte técnico</h3>
+                <p>Disponible todo el día</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5000+</div>
+                <h3>Clientes satisfechos</h3>
+                <p>Contratistas e ingenieros</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:linear-gradient(135deg, #f46b45, #eea849); color:white; padding:4rem 2rem; text-align:center;">
+        <h2 style="font-size:2.2rem; margin-bottom:1rem;">¿Tienes equipos de construcción sin usar?</h2>
+        <p style="font-size:1.2rem; margin-bottom:2rem; max-width:700px; margin-left:auto; margin-right:auto;">Conviértelos en ingresos adicionales. Alquílalos en RentHub y gana dinero con tus equipos</p>
+        <button onclick="window.location.href='index.html#auth'" style="padding:15px 40px; background:white; color:#f46b45; border:none; border-radius:30px; font-size:1.3rem; font-weight:bold; cursor:pointer;">
+            <i class="fas fa-hard-hat"></i> Regístrate como Arrendador
+        </button>
+    </section>
+
+    <footer>
+        <p>© 2024 RentHub - Sección de Equipos de Construcción</p>
+    </footer>
+
+    <script>
+        const equipment = [
+            { 
+                id: 1, 
+                title: "Taladro percutor eléctrico", 
+                category: "power", 
+                description: "Taladro profesional de 800W para perforar pared y hormigón", 
+                specs: "Potencia: 800W - Velocidad: 0-2800 rpm",
+                price: "40 €/día",
+                icon: "fas fa-hard-hat"
+            },
+            { 
+                id: 2, 
+                title: "Cortadora de hierro (sierra de herrero)", 
+                category: "power", 
+                description: "Cortadora de hierro eléctrica para cortar hierro hasta 14 mm de diámetro", 
+                specs: "Diámetro de corte: 14 mm - Potencia: 2000W",
+                price: "60 €/día",
+                icon: "fas fa-cut"
+            },
+            { 
+                id: 3, 
+                title: "Mezcladora de cemento pequeña", 
+                category: "power", 
+                description: "Mezcladora de cemento capacidad 150 litros para proyectos pequeños", 
+                specs: "Capacidad: 150 litros - Motor: 5.5 HP",
+                price: "80 €/día",
+                icon: "fas fa-mixer"
+            },
+            { 
+                id: 4, 
+                title: "Sierra de madera eléctrica", 
+                category: "power", 
+                description: "Sierra circular para cortar madera y tableros", 
+                specs: "Diámetro de hoja: 184 mm - Potencia: 1200W",
+                price: "35 €/día",
+                icon: "fas fa-tree"
+            },
+            { 
+                id: 5, 
+                title: "Martillo demoledor Hilti", 
+                category: "power", 
+                description: "Martillo demoledor eléctrico para trabajos de demolición", 
+                specs: "Energía de impacto: 8 julios - Potencia: 1500W",
+                price: "120 €/día",
+                icon: "fas fa-hammer"
+            },
+            { 
+                id: 6, 
+                title: "Pistola de pintura", 
+                category: "power", 
+                description: "Pistola de pintura eléctrica para grandes superficies", 
+                specs: "Capacidad: 5 litros - Presión: 3000 PSI",
+                price: "70 €/día",
+                icon: "fas fa-spray-can"
+            },
+            { 
+                id: 7, 
+                title: "Nivel láser", 
+                category: "small", 
+                description: "Nivel láser profesional para trabajos de nivelación y decoración", 
+                specs: "Precisión: ±3 mm/10m - Alcance: 30 metros",
+                price: "25 €/día",
+                icon: "fas fa-ruler-combined"
+            },
+            { 
+                id: 8, 
+                title: "Juego de herramientas manuales", 
+                category: "small", 
+                description: "Juego completo de herramientas manuales (50 piezas)", 
+                specs: "50 piezas - Incluye todo tipo de llaves y alicates",
+                price: "30 €/día",
+                icon: "fas fa-toolbox"
+            },
+            { 
+                id: 9, 
+                title: "Escalera de aluminio", 
+                category: "safety", 
+                description: "Escalera de aluminio 6 metros para alcanzar alturas", 
+                specs: "Longitud: 6 metros - Carga: 150 kg",
+                price: "20 €/día",
+                icon: "fas fa-ladder"
+            },
+            { 
+                id: 10, 
+                title: "Casco de seguridad", 
+                category: "safety", 
+                description: "Casco de seguridad con protector facial para obras", 
+                specs: "Resistente a impactos - Con protector facial",
+                price: "10 €/día",
+                icon: "fas fa-hard-hat"
+            },
+            { 
+                id: 11, 
+                title: "Generador eléctrico", 
+                category: "heavy", 
+                description: "Generador eléctrico 5 kW para alimentar equipos", 
+                specs: "Potencia: 5 kW - Tipo de combustible: gasolina",
+                price: "150 €/día",
+                icon: "fas fa-bolt"
+            },
+            { 
+                id: 12, 
+                title: "Compresor de aire", 
+                category: "power", 
+                description: "Compresor de aire para herramientas neumáticas", 
+                specs: "Capacidad: 50 litros - Presión: 8 bar",
+                price: "45 €/día",
+                icon: "fas fa-wind"
+            }
+        ];
+
+        function displayEquipment(filter = 'all') {
+            const container = document.getElementById('equipmentContainer');
+            container.innerHTML = '';
+            
+            const filteredEquipment = filter === 'all' 
+                ? equipment 
+                : equipment.filter(e => e.category === filter);
+            
+            filteredEquipment.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'equipment-card';
+                card.innerHTML = `
+                    <div class="equipment-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                    <div class="equipment-specs">
+                        <strong>Especificaciones:</strong> ${item.specs}
+                    </div>
+                    <div class="equipment-price">${item.price}</div>
+                    <button class="equipment-btn" onclick="rentEquipment(${item.id})">
+                        <i class="fas fa-calendar-alt"></i> Reservar Ahora
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterEquipment(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayEquipment(category);
+        }
+
+        function searchEquipment() {
+            const query = document.getElementById('equipmentSearch').value.toLowerCase();
+            if (!query) return;
+            
+            const results = equipment.filter(e => 
+                e.title.toLowerCase().includes(query) || 
+                e.description.toLowerCase().includes(query) ||
+                e.specs.toLowerCase().includes(query)
+            );
+            
+            if (results.length > 0) {
+                const container = document.getElementById('equipmentContainer');
+                container.innerHTML = '';
+                
+                results.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'equipment-card';
+                    card.innerHTML = `
+                        <div class="equipment-icon">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="equipment-specs">
+                            <strong>Especificaciones:</strong> ${item.specs}
+                        </div>
+                        <div class="equipment-price">${item.price}</div>
+                        <button class="equipment-btn" onclick="rentEquipment(${item.id})">
+                            <i class="fas fa-calendar-alt"></i> Reservar Ahora
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+            } else {
+                alert(`No se encontraron equipos que coincidan con "${query}"`);
+            }
+        }
+
+        function rentEquipment(equipmentId) {
+            const item = equipment.find(e => e.id === equipmentId);
+            alert(`Para reservar "${item.title}"\n\nPrecio: ${item.price}\n\nPor favor, inicia sesión primero para completar la reserva.`);
+            window.location.href = 'index.html#auth';
+        }
+
+        window.onload = function() {
+            displayEquipment();
+            console.log("✅ Página de equipos de construcción lista!");
+        };
+    </script>
+</body>
+</html>
