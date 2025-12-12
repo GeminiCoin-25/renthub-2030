@@ -2,457 +2,682 @@
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>OS-RentHub - Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentHub - Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a0ca3;
-            --success: #2ec4b6;
-            --light: #f8f9fa;
-            --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--light);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
         }
-        
+
         .auth-container {
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            width: 100%;
-            max-width: 400px;
-            overflow: hidden;
-        }
-        
-        .auth-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--white);
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .auth-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        
-        .auth-title {
-            font-size: 24px;
-            font-weight: 600;
-        }
-        
-        /* أزرار اللغة */
-        .language-switcher {
             display: flex;
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Panel izquierdo - Información */
+        .info-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-panel h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .info-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features i {
+            color: #2ecc71;
+            font-size: 1.2rem;
+        }
+
+        /* Panel derecho - Formulario */
+        .form-panel {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h2 {
+            font-size: 2rem;
+            color: #6a11cb;
+            display: flex;
+            align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 15px;
         }
-        
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .lang-btn.active {
-            background: white;
-            color: var(--primary);
-        }
-        
-        .tabs {
+
+        .form-tabs {
             display: flex;
-            background: var(--light);
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
         }
-        
-        .tab {
+
+        .tab-btn {
             flex: 1;
-            padding: 20px;
-            text-align: center;
+            padding: 15px;
             background: none;
             border: none;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #666;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
-        
-        .tab.active {
-            background: var(--white);
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
+
+        .tab-btn.active {
+            color: #6a11cb;
         }
-        
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #6a11cb;
+        }
+
         .form-container {
-            padding: 30px;
-        }
-        
-        .form {
             display: none;
         }
-        
-        .form.active {
+
+        .form-container.active {
             display: block;
+            animation: fadeIn 0.5s;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
-        
-        .form-label {
+
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             color: #333;
             font-weight: 500;
         }
-        
-        .form-input {
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-with-icon input:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forgot-link {
+            color: #6a11cb;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .form-button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--white);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
             margin-top: 10px;
         }
-        
-        .form-button:hover {
+
+        .submit-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
         }
-        
-        .success-message {
+
+        .auth-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .auth-message.success {
             background: #d4edda;
             color: #155724;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-            text-align: center;
+            border: 1px solid #c3e6cb;
         }
-        
-        .error-message {
+
+        .auth-message.error {
             background: #f8d7da;
             color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
+            border: 1px solid #f5c6cb;
+        }
+
+        .back-home {
             text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: #666;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+            }
+            
+            .info-panel {
+                padding: 30px;
+            }
+            
+            .form-panel {
+                padding: 30px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="auth-container" id="authContainer">
-        <div class="auth-header">
-            <div class="auth-icon">🔧</div>
-            <h1 class="auth-title">OS-RentHub</h1>
-            <p>El mercado de alquiler #1 en España</p>
+    <div class="auth-container">
+        <!-- Panel izquierdo - Información -->
+        <div class="info-panel">
+            <h1><i class="fas fa-handshake"></i> RentHub</h1>
+            <p>Únete a la comunidad de alquiler más grande de España. Publica lo que quieras alquilar o encuentra justo lo que necesitas.</p>
             
-            <!-- أزرار اللغة -->
-            <div class="language-switcher">
-                <button class="lang-btn active" onclick="setLanguage('es')">Español</button>
-                <button class="lang-btn" onclick="setLanguage('en')">English</button>
-                <button class="lang-btn" onclick="setLanguage('ar')">العربية</button>
+            <ul class="features">
+                <li><i class="fas fa-check-circle"></i> Publica anuncios gratis</li>
+                <li><i class="fas fa-check-circle"></i> Gana dinero extra</li>
+                <li><i class="fas fa-check-circle"></i> Comunidad verificada</li>
+                <li><i class="fas fa-check-circle"></i> Soporte 24/7</li>
+                <li><i class="fas fa-check-circle"></i> Pagos seguros</li>
+            </ul>
+            
+            <p style="margin-top: auto; font-size: 0.9rem; opacity: 0.7;">
+                <i class="fas fa-shield-alt"></i> Tus datos están seguros con nosotros
+            </p>
+        </div>
+
+        <!-- Panel derecho - Formulario -->
+        <div class="form-panel">
+            <div class="logo">
+                <h2><i class="fas fa-handshake"></i> RentHub</h2>
             </div>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('login')">Iniciar Sesión</button>
-            <button class="tab" onclick="showTab('signup')">Crear Cuenta</button>
-        </div>
-        
-        <div class="form-container">
-            <!-- Formulario de Inicio de Sesión -->
-            <div id="loginForm" class="form active">
-                <div class="form-group">
-                    <label class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-input" id="loginEmail" placeholder="ejemplo@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
-                </div>
-                
-                <button class="form-button" onclick="login()">
-                    Iniciar Sesión
+
+            <!-- Pestañas -->
+            <div class="form-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </button>
-                
-                <div class="success-message" id="loginSuccess"></div>
-                <div class="error-message" id="loginError"></div>
+                <button class="tab-btn" onclick="switchTab('register')">
+                    <i class="fas fa-user-plus"></i> Crear Cuenta
+                </button>
             </div>
-            
+
+            <!-- Mensajes -->
+            <div id="authMessage" class="auth-message"></div>
+
+            <!-- Formulario de Login -->
+            <div id="loginForm" class="form-container active">
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Tu contraseña" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <label class="remember">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Recordarme</span>
+                        </label>
+                        <a href="#" class="forgot-link" onclick="switchTab('forgot')">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                </form>
+            </div>
+
             <!-- Formulario de Registro -->
-            <div id="signupForm" class="form">
-                <div class="form-group">
-                    <label class="form-label">Nombre Completo</label>
-                    <input type="text" class="form-input" id="signupName" placeholder="Juan García">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-input" id="signupEmail" placeholder="ejemplo@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-input" id="signupPassword" placeholder="Mínimo 6 caracteres">
-                </div>
-                
-                <button class="form-button" onclick="signup()">
-                    Crear Cuenta
-                </button>
-                
-                <div class="success-message" id="signupSuccess"></div>
-                <div class="error-message" id="signupError"></div>
+            <div id="registerForm" class="form-container">
+                <form id="registerFormElement">
+                    <div class="form-group">
+                        <label for="registerName">Nombre Completo</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="registerName" placeholder="Tu nombre completo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="registerEmail" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPhone">Teléfono (Opcional)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="registerPhone" placeholder="+34 612 345 678">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerConfirm">Confirmar Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="registerConfirm" placeholder="Repite tu contraseña" minlength="6" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('registerConfirm')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="remember">
+                        <input type="checkbox" id="acceptTerms" required>
+                        <span>Acepto los <a href="#" style="color: #6a11cb;">Términos y Condiciones</a></span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> Crear Cuenta
+                    </button>
+                </form>
+            </div>
+
+            <!-- Formulario de Recuperación -->
+            <div id="forgotForm" class="form-container">
+                <form id="forgotFormElement">
+                    <div class="form-group">
+                        <p style="margin-bottom: 20px; color: #666;">Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+                        <label for="forgotEmail">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="forgotEmail" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Enviar Enlace
+                    </button>
+                    
+                    <button type="button" class="submit-btn" style="background: #95a5a6; margin-top: 10px;" onclick="switchTab('login')">
+                        <i class="fas fa-arrow-left"></i> Volver al Login
+                    </button>
+                </form>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <script>
-        // نظام اللغات
-        const translations = {
-            es: {
-                siteName: "OS-RentHub",
-                tagline: "El mercado de alquiler #1 en España",
-                loginTab: "Iniciar Sesión",
-                signupTab: "Crear Cuenta",
-                emailLabel: "Correo Electrónico",
-                emailPlaceholder: "ejemplo@email.com",
-                passwordLabel: "Contraseña",
-                passwordPlaceholder: "••••••••",
-                fullNameLabel: "Nombre Completo",
-                fullNamePlaceholder: "Juan García",
-                loginButton: "Iniciar Sesión",
-                signupButton: "Crear Cuenta",
-                loginSuccess: "✅ ¡Sesión iniciada correctamente!",
-                signupSuccess: "🎉 ¡Cuenta creada exitosamente!",
-                emptyFields: "⚠️ Por favor completa todos los campos",
-                shortPassword: "⚠️ La contraseña debe tener al menos 6 caracteres"
-            },
-            en: {
-                siteName: "OS-RentHub",
-                tagline: "The #1 Rental Market in Spain",
-                loginTab: "Login",
-                signupTab: "Sign Up",
-                emailLabel: "Email Address",
-                emailPlaceholder: "example@email.com",
-                passwordLabel: "Password",
-                passwordPlaceholder: "••••••••",
-                fullNameLabel: "Full Name",
-                fullNamePlaceholder: "John Smith",
-                loginButton: "Login",
-                signupButton: "Sign Up",
-                loginSuccess: "✅ Logged in successfully!",
-                signupSuccess: "🎉 Account created successfully!",
-                emptyFields: "⚠️ Please fill in all fields",
-                shortPassword: "⚠️ Password must be at least 6 characters"
-            },
-            ar: {
-                siteName: "OS-رينتهب",
-                tagline: "سوق التأجير الأول في إسبانيا",
-                loginTab: "تسجيل الدخول",
-                signupTab: "إنشاء حساب",
-                emailLabel: "البريد الإلكتروني",
-                emailPlaceholder: "example@email.com",
-                passwordLabel: "كلمة المرور",
-                passwordPlaceholder: "••••••••",
-                fullNameLabel: "الاسم الكامل",
-                fullNamePlaceholder: "أحمد محمد",
-                loginButton: "دخول",
-                signupButton: "إنشاء حساب",
-                loginSuccess: "✅ تم تسجيل الدخول بنجاح!",
-                signupSuccess: "🎉 تم إنشاء الحساب بنجاح!",
-                emptyFields: "⚠️ الرجاء ملء جميع الحقول",
-                shortPassword: "⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل"
-            }
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
+            authDomain: "renthub-2030.firebaseapp.com",
+            projectId: "renthub-2030",
+            storageBucket: "renthub-2030.firebasestorage.app",
+            messagingSenderId: "23301901800",
+            appId: "1:23301901800:web:2679c834aac406c72d685d"
         };
-        
-        // تغيير اللغة
-        function setLanguage(lang) {
-            // تحديد أزرار اللغة
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.lang-btn[onclick*="${lang}"]`).classList.add('active');
-            
-            // تغيير اتجاه النص
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = lang;
-            
-            // الحصول على النصوص
-            const texts = translations[lang];
-            
-            // تحديث جميع النصوص
-            document.querySelector('.auth-title').textContent = texts.siteName;
-            document.querySelector('.auth-header p').textContent = texts.tagline;
-            
-            // تحديث تبويبات النماذج
-            document.querySelectorAll('.tab')[0].textContent = texts.loginTab;
-            document.querySelectorAll('.tab')[1].textContent = texts.signupTab;
-            
-            // تحديث النماذج
-            document.querySelectorAll('.form-label')[0].textContent = texts.emailLabel;
-            document.querySelectorAll('.form-label')[1].textContent = texts.passwordLabel;
-            document.querySelectorAll('.form-label')[2].textContent = texts.fullNameLabel;
-            
-            document.getElementById('loginEmail').placeholder = texts.emailPlaceholder;
-            document.getElementById('loginPassword').placeholder = texts.passwordPlaceholder;
-            document.getElementById('signupName').placeholder = texts.fullNamePlaceholder;
-            document.getElementById('signupEmail').placeholder = texts.emailPlaceholder;
-            document.getElementById('signupPassword').placeholder = texts.passwordPlaceholder;
-            
-            document.querySelector('#loginForm .form-button').textContent = texts.loginButton;
-            document.querySelector('#signupForm .form-button').textContent = texts.signupButton;
-            
-            // حفظ اللغة المختارة
-            localStorage.setItem('preferredLanguage', lang);
-        }
-        
-        // تبديل النماذج
-        function showTab(tabName) {
-            // تحديث التبويبات
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // إخفاء جميع النماذج
-            document.querySelectorAll('.form').forEach(form => {
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        console.log("✅ Firebase Auth listo");
+
+        // Funciones de UI
+        function switchTab(tabName) {
+            // Ocultar todos los formularios
+            document.querySelectorAll('.form-container').forEach(form => {
                 form.classList.remove('active');
             });
             
-            // إظهار النموذج المطلوب
+            // Remover active de todas las pestañas
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar formulario seleccionado
             document.getElementById(tabName + 'Form').classList.add('active');
             
-            // تنشيط التبويب المناسب
-            const tabs = document.querySelectorAll('.tab');
+            // Activar pestaña correspondiente
             if (tabName === 'login') {
-                tabs[0].classList.add('active');
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            } else if (tabName === 'register') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            }
+            
+            // Limpiar mensajes
+            document.getElementById('authMessage').textContent = '';
+            document.getElementById('authMessage').className = 'auth-message';
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-                tabs[1].classList.add('active');
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
-            
-            // إخفاء رسائل الخطأ
-            hideAllMessages();
         }
-        
-        // إخفاء جميع الرسائل
-        function hideAllMessages() {
-            document.querySelectorAll('.success-message, .error-message').forEach(msg => {
-                msg.style.display = 'none';
-            });
-        }
-        
-        // تسجيل الدخول
-        function login() {
-            const lang = localStorage.getItem('preferredLanguage') || 'es';
-            const texts = translations[lang];
+
+        function showMessage(message, type) {
+            const messageEl = document.getElementById('authMessage');
+            messageEl.textContent = message;
+            messageEl.className = `auth-message ${type}`;
             
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // إخفاء الرسائل القديمة
-            hideAllMessages();
-            
-            if (!email || !password) {
-                showMessage('loginError', texts.emptyFields);
-                return;
+            // Auto-ocultar mensajes de éxito
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageEl.textContent = '';
+                    messageEl.className = 'auth-message';
+                }, 5000);
             }
-            
-            // محاكاة تسجيل الدخول الناجح
-            showMessage('loginSuccess', texts.loginSuccess);
-            
-            // توجيه المستخدم بعد ثانيتين
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 2000);
         }
-        
-        // إنشاء حساب
-        function signup() {
-            const lang = localStorage.getItem('preferredLanguage') || 'es';
-            const texts = translations[lang];
+
+        // Registrar usuario
+        document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirm').value;
             
-            // إخفاء الرسائل القديمة
-            hideAllMessages();
-            
-            if (!name || !email || !password) {
-                showMessage('signupError', texts.emptyFields);
+            // Validaciones
+            if (password !== confirmPassword) {
+                showMessage('Las contraseñas no coinciden', 'error');
                 return;
             }
             
             if (password.length < 6) {
-                showMessage('signupError', texts.shortPassword);
+                showMessage('La contraseña debe tener al menos 6 caracteres', 'error');
                 return;
             }
             
-            // محاكاة إنشاء حساب ناجح
-            showMessage('signupSuccess', texts.signupSuccess);
-            
-            // التبديل إلى تسجيل الدخول بعد ثانيتين
-            setTimeout(() => {
-                showTab('login');
-                document.getElementById('loginEmail').value = email;
-                document.getElementById('loginPassword').value = password;
-            }, 2000);
-        }
-        
-        // عرض رسالة
-        function showMessage(elementId, message) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-        
-        // عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            // تحميل اللغة المحفوظة
-            const savedLang = localStorage.getItem('preferredLanguage') || 'es';
-            setLanguage(savedLang);
-            
-            console.log('✅ Página de autenticación lista');
+            try {
+                // Crear usuario en Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Guardar información adicional en Firestore
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    phone: phone || '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    plan: 'free',
+                    listingsCount: 0,
+                    userType: 'renter' // o 'owner'
+                });
+                
+                showMessage('¡Cuenta creada con éxito! Redirigiendo...', 'success');
+                
+                // Redirigir después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+                
+            } catch (error) {
+                let errorMessage = 'Error al crear la cuenta. ';
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage += 'Este correo ya está registrado.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage += 'Correo electrónico no válido.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage += 'La contraseña es demasiado débil.';
+                        break;
+                    default:
+                        errorMessage += error.message;
+                }
+                
+                showMessage(errorMessage, 'error');
+            }
         });
+
+        // Iniciar sesión
+        document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            try {
+                // Configurar persistencia de sesión
+                const persistence = rememberMe ? 
+                    firebase.auth.Auth.Persistence.LOCAL : 
+                    firebase.auth.Auth.Persistence.SESSION;
+                
+                await auth.setPersistence(persistence);
+                
+                // Iniciar sesión
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                showMessage('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
+                
+                // Redirigir después de 1 segundo
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+                
+            } catch (error) {
+                let errorMessage = 'Error al iniciar sesión. ';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage += 'No existe una cuenta con este correo.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage += 'Contraseña incorrecta.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage += 'Correo electrónico no válido.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage += 'Demasiados intentos. Intenta más tarde.';
+                        break;
+                    default:
+                        errorMessage += error.message;
+                }
+                
+                showMessage(errorMessage, 'error');
+            }
+        });
+
+        // Recuperar contraseña
+        document.getElementById('forgotFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('forgotEmail').value;
+            
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showMessage('¡Correo de recuperación enviado! Revisa tu bandeja de entrada.', 'success');
+                
+                // Volver al login después de 3 segundos
+                setTimeout(() => {
+                    switchTab('login');
+                }, 3000);
+                
+            } catch (error) {
+                showMessage('Error: ' + error.message, 'error');
+            }
+        });
+
+        // Verificar si ya hay sesión activa
+        auth.onAuthStateChanged((user) => {
+            if (user && window.location.pathname.includes('auth.html')) {
+                // Si ya está logueado y está en auth.html, redirigir
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Inicializar
+        window.onload = function() {
+            console.log("✅ Página de autenticación lista");
+            
+            // Cargar email guardado si existe
+            const savedEmail = localStorage.getItem('savedEmail');
+            if (savedEmail) {
+                document.getElementById('loginEmail').value = savedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        };
     </script>
 </body>
 </html>
