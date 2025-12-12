@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - RentHub 2030</title>
+    <title>Panel de Control - RentHub 2030</title>
     <style>
         * {
             box-sizing: border-box;
@@ -25,7 +25,7 @@
             padding: 20px;
         }
         
-        /* الهيدر */
+        /* Header */
         header {
             background: white;
             padding: 20px 0;
@@ -96,7 +96,7 @@
             color: white;
         }
         
-        /* محتوى لوحة التحكم */
+        /* Contenido del dashboard */
         .dashboard-content {
             display: grid;
             grid-template-columns: 250px 1fr;
@@ -104,7 +104,7 @@
             margin-bottom: 40px;
         }
         
-        /* الشريط الجانبي */
+        /* Barra lateral */
         .sidebar {
             background: white;
             border-radius: 15px;
@@ -162,7 +162,7 @@
             text-align: center;
         }
         
-        /* الإحصائيات الرئيسية */
+        /* Estadísticas principales */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -226,7 +226,7 @@
             font-size: 14px;
         }
         
-        /* بطاقات الإجراءات السريعة */
+        /* Tarjetas de acción rápida */
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -305,7 +305,7 @@
             background: #e2e8f0;
         }
         
-        /* الإعلانات الأخيرة */
+        /* Anuncios recientes */
         .recent-ads {
             background: white;
             border-radius: 15px;
@@ -350,7 +350,7 @@
         }
         
         .ads-table th {
-            text-align: right;
+            text-align: left;
             padding: 15px;
             background: #f8fafc;
             color: #475569;
@@ -389,7 +389,7 @@
             color: #3730a3;
         }
         
-        /* الإشعارات */
+        /* Notificaciones */
         .notifications {
             background: white;
             border-radius: 15px;
@@ -415,7 +415,7 @@
         
         .notification-icon {
             font-size: 20px;
-            margin-left: 15px;
+            margin-right: 15px;
             width: 40px;
             height: 40px;
             background: #f0fdf4;
@@ -448,7 +448,7 @@
             margin-top: 5px;
         }
         
-        /* الفوتر */
+        /* Pie de página */
         footer {
             text-align: center;
             margin-top: 50px;
@@ -459,7 +459,7 @@
             border-radius: 20px 20px 0 0;
         }
         
-        /* رسائل التنبيه */
+        /* Alertas */
         .alert {
             padding: 15px 20px;
             border-radius: 10px;
@@ -493,7 +493,7 @@
             border: 1px solid #bfdbfe;
         }
         
-        /* تصميم متجاوب */
+        /* Diseño responsive */
         @media (max-width: 1024px) {
             .dashboard-content {
                 grid-template-columns: 1fr;
@@ -539,7 +539,7 @@
     </style>
 </head>
 <body>
-    <!-- الهيدر -->
+    <!-- Header -->
     <header>
         <div class="container header-content">
             <div class="logo">
@@ -549,79 +549,79 @@
             
             <div class="user-menu">
                 <div class="user-info">
-                    <div class="user-name" id="dashboardUserName">مرحباً، محمد!</div>
-                    <div class="user-plan" id="dashboardUserPlan">خطة فضية</div>
+                    <div class="user-name" id="dashboardUserName">¡Hola, Juan!</div>
+                    <div class="user-plan" id="dashboardUserPlan">Plan Plata</div>
                 </div>
                 
                 <nav class="nav-links">
-                    <a href="index.html">الرئيسية</a>
-                    <a href="dashboard.html" class="active">لوحة التحكم</a>
-                    <a href="profile.html">حسابي</a>
-                    <a href="upgrade-plans.html">ترقية</a>
+                    <a href="index.html">Inicio</a>
+                    <a href="dashboard.html" class="active">Panel de Control</a>
+                    <a href="profile.html">Mi Cuenta</a>
+                    <a href="upgrade-plans.html">Mejorar</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- رسائل التنبيه -->
+        <!-- Alertas -->
         <div id="dashboardAlert" class="alert alert-info" style="display: none;">
             <span>💡</span>
             <div>
-                <strong>نصيحة:</strong> يمكنك ترقية خطتك لنشر المزيد من الإعلانات
-                <a href="upgrade-plans.html" style="color: #1e40af; font-weight: bold; margin-right: 10px;">ترقية الآن</a>
+                <strong>Consejo:</strong> Puedes mejorar tu plan para publicar más anuncios
+                <a href="upgrade-plans.html" style="color: #1e40af; font-weight: bold; margin-left: 10px;">Mejorar Ahora</a>
             </div>
         </div>
 
-        <!-- محتوى لوحة التحكم -->
+        <!-- Contenido del dashboard -->
         <div class="dashboard-content">
-            <!-- الشريط الجانبي -->
+            <!-- Barra lateral -->
             <div class="sidebar">
-                <h3 class="sidebar-title">📊 التنقل السريع</h3>
+                <h3 class="sidebar-title">📊 Navegación Rápida</h3>
                 <ul class="sidebar-nav">
                     <li>
                         <a href="javascript:void(0)" class="active">
                             <span class="nav-icon">🏠</span>
-                            <span>لوحة التحكم الرئيسية</span>
+                            <span>Panel Principal</span>
                         </a>
                     </li>
                     <li>
                         <a href="publish.html">
                             <span class="nav-icon">📝</span>
-                            <span>نشر إعلان جديد</span>
+                            <span>Publicar Nuevo Anuncio</span>
                         </a>
                     </li>
                     <li>
                         <a href="my-ads.html">
                             <span class="nav-icon">📋</span>
-                            <span>إعلاناتي المنشورة</span>
+                            <span>Mis Anuncios Publicados</span>
                         </a>
                     </li>
                     <li>
                         <a href="upgrade-plans.html">
                             <span class="nav-icon">💎</span>
-                            <span>ترقية خطتي</span>
+                            <span>Mejorar Mi Plan</span>
                         </a>
                     </li>
                     <li>
                         <a href="profile.html">
                             <span class="nav-icon">👤</span>
-                            <span>الملف الشخصي</span>
+                            <span>Mi Perfil</span>
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" onclick="showHelp()">
                             <span class="nav-icon">❓</span>
-                            <span>المساعدة والدعم</span>
+                            <span>Ayuda y Soporte</span>
                         </a>
                     </li>
                 </ul>
                 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
-                    <h3 class="sidebar-title">⚡ حالة حسابك</h3>
+                    <h3 class="sidebar-title">⚡ Estado de tu Cuenta</h3>
                     <div id="planProgress" style="margin: 15px 0;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span style="font-size: 12px; color: #64748b;">إعلانات مستخدمة</span>
+                            <span style="font-size: 12px; color: #64748b;">Anuncios usados</span>
                             <span style="font-size: 12px; color: #64748b;" id="adsProgressText">0/0</span>
                         </div>
                         <div style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
@@ -631,9 +631,9 @@
                 </div>
             </div>
 
-            <!-- المحتوى الرئيسي -->
+            <!-- Contenido principal -->
             <div class="main-content">
-                <!-- الإحصائيات الرئيسية -->
+                <!-- Estadísticas principales -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-header">
@@ -644,7 +644,7 @@
                             </div>
                         </div>
                         <div class="stat-value" id="totalAdsStat">6</div>
-                        <div class="stat-label">إعلان منشور</div>
+                        <div class="stat-label">Anuncios publicados</div>
                     </div>
                     
                     <div class="stat-card">
@@ -656,7 +656,7 @@
                             </div>
                         </div>
                         <div class="stat-value" id="totalViewsStat">1,152</div>
-                        <div class="stat-label">مشاهدة إجمالية</div>
+                        <div class="stat-label">Vistas totales</div>
                     </div>
                     
                     <div class="stat-card">
@@ -668,7 +668,7 @@
                             </div>
                         </div>
                         <div class="stat-value" id="totalMessagesStat">24</div>
-                        <div class="stat-label">رسالة وردت</div>
+                        <div class="stat-label">Mensajes recibidos</div>
                     </div>
                     
                     <div class="stat-card">
@@ -680,46 +680,46 @@
                             </div>
                         </div>
                         <div class="stat-value" id="ratingStat">4.8</div>
-                        <div class="stat-label">تقييم إجمالي</div>
+                        <div class="stat-label">Calificación total</div>
                     </div>
                 </div>
 
-                <!-- الإجراءات السريعة -->
+                <!-- Acciones rápidas -->
                 <div class="actions-grid">
                     <div class="action-card">
                         <div class="action-icon">📝</div>
-                        <h3 class="action-title">نشر إعلان جديد</h3>
-                        <p class="action-description">انشر إعلانك الجديد للوصول إلى آلاف العملاء المحتملين في دقائق</p>
+                        <h3 class="action-title">Publicar Nuevo Anuncio</h3>
+                        <p class="action-description">Publica tu nuevo anuncio para llegar a miles de clientes potenciales en minutos</p>
                         <button class="action-btn" onclick="window.location.href='publish.html'">
-                            ➕ ابدأ النشر الآن
+                            ➕ Comenzar a Publicar
                         </button>
                     </div>
                     
                     <div class="action-card">
                         <div class="action-icon">💎</div>
-                        <h3 class="action-title">ترقية خطتي</h3>
-                        <p class="action-description">احصل على مميزات أكثر وإعلانات غير محدودة مع خططنا المميزة</p>
+                        <h3 class="action-title">Mejorar Mi Plan</h3>
+                        <p class="action-description">Obtén más características y anuncios ilimitados con nuestros planes premium</p>
                         <button class="action-btn" onclick="window.location.href='upgrade-plans.html'">
-                            🚀 عرض الخطط
+                            🚀 Ver Planes
                         </button>
                     </div>
                     
                     <div class="action-card">
                         <div class="action-icon">📋</div>
-                        <h3 class="action-title">إدارة إعلاناتي</h3>
-                        <p class="action-description">شاهد، عدّل، أو احذف إعلاناتك الحالية من مكان واحد</p>
+                        <h3 class="action-title">Gestionar Mis Anuncios</h3>
+                        <p class="action-description">Visualiza, edita o elimina tus anuncios actuales desde un solo lugar</p>
                         <button class="action-btn secondary" onclick="window.location.href='my-ads.html'">
-                            📊 عرض جميع الإعلانات
+                            📊 Ver Todos los Anuncios
                         </button>
                     </div>
                 </div>
 
-                <!-- الإعلانات الأخيرة -->
+                <!-- Anuncios recientes -->
                 <div class="recent-ads">
                     <div class="section-header">
-                        <h2 class="section-title">📋 الإعلانات الأخيرة</h2>
+                        <h2 class="section-title">📋 Anuncios Recientes</h2>
                         <a href="my-ads.html" class="view-all">
-                            عرض الكل
+                            Ver Todos
                             <span>→</span>
                         </a>
                     </div>
@@ -728,68 +728,68 @@
                         <table class="ads-table">
                             <thead>
                                 <tr>
-                                    <th>العنوان</th>
-                                    <th>التصنيف</th>
-                                    <th>السعر</th>
-                                    <th>المشاهدات</th>
-                                    <th>الحالة</th>
-                                    <th>التاريخ</th>
+                                    <th>Título</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Vistas</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody id="recentAdsTable">
-                                <!-- سيتم تعبئته بواسطة JavaScript -->
+                                <!-- Se llenará con JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- الإشعارات والأحداث -->
+                <!-- Notificaciones y eventos -->
                 <div class="notifications">
                     <div class="section-header">
-                        <h2 class="section-title">🔔 آخر الإشعارات</h2>
+                        <h2 class="section-title">🔔 Últimas Notificaciones</h2>
                         <button class="action-btn secondary" style="padding: 8px 15px; font-size: 14px;" onclick="markAllAsRead()">
-                            ✅ تعيين الكم كمقروء
+                            ✅ Marcar Todo como Leído
                         </button>
                     </div>
                     
                     <div id="notificationsList">
-                        <!-- سيتم تعبئته بواسطة JavaScript -->
+                        <!-- Se llenará con JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- الفوتر -->
+    <!-- Pie de página -->
     <footer>
-        <p>© 2023 RentHub 2030. جميع الحقوق محفوظة.</p>
-        <p style="font-size: 14px; margin-top: 10px; color: #94a3b8;">لوحة تحكم متكاملة لإدارة إعلاناتك بكل سهولة</p>
+        <p>© 2023 RentHub 2030. Todos los derechos reservados.</p>
+        <p style="font-size: 14px; margin-top: 10px; color: #94a3b8;">Panel de control integrado para gestionar tus anuncios fácilmente</p>
     </footer>
 
-    <!-- نظام الاشتراكات -->
+    <!-- Sistema de suscripciones -->
     <script src="js/subscriptions.js"></script>
     
-    <!-- كود خاص بلوحة التحكم -->
+    <!-- Código específico del panel de control -->
     <script>
-        // بيانات لوحة التحكم
+        // Datos del panel de control
         let dashboardData = {};
         
-        // تهيئة لوحة التحكم
+        // Inicializar panel de control
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📊 لوحة التحكم جاهزة!');
+            console.log('📊 ¡Panel de Control listo!');
             loadDashboardData();
             updateDashboardStats();
             loadRecentAds();
             loadNotifications();
             updatePlanProgress();
             
-            // إظهار نصيحة ترقية إذا كانت الخطة شبه ممتلئة
+            // Mostrar consejo de mejora si el plan está casi lleno
             setTimeout(checkPlanUsage, 1000);
         });
         
-        // تحميل بيانات لوحة التحكم
+        // Cargar datos del panel de control
         function loadDashboardData() {
-            // تحميل بيانات المستخدم من localStorage
+            // Cargar datos del usuario desde localStorage
             const savedProfile = localStorage.getItem('renthub_user_profile');
             const savedAds = localStorage.getItem('renthub_user_ads');
             
@@ -797,7 +797,7 @@
                 dashboardData.profile = JSON.parse(savedProfile);
             } else {
                 dashboardData.profile = {
-                    fullName: "محمد أحمد",
+                    fullName: "Juan Pérez",
                     totalAds: 6,
                     totalViews: 1152,
                     totalMessages: 24,
@@ -811,8 +811,8 @@
                 dashboardData.ads = [
                     {
                         id: 1,
-                        title: "سيارة تويوتا كامري 2022",
-                        category: "سيارات",
+                        title: "Coche Toyota Camry 2022",
+                        category: "Coches",
                         price: 150,
                         views: 245,
                         status: "active",
@@ -820,8 +820,8 @@
                     },
                     {
                         id: 2,
-                        title: "معدات تصوير احترافية",
-                        category: "إلكترونيات",
+                        title: "Equipo de fotografía profesional",
+                        category: "Electrónica",
                         price: 80,
                         views: 189,
                         status: "active",
@@ -829,8 +829,8 @@
                     },
                     {
                         id: 3,
-                        title: "شقة مفروشة في الرياض",
-                        category: "عقارات",
+                        title: "Apartamento amueblado en Madrid",
+                        category: "Propiedades",
                         price: 3500,
                         views: 512,
                         status: "paused",
@@ -839,12 +839,12 @@
                 ];
             }
             
-            // تحديث اسم المستخدم في الهيدر
+            // Actualizar nombre de usuario en el header
             document.getElementById('dashboardUserName').textContent = 
-                `مرحباً، ${dashboardData.profile.fullName.split(' ')[0]}!`;
+                `¡Hola, ${dashboardData.profile.fullName.split(' ')[0]}!`;
         }
         
-        // تحديث الإحصائيات
+        // Actualizar estadísticas
         function updateDashboardStats() {
             document.getElementById('totalAdsStat').textContent = dashboardData.profile.totalAds;
             document.getElementById('totalViewsStat').textContent = 
@@ -852,16 +852,16 @@
             document.getElementById('totalMessagesStat').textContent = dashboardData.profile.totalMessages;
             document.getElementById('ratingStat').textContent = dashboardData.profile.rating;
             
-            // تحديث اسم الخطة
+            // Actualizar nombre del plan
             try {
                 const planInfo = getCurrentPlanInfo();
                 document.getElementById('dashboardUserPlan').textContent = planInfo.name;
             } catch (error) {
-                console.error('خطأ في تحميل معلومات الخطة:', error);
+                console.error('Error cargando información del plan:', error);
             }
         }
         
-        // تحديث تقدم استخدام الخطة
+        // Actualizar progreso del uso del plan
         function updatePlanProgress() {
             try {
                 const planInfo = getCurrentPlanInfo();
@@ -871,7 +871,7 @@
                 document.getElementById('adsProgressBar').style.width = `${progressPercentage}%`;
                 document.getElementById('adsProgressText').textContent = progressText;
                 
-                // تغيير لون الشريط حسب النسبة
+                // Cambiar color de la barra según el porcentaje
                 const progressBar = document.getElementById('adsProgressBar');
                 if (progressPercentage >= 90) {
                     progressBar.style.background = '#ef4444';
@@ -882,11 +882,11 @@
                 }
                 
             } catch (error) {
-                console.error('خطأ في تحديث تقدم الخطة:', error);
+                console.error('Error actualizando progreso del plan:', error);
             }
         }
         
-        // التحقق من استخدام الخطة وإظهار نصيحة
+        // Verificar uso del plan y mostrar consejo
         function checkPlanUsage() {
             try {
                 const planInfo = getCurrentPlanInfo();
@@ -897,8 +897,8 @@
                     alertDiv.innerHTML = `
                         <span>⚠️</span>
                         <div>
-                            <strong>تنبيه:</strong> باقي ${planInfo.adsRemaining} إعلان فقط في خطتك الحالية
-                            <a href="upgrade-plans.html" style="color: #92400e; font-weight: bold; margin-right: 10px;">ترقية الآن</a>
+                            <strong>Alerta:</strong> Solo quedan ${planInfo.adsRemaining} anuncios en tu plan actual
+                            <a href="upgrade-plans.html" style="color: #92400e; font-weight: bold; margin-left: 10px;">Mejorar Ahora</a>
                         </div>
                     `;
                     alertDiv.className = 'alert alert-warning';
@@ -907,19 +907,19 @@
                     alertDiv.innerHTML = `
                         <span>💡</span>
                         <div>
-                            <strong>نصيحة:</strong> يمكنك ترقية خطتك لنشر المزيد من الإعلانات
-                            <a href="upgrade-plans.html" style="color: #1e40af; font-weight: bold; margin-right: 10px;">ترقية الآن</a>
+                            <strong>Consejo:</strong> Puedes mejorar tu plan para publicar más anuncios
+                            <a href="upgrade-plans.html" style="color: #1e40af; font-weight: bold; margin-left: 10px;">Mejorar Ahora</a>
                         </div>
                     `;
                     alertDiv.className = 'alert alert-info';
                 }
                 
             } catch (error) {
-                console.error('خطأ في التحقق من استخدام الخطة:', error);
+                console.error('Error verificando uso del plan:', error);
             }
         }
         
-        // تحميل الإعلانات الأخيرة
+        // Cargar anuncios recientes
         function loadRecentAds() {
             const tableBody = document.getElementById('recentAdsTable');
             let html = '';
@@ -932,19 +932,19 @@
                 }[ad.status] || 'status-pending';
                 
                 const statusText = {
-                    'active': 'نشط',
-                    'paused': 'متوقف',
-                    'pending': 'قيد المراجعة'
-                }[ad.status] || 'قيد المراجعة';
+                    'active': 'Activo',
+                    'paused': 'Pausado',
+                    'pending': 'En Revisión'
+                }[ad.status] || 'En Revisión';
                 
                 const date = new Date(ad.date);
-                const formattedDate = date.toLocaleDateString('ar-SA');
+                const formattedDate = date.toLocaleDateString('es-ES');
                 
                 html += `
                     <tr>
                         <td><strong>${ad.title}</strong></td>
                         <td>${ad.category}</td>
-                        <td>${ad.price} ريال/يوم</td>
+                        <td>${ad.price} €/día</td>
                         <td>${ad.views.toLocaleString()}</td>
                         <td><span class="ad-status ${statusClass}">${statusText}</span></td>
                         <td>${formattedDate}</td>
@@ -954,16 +954,16 @@
             
             tableBody.innerHTML = html;
             
-            // إظهار رسالة إذا لم يكن هناك إعلانات
+            // Mostrar mensaje si no hay anuncios
             if (dashboardData.ads.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
                             <div style="font-size: 48px; margin-bottom: 20px;">📭</div>
-                            <div style="font-size: 18px; margin-bottom: 10px;">لا توجد إعلانات حالياً</div>
-                            <div style="margin-bottom: 20px;">ابدأ بنشر أول إعلان لك الآن!</div>
+                            <div style="font-size: 18px; margin-bottom: 10px;">No hay anuncios actualmente</div>
+                            <div style="margin-bottom: 20px;">¡Comienza publicando tu primer anuncio ahora!</div>
                             <button class="action-btn" onclick="window.location.href='publish.html'" style="width: auto; padding: 10px 20px;">
-                                ➕ نشر أول إعلان
+                                ➕ Publicar Primer Anuncio
                             </button>
                         </td>
                     </tr>
@@ -971,47 +971,47 @@
             }
         }
         
-        // تحميل الإشعارات
+        // Cargar notificaciones
         function loadNotifications() {
             const notifications = [
                 {
                     id: 1,
                     icon: "🎉",
-                    title: "تهانينا! إعلانك الجديد نشط الآن",
-                    message: "تم نشر إعلان 'سيارة تويوتا كامري 2022' بنجاح وهو الآن مرئي للجميع.",
-                    time: "قبل 3 ساعات",
+                    title: "¡Felicidades! Tu nuevo anuncio está activo",
+                    message: "El anuncio 'Coche Toyota Camry 2022' se ha publicado exitosamente y ahora es visible para todos.",
+                    time: "Hace 3 horas",
                     read: false
                 },
                 {
                     id: 2,
                     icon: "👁️",
-                    title: "زيادة في المشاهدات",
-                    message: "إعلان 'شقة مفروشة في الرياض' حصل على 42 مشاهدة جديدة هذا الأسبوع.",
-                    time: "قبل يوم",
+                    title: "Aumento en vistas",
+                    message: "El anuncio 'Apartamento amueblado en Madrid' obtuvo 42 nuevas vistas esta semana.",
+                    time: "Hace 1 día",
                     read: false
                 },
                 {
                     id: 3,
                     icon: "💬",
-                    title: "رسالة جديدة",
-                    message: "لديك رسالة جديدة على إعلان 'معدات تصوير احترافية'.",
-                    time: "قبل يومين",
+                    title: "Nuevo mensaje",
+                    message: "Tienes un nuevo mensaje en el anuncio 'Equipo de fotografía profesional'.",
+                    time: "Hace 2 días",
                     read: true
                 },
                 {
                     id: 4,
                     icon: "📊",
-                    title: "تقرير أداء شهري",
-                    message: "تقرير أداء إعلاناتك لشهر أكتوبر جاهز للمشاهدة.",
-                    time: "قبل 3 أيام",
+                    title: "Reporte de rendimiento mensual",
+                    message: "El reporte de rendimiento de tus anuncios para octubre está listo para ver.",
+                    time: "Hace 3 días",
                     read: true
                 },
                 {
                     id: 5,
                     icon: "💎",
-                    title: "عرض ترقية خاص",
-                    message: "احصل على خصم 20% عند الترقية للخطة الذهبية هذا الشهر.",
-                    time: "قبل أسبوع",
+                    title: "Oferta especial de mejora",
+                    message: "Obtén un 20% de descuento al mejorar al Plan Oro este mes.",
+                    time: "Hace 1 semana",
                     read: true
                 }
             ];
@@ -1028,14 +1028,14 @@
                             <div class="notification-message">${notification.message}</div>
                             <div class="notification-time">${notification.time}</div>
                         </div>
-                        ${!notification.read ? '<div style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-right: 10px;"></div>' : ''}
+                        ${!notification.read ? '<div style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-left: 10px;"></div>' : ''}
                     </div>
                 `;
             });
             
             container.innerHTML = html;
             
-            // إضافة مستمعين للنقر على الإشعارات
+            // Agregar listeners para notificaciones
             document.querySelectorAll('.notification-item').forEach(item => {
                 item.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');
@@ -1044,7 +1044,7 @@
             });
         }
         
-        // تعيين الإشعار كمقروء
+        // Marcar notificación como leída
         function markNotificationAsRead(id) {
             const notification = document.querySelector(`.notification-item[data-id="${id}"]`);
             if (notification) {
@@ -1052,12 +1052,12 @@
                 const dot = notification.querySelector('div[style*="background: #10b981"]');
                 if (dot) dot.remove();
                 
-                // تحديث العداد
+                // Actualizar contador
                 updateUnreadCount();
             }
         }
         
-        // تعيين كل الإشعارات كمقروءة
+        // Marcar todas las notificaciones como leídas
         function markAllAsRead() {
             document.querySelectorAll('.notification-item').forEach(item => {
                 item.classList.remove('unread');
@@ -1065,12 +1065,12 @@
                 if (dot) dot.remove();
             });
             
-            // إظهار رسالة تأكيد
+            // Mostrar mensaje de confirmación
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert alert-success';
             alertDiv.innerHTML = `
                 <span>✅</span>
-                <div>تم تعيين جميع الإشعارات كمقروءة</div>
+                <div>Todas las notificaciones han sido marcadas como leídas</div>
             `;
             
             const container = document.querySelector('.container');
@@ -1081,30 +1081,30 @@
             }, 3000);
         }
         
-        // تحديث عدد الإشعارات غير المقروءة
+        // Actualizar contador de notificaciones no leídas
         function updateUnreadCount() {
             const unreadCount = document.querySelectorAll('.notification-item.unread').length;
-            // يمكن استخدام هذا العدد في المستقبل لعرض بادجة
+            // Puede usarse para mostrar una insignia en el futuro
         }
         
-        // إظهار المساعدة
+        // Mostrar ayuda
         function showHelp() {
-            alert(`مرحباً في لوحة تحكم RentHub 2030!\n\n📝 نشر إعلان جديد: اضغط على "نشر إعلان جديد" في الشريط الجانبي\n📋 إدارة الإعلانات: اضغط على "إعلاناتي المنشورة"\n💎 ترقية الخطة: اضغط على "ترقية خطتي"\n👤 الملف الشخصي: اضغط على "الملف الشخصي"\n\nلأي استفسارات أخرى، يمكنك التواصل مع الدعم الفني.`);
+            alert(`¡Bienvenido al Panel de Control de RentHub 2030!\n\n📝 Publicar nuevo anuncio: Haz clic en "Publicar Nuevo Anuncio" en la barra lateral\n📋 Gestionar anuncios: Haz clic en "Mis Anuncios Publicados"\n💎 Mejorar plan: Haz clic en "Mejorar Mi Plan"\n👤 Perfil: Haz clic en "Mi Perfil"\n\nPara cualquier otra consulta, puedes contactar con soporte técnico.`);
         }
         
-        // تحديث لوحة التحكم
+        // Actualizar panel de control
         function refreshDashboard() {
             loadDashboardData();
             updateDashboardStats();
             loadRecentAds();
             updatePlanProgress();
             
-            // إظهار رسالة نجاح
+            // Mostrar mensaje de éxito
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert alert-success';
             alertDiv.innerHTML = `
                 <span>🔄</span>
-                <div>تم تحديث لوحة التحكم بنجاح</div>
+                <div>Panel de Control actualizado exitosamente</div>
             `;
             
             const container = document.querySelector('.container');
@@ -1115,12 +1115,12 @@
             }, 2000);
         }
         
-        // جعل الدوال متاحة عالمياً
+        // Hacer funciones disponibles globalmente
         window.refreshDashboard = refreshDashboard;
         window.markAllAsRead = markAllAsRead;
         window.showHelp = showHelp;
         
-        // تحديث تلقائي كل 30 ثانية
+        // Actualización automática cada 30 segundos
         setInterval(() => {
             updatePlanProgress();
         }, 30000);
