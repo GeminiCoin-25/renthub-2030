@@ -1,0 +1,537 @@
+<section class="categories-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-th-large"></i> Categorías Populares
+            </h2>
+            <p class="section-subtitle">Descubre lo que puedes alquilar en tu ciudad</p>
+        </div>
+        
+        <div class="categories-grid">
+            <!-- Categoría 1: Herramientas -->
+            <div class="category-card" data-category="herramientas" onclick="filterByCategory('herramientas')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #4361ee, #3a0ca3);">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Herramientas</h3>
+                    <p class="category-description">Taladros, sierras, martillos y más</p>
+                    <div class="category-stats">
+                        <span class="stat-count">1,245</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 5€/hora</span>
+                </div>
+            </div>
+            
+            <!-- Categoría 2: Vehículos -->
+            <div class="category-card" data-category="vehiculos" onclick="filterByCategory('vehiculos')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #00b09b, #96c93d);">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Vehículos</h3>
+                    <p class="category-description">Coches, furgonetas, motos</p>
+                    <div class="category-stats">
+                        <span class="stat-count">892</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 15€/hora</span>
+                </div>
+            </div>
+            
+            <!-- Categoría 3: Electrónica -->
+            <div class="category-card" data-category="electronica" onclick="filterByCategory('electronica')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff8e53);">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Electrónica</h3>
+                    <p class="category-description">Cámaras, drones, equipos de sonido</p>
+                    <div class="category-stats">
+                        <span class="stat-count">756</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 8€/hora</span>
+                </div>
+            </div>
+            
+            <!-- Categoría 4: Hogar -->
+            <div class="category-card" data-category="hogar" onclick="filterByCategory('hogar')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #9d4edd, #c77dff);">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Hogar y Jardín</h3>
+                    <p class="category-description">Muebles, herramientas de jardín</p>
+                    <div class="category-stats">
+                        <span class="stat-count">1,543</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 3€/hora</span>
+                </div>
+            </div>
+            
+            <!-- Categoría 5: Deporte -->
+            <div class="category-card" data-category="deporte" onclick="filterByCategory('deporte')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #4cc9f0, #4895ef);">
+                    <i class="fas fa-basketball-ball"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Deporte y Ocio</h3>
+                    <p class="category-description">Bicicletas, equipos deportivos</p>
+                    <div class="category-stats">
+                        <span class="stat-count">634</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 6€/hora</span>
+                </div>
+            </div>
+            
+            <!-- Categoría 6: Eventos -->
+            <div class="category-card" data-category="eventos" onclick="filterByCategory('eventos')">
+                <div class="category-icon" style="background: linear-gradient(135deg, #f72585, #b5179e);">
+                    <i class="fas fa-glass-cheers"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Eventos y Fiestas</h3>
+                    <p class="category-description">Mobiliario, sonido, decoración</p>
+                    <div class="category-stats">
+                        <span class="stat-count">478</span>
+                        <span class="stat-label">artículos</span>
+                    </div>
+                </div>
+                <div class="category-badge">
+                    <span class="price-range">Desde 10€/hora</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="categories-actions">
+            <button class="btn-view-all" onclick="viewAllCategories()">
+                Ver todas las categorías <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* أنماط Categories Section */
+    .categories-section {
+        padding: 80px 0 60px;
+        background: #f8f9fa;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .section-title i {
+        color: #4361ee;
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    
+    .category-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+    }
+    
+    .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: inherit;
+        background-image: inherit;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .category-card:active {
+        transform: translateY(-4px);
+    }
+    
+    .category-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    
+    .category-content {
+        flex: 1;
+    }
+    
+    .category-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    
+    .category-description {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+    
+    .category-stats {
+        display: flex;
+        align-items: baseline;
+        gap: 5px;
+    }
+    
+    .stat-count {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #4361ee;
+        line-height: 1;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #888;
+        font-weight: 500;
+    }
+    
+    .category-badge {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+    }
+    
+    .price-range {
+        background: rgba(67, 97, 238, 0.1);
+        color: #4361ee;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .categories-actions {
+        text-align: center;
+        margin-top: 40px;
+    }
+    
+    .btn-view-all {
+        background: transparent;
+        border: 2px solid #4361ee;
+        color: #4361ee;
+        padding: 15px 35px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+    }
+    
+    .btn-view-all:hover {
+        background: #4361ee;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.25);
+    }
+    
+    .btn-view-all i {
+        transition: transform 0.3s;
+    }
+    
+    .btn-view-all:hover i {
+        transform: translateX(5px);
+    }
+    
+    /* تصميم متجاوب */
+    @media (max-width: 992px) {
+        .categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 2rem;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .categories-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .category-card {
+            padding: 20px;
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: 1.2rem;
+        }
+        
+        .stat-count {
+            font-size: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .category-card {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .category-badge {
+            position: static;
+            margin-top: 10px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<script>
+    // تصفية حسب الفئة
+    function filterByCategory(category) {
+        // تنشيط البطاقة المحددة
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 5px 20px rgba(0,0,0,0.08)';
+        });
+        
+        // تمييز البطاقة المحددة
+        const selectedCard = event.currentTarget;
+        selectedCard.style.transform = 'translateY(-8px)';
+        selectedCard.style.boxShadow = '0 15px 40px rgba(0,0,0,0.2)';
+        
+        // الحصول على اسم الفئة
+        const categoryNames = {
+            herramientas: 'Herramientas',
+            vehiculos: 'Vehículos',
+            electronica: 'Electrónica',
+            hogar: 'Hogar y Jardín',
+            deporte: 'Deporte y Ocio',
+            eventos: 'Eventos y Fiestas'
+        };
+        
+        const categoryName = categoryNames[category] || category;
+        
+        // عرض رسالة
+        showCategoryAlert(`Mostrando artículos de: ${categoryName}`, category);
+        
+        // في الموقع الحقيقي، هنا سيتم تصفية القائمة
+        console.log(`Filtrando por categoría: ${category}`);
+        
+        // محاكاة تحميل البيانات
+        setTimeout(() => {
+            const counts = {
+                herramientas: 1245,
+                vehiculos: 892,
+                electronica: 756,
+                hogar: 1543,
+                deporte: 634,
+                eventos: 478
+            };
+            
+            showCategoryAlert(`Encontrados ${counts[category]} artículos en ${categoryName}`, 'success');
+        }, 1000);
+    }
+    
+    // عرض جميع الفئات
+    function viewAllCategories() {
+        showCategoryAlert('Cargando todas las categorías...', 'info');
+        
+        // محاكاة تحميل الصفحة
+        setTimeout(() => {
+            showCategoryAlert('Todas las categorías cargadas', 'success');
+            
+            // في الموقع الحقيقي، هنا سيتم التوجيه لصفحة الفئات
+            // window.location.href = 'categories.html';
+        }, 1500);
+    }
+    
+    // عرض رسالة للفئات
+    function showCategoryAlert(message, type = 'info') {
+        // إزالة أي رسائل سابقة
+        const existingAlert = document.querySelector('.category-alert');
+        if (existingAlert) {
+            existingAlert.remove();
+        }
+        
+        const colors = {
+            herramientas: '#4361ee',
+            vehiculos: '#00b09b',
+            electronica: '#ff6b6b',
+            hogar: '#9d4edd',
+            deporte: '#4cc9f0',
+            eventos: '#f72585',
+            info: '#4361ee',
+            success: '#2ec4b6',
+            warning: '#ff9f1c'
+        };
+        
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'category-alert';
+        alertDiv.innerHTML = `
+            <div style="
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${colors[type] || colors.info};
+                color: white;
+                padding: 15px 30px;
+                border-radius: 12px;
+                z-index: 9997;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideUp 0.3s ease;
+                max-width: 500px;
+                font-weight: 500;
+                text-align: center;
+            ">
+                <i class="fas fa-filter"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    margin-left: 15px;
+                    opacity: 0.8;
+                    transition: opacity 0.3s;
+                ">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // إزالة تلقائية
+        setTimeout(() => {
+            if (alertDiv.parentElement) {
+                alertDiv.remove();
+            }
+        }, 4000);
+    }
+    
+    // تحميل البيانات
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ Categories section loaded');
+        
+        // إضافة أنيميشن للبطاقات
+        const cards = document.querySelectorAll('.category-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.animation = 'fadeInUp 0.6s ease forwards';
+            card.style.opacity = '0';
+        });
+        
+        // تعريف الأنيميشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, 30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, 0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // إضافة تأثير hover للبطاقات
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    });
+</script>
