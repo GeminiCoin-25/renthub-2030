@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نشر إعلان جديد - RentHub 2030</title>
+    <title>Publicar Nuevo Anuncio - RentHub 2030</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +24,7 @@
             padding: 20px;
         }
         
-        /* الهيدر */
+        /* Header */
         header {
             background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
@@ -61,14 +61,14 @@
             opacity: 0.9;
         }
         
-        /* حالة الاشتراك */
+        /* Estado de suscripción */
         .subscription-status {
             background: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-right: 5px solid #4f46e5;
+            border-left: 5px solid #4f46e5;
         }
         
         .status-header {
@@ -101,7 +101,7 @@
             transition: width 0.5s ease;
         }
         
-        /* نموذج النشر */
+        /* Formulario de publicación */
         .publish-card {
             background: white;
             border-radius: 15px;
@@ -152,7 +152,7 @@
             gap: 20px;
         }
         
-        /* أزرار */
+        /* Botones */
         .buttons-container {
             display: flex;
             justify-content: space-between;
@@ -197,7 +197,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         
-        /* فوتر */
+        /* Pie de página */
         footer {
             text-align: center;
             margin-top: 50px;
@@ -206,7 +206,7 @@
             border-top: 1px solid #eee;
         }
         
-        /* رسائل */
+        /* Mensajes */
         .message {
             padding: 15px;
             border-radius: 10px;
@@ -250,7 +250,7 @@
     </style>
 </head>
 <body>
-    <!-- الهيدر -->
+    <!-- Header -->
     <header>
         <div class="container header-content">
             <div class="logo">
@@ -258,130 +258,130 @@
                 RentHub 2030
             </div>
             <nav class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="dashboard.html">لوحة التحكم</a>
-                <a href="my-ads.html">إعلاناتي</a>
-                <a href="profile.html">حسابي</a>
-                <a href="upgrade.html" style="background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px;">
-                    ترقية الخطة
+                <a href="index.html">Inicio</a>
+                <a href="dashboard.html">Panel de Control</a>
+                <a href="my-ads.html">Mis Anuncios</a>
+                <a href="profile.html">Mi Cuenta</a>
+                <a href="upgrade-plans.html" style="background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px;">
+                    Mejorar Plan
                 </a>
             </nav>
         </div>
     </header>
 
     <div class="container">
-        <!-- حالة الاشتراك -->
+        <!-- Estado de suscripción -->
         <div class="subscription-status">
             <div class="status-header">
-                <h2>حالة اشتراكك</h2>
-                <span class="plan-badge" id="currentPlanName">جاري التحميل...</span>
+                <h2>Estado de tu Suscripción</h2>
+                <span class="plan-badge" id="currentPlanName">Cargando...</span>
             </div>
-            <p id="planDescription">نظام الاشتراك يحمّل...</p>
+            <p id="planDescription">Sistema de suscripción cargando...</p>
             
             <div class="progress-bar">
                 <div class="progress-fill" id="usageProgress" style="width: 0%"></div>
             </div>
             
             <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                <span id="adsUsed">0 إعلان</span>
-                <span id="adsLimit">0 إعلان</span>
+                <span id="adsUsed">0 anuncios</span>
+                <span id="adsLimit">0 anuncios</span>
             </div>
             
             <div id="upgradeMessage" class="message warning" style="margin-top: 15px;">
-                <strong>ملاحظة:</strong> وصلت للحد الأقصى. <a href="upgrade.html" style="color: #92400e; font-weight: bold;">ترقية الآن</a>
+                <strong>Nota:</strong> Has alcanzado el límite máximo. <a href="upgrade-plans.html" style="color: #92400e; font-weight: bold;">Mejorar Ahora</a>
             </div>
         </div>
 
-        <!-- نموذج نشر الإعلان -->
+        <!-- Formulario de publicación -->
         <div class="publish-card">
-            <h1 class="form-title">📝 نشر إعلان جديد</h1>
+            <h1 class="form-title">📝 Publicar Nuevo Anuncio</h1>
             
             <div id="publishMessage" class="message"></div>
             
             <form id="adForm">
                 <div class="form-group">
-                    <label for="adTitle">عنوان الإعلان *</label>
-                    <input type="text" id="adTitle" placeholder="مثال: سيارتي للايجار اليومي - موديل 2023" required>
+                    <label for="adTitle">Título del Anuncio *</label>
+                    <input type="text" id="adTitle" placeholder="Ej: Mi coche para alquiler diario - Modelo 2023" required>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="adCategory">التصنيف *</label>
+                        <label for="adCategory">Categoría *</label>
                         <select id="adCategory" required>
-                            <option value="">اختر التصنيف</option>
-                            <option value="cars">سيارات</option>
-                            <option value="tools">أدوات ومعدات</option>
-                            <option value="electronics">إلكترونيات</option>
-                            <option value="furniture">أثاث</option>
-                            <option value="properties">عقارات</option>
-                            <option value="other">أخرى</option>
+                            <option value="">Seleccionar Categoría</option>
+                            <option value="cars">Coches</option>
+                            <option value="tools">Herramientas y Equipos</option>
+                            <option value="electronics">Electrónica</option>
+                            <option value="furniture">Muebles</option>
+                            <option value="properties">Propiedades</option>
+                            <option value="other">Otros</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="adPrice">السعر (ريال/يوم) *</label>
-                        <input type="number" id="adPrice" placeholder="مثال: 100" min="1" required>
+                        <label for="adPrice">Precio (€/día) *</label>
+                        <input type="number" id="adPrice" placeholder="Ej: 100" min="1" required>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="adCity">المدينة *</label>
+                        <label for="adCity">Ciudad *</label>
                         <select id="adCity" required>
-                            <option value="">اختر المدينة</option>
-                            <option value="riyadh">الرياض</option>
-                            <option value="jeddah">جدة</option>
-                            <option value="dammam">الدمام</option>
-                            <option value="makkah">مكة</option>
-                            <option value="madina">المدينة</option>
-                            <option value="khobar">الخبر</option>
+                            <option value="">Seleccionar Ciudad</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="barcelona">Barcelona</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="sevilla">Sevilla</option>
+                            <option value="bilbao">Bilbao</option>
+                            <option value="malaga">Málaga</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="adPhone">رقم الجوال *</label>
-                        <input type="tel" id="adPhone" placeholder="05XXXXXXXX" pattern="[0-9]{10}" required>
+                        <label for="adPhone">Número de Teléfono *</label>
+                        <input type="tel" id="adPhone" placeholder="6XXXXXXXX" pattern="[0-9]{9}" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="adDescription">وصف مفصل للإعلان *</label>
-                    <textarea id="adDescription" placeholder="صف ما تقدمه للايجار بالتفصيل..." required></textarea>
+                    <label for="adDescription">Descripción detallada *</label>
+                    <textarea id="adDescription" placeholder="Describe lo que ofreces para alquilar en detalle..." required></textarea>
                     <div style="font-size: 14px; color: #666; margin-top: 5px; text-align: left;">
-                        <span id="charCount">0</span>/500 حرف
+                        <span id="charCount">0</span>/500 caracteres
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>رفع صورة (اختياري)</label>
+                    <label>Subir imagen (opcional)</label>
                     <input type="file" id="adImage" accept="image/*">
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">الحجم الأقصى: 5MB</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">Tamaño máximo: 5MB</div>
                 </div>
             </form>
             
             <div class="buttons-container">
                 <button class="secondary-btn" onclick="window.location.href='dashboard.html'">
-                    ← العودة للوحة التحكم
+                    ← Volver al Panel de Control
                 </button>
                 <button class="publish-btn" onclick="handlePublishAd()">
-                    🚀 نشر الإعلان الآن
+                    🚀 Publicar Anuncio Ahora
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- الفوتر -->
+    <!-- Pie de página -->
     <footer>
-        <p>© 2023 RentHub 2030. جميع الحقوق محفوظة.</p>
-        <p style="font-size: 14px; margin-top: 10px;">نظام آمن لنشر وإدارة الإعلانات</p>
+        <p>© 2023 RentHub 2030. Todos los derechos reservados.</p>
+        <p style="font-size: 14px; margin-top: 10px;">Sistema seguro para publicar y gestionar anuncios</p>
     </footer>
 
-    <!-- نظام الاشتراكات -->
+    <!-- Sistema de suscripciones -->
     <script src="js/subscriptions.js"></script>
     
-    <!-- كود خاص بصفحة النشر -->
+    <!-- Código específico de la página de publicación -->
     <script>
-        // تحديث عداد الأحرف
+        // Actualizar contador de caracteres
         document.getElementById('adDescription').addEventListener('input', function() {
             const count = this.value.length;
             document.getElementById('charCount').textContent = count;
@@ -392,24 +392,24 @@
             }
         });
         
-        // تحديث حالة الاشتراك في الصفحة
+        // Actualizar visualización del estado de suscripción
         function updateSubscriptionDisplay() {
             try {
                 const planInfo = getCurrentPlanInfo();
                 
-                // تحديث العناصر
+                // Actualizar elementos
                 document.getElementById('currentPlanName').textContent = planInfo.name;
                 document.getElementById('planDescription').textContent = 
-                    `خطة ${planInfo.name} - ${planInfo.price === 0 ? 'مجانية' : `$${planInfo.price}/شهر`}`;
+                    `Plan ${planInfo.name} - ${planInfo.price === 0 ? 'Gratis' : `€${planInfo.price}/mes`}`;
                 
-                document.getElementById('adsUsed').textContent = `${planInfo.adsUsed} إعلان`;
+                document.getElementById('adsUsed').textContent = `${planInfo.adsUsed} anuncios`;
                 document.getElementById('adsLimit').textContent = 
-                    `${planInfo.adsLimit === 100 ? 'غير محدود' : planInfo.adsLimit} إعلان`;
+                    `${planInfo.adsLimit === 100 ? 'Ilimitados' : planInfo.adsLimit} anuncios`;
                 
-                // شريط التقدم
+                // Barra de progreso
                 document.getElementById('usageProgress').style.width = `${planInfo.usagePercentage}%`;
                 
-                // رسالة الترقية
+                // Mensaje de mejora
                 const upgradeMsg = document.getElementById('upgradeMessage');
                 if (planInfo.adsRemaining <= 0 && planInfo.adsLimit !== 100) {
                     upgradeMsg.style.display = 'block';
@@ -417,18 +417,18 @@
                     upgradeMsg.style.display = 'none';
                 }
                 
-                // لون الشريط حسب الخطة
+                // Color según el plan
                 document.getElementById('usageProgress').style.background = planInfo.color;
                 document.getElementById('currentPlanName').style.background = planInfo.color;
                 
             } catch (error) {
-                console.error('خطأ في تحديث العرض:', error);
+                console.error('Error actualizando visualización:', error);
             }
         }
         
-        // معالجة نشر الإعلان
+        // Procesar publicación de anuncio
         async function handlePublishAd() {
-            // جمع بيانات النموذج
+            // Recoger datos del formulario
             const adData = {
                 title: document.getElementById('adTitle').value,
                 category: document.getElementById('adCategory').value,
@@ -436,34 +436,34 @@
                 city: document.getElementById('adCity').value,
                 phone: document.getElementById('adPhone').value,
                 description: document.getElementById('adDescription').value,
-                image: document.getElementById('adImage').files[0] ? 'uploaded' : null,
-                date: new Date().toLocaleDateString('ar-SA')
+                image: document.getElementById('adImage').files[0] ? 'subido' : null,
+                date: new Date().toLocaleDateString('es-ES')
             };
             
-            // التحقق من الحقول المطلوبة
+            // Verificar campos requeridos
             const requiredFields = ['title', 'category', 'price', 'city', 'phone', 'description'];
             const emptyFields = requiredFields.filter(field => !adData[field]);
             
             if (emptyFields.length > 0) {
-                showMessage('⚠️ يرجى ملء جميع الحقول المطلوبة', 'warning');
+                showMessage('⚠️ Por favor, completa todos los campos requeridos', 'warning');
                 return;
             }
             
-            // التحقق من صحة رقم الجوال
-            const phoneRegex = /^05[0-9]{8}$/;
+            // Verificar teléfono español
+            const phoneRegex = /^[6-9][0-9]{8}$/;
             if (!phoneRegex.test(adData.phone)) {
-                showMessage('📱 رقم الجوال غير صحيح. يجب أن يكون 10 أرقام تبدأ بـ 05', 'warning');
+                showMessage('📱 Número de teléfono no válido. Debe tener 9 dígitos y comenzar con 6,7,8 o 9', 'warning');
                 return;
             }
             
-            // استخدام نظام الاشتراكات للتحقق والنشر
+            // Usar sistema de suscripciones para verificar y publicar
             const result = publishNewAd(adData);
             
             if (result) {
-                showMessage('✅ تم إرسال إعلانك بنجاح! جاري المراجعة والنشر...', 'success');
+                showMessage('✅ ¡Tu anuncio se ha enviado exitosamente! Revisando y publicando...', 'success');
                 updateSubscriptionDisplay();
                 
-                // إعادة تعيين النموذج بعد 2 ثانية
+                // Restablecer formulario después de 2 segundos
                 setTimeout(() => {
                     document.getElementById('adForm').reset();
                     document.getElementById('charCount').textContent = '0';
@@ -471,30 +471,30 @@
             }
         }
         
-        // عرض الرسائل
+        // Mostrar mensajes
         function showMessage(text, type) {
             const messageDiv = document.getElementById('publishMessage');
             messageDiv.textContent = text;
             messageDiv.className = `message ${type}`;
             messageDiv.style.display = 'block';
             
-            // إخفاء الرسالة بعد 5 ثواني
+            // Ocultar mensaje después de 5 segundos
             setTimeout(() => {
                 messageDiv.style.display = 'none';
             }, 5000);
         }
         
-        // تحديث العرض عند تحميل الصفحة
+        // Actualizar visualización al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            // انتظار تحميل نظام الاشتراكات
+            // Esperar a que cargue el sistema de suscripciones
             setTimeout(() => {
                 updateSubscriptionDisplay();
             }, 300);
             
-            // إضافة مستمع لزر النشر (بديل للـ onclick)
+            // Agregar listener al botón de publicación (alternativa a onclick)
             document.querySelector('.publish-btn').addEventListener('click', handlePublishAd);
             
-            console.log('📄 صفحة النشر جاهزة!');
+            console.log('📄 ¡Página de publicación lista!');
         });
     </script>
 </body>
