@@ -4,734 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OS-RentHub - Alquila Cualquier Cosa en España</title>
-    <meta name="description" content="Alquila herramientas, coches, maquinaria y más en OS-RentHub. La plataforma de alquiler líder en España.">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- الأنماط -->
-    <link rel="stylesheet" href="css/main-styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
-    
-    <!-- Meta Tags para SEO -->
-    <meta property="og:title" content="OS-RentHub - Alquila Cualquier Cosa en España">
-    <meta property="og:description" content="La plataforma de alquiler #1 en España. Conectamos propietarios con personas que necesitan alquilar.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://renthub-2030.vercel.app">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <!-- استعلامات الوسائط للتصميم المتجاوب -->
     <style>
-        /* أنماط مؤقتة حتى يتم تحميل المكونات */
-        .loading-placeholder {
-            min-height: 100vh;
+        /* أنماط أساسية */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f8f9fa; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header {
+            background: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #eaeaea;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
-            color: white;
+        }
+        
+        .logo {
             font-size: 1.5rem;
+            font-weight: bold;
+            color: #4361ee;
+            text-decoration: none;
+        }
+        
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f5f7fa, #f0f4ff);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: #4361ee;
+        }
+        
+        /* أزرار */
+        .btn {
+            display: inline-block;
+            background: #4361ee;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
             font-weight: 600;
-        }
-        
-        .loading-spinner {
-            animation: spin 1s linear infinite;
-            margin-right: 15px;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* إخفاء المحتوى حتى يتم التحميل */
-        .main-content {
-            display: none;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- شاشة التحميل -->
-    <div id="loadingScreen" class="loading-placeholder">
-        <i class="fas fa-spinner loading-spinner"></i>
-        <span>Cargando OS-RentHub...</span>
-    </div>
-
-    <!-- المحتوى الرئيسي -->
-    <div id="mainContent" class="main-content">
-        <!-- Header Component -->
-        <div id="headerContainer"></div>
-
-        <!-- Hero Search Section -->
-        <section class="hero-section">
-            <div class="container">
-                <div class="hero-content animate-fade-in">
-                    <h1 class="hero-title">
-                        Alquila lo que <span class="gradient-text">necesites</span>, 
-                        cuando lo <span class="gradient-text">necesites</span>
-                    </h1>
-                    
-                    <p class="hero-subtitle">
-                        Desde un taladro para colgar un cuadro hasta un coche para tu boda. 
-                        <br>Encuentra lo que buscas en minutos.
-                    </p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-number">+5,000</span>
-                            <span class="stat-label">artículos disponibles</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">24h</span>
-                            <span class="stat-label">disponibilidad</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">98%</span>
-                            <span class="stat-label">satisfacción</span>
-                        </div>
-                    </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-handshake"></i> OS-RentHub
+                </a>
+                <div>
+                    <button class="btn" onclick="window.location.href='auth.html'">
+                        <i class="fas fa-user"></i> Iniciar Sesión
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <!-- Search Section Component -->
-        <div id="searchSectionContainer"></div>
-
-        <!-- Categories Grid Component -->
-        <div id="categoriesGridContainer"></div>
-
-        <!-- Listings Grid Component -->
-        <div id="listingsGridContainer"></div>
-
-        <!-- How It Works -->
-        <section class="how-it-works-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-play-circle"></i> ¿Cómo funciona?
-                    </h2>
-                    <p class="section-subtitle">Alquilar nunca fue tan fácil</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Alquila <span class="highlight">lo que necesites</span>,<br>cuando lo <span class="highlight">necesites</span></h1>
+            <p style="font-size: 1.2rem; color: #666; margin: 20px 0 30px;">
+                Desde un taladro para colgar un cuadro hasta un coche para tu boda.<br>
+                Encuentra lo que buscas en minutos.
+            </p>
+            
+            <div style="margin: 40px 0;">
+                <button class="btn" style="font-size: 1.1rem; padding: 15px 30px;" onclick="startSearch()">
+                    <i class="fas fa-search"></i> Empezar a buscar
+                </button>
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 60px; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">+5,000</div>
+                    <div style="color: #666; margin-top: 10px;">artículos disponibles</div>
                 </div>
-                
-                <div class="steps-grid">
-                    <div class="step-card animate-slide-in-left">
-                        <div class="step-number">1</div>
-                        <div class="step-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h3 class="step-title">Busca lo que necesitas</h3>
-                        <p class="step-description">
-                            Encuentra artículos disponibles cerca de ti usando nuestro buscador inteligente.
-                        </p>
-                    </div>
-                    
-                    <div class="step-card animate-fade-in">
-                        <div class="step-number">2</div>
-                        <div class="step-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <h3 class="step-title">Reserva la fecha</h3>
-                        <p class="step-description">
-                            Selecciona las fechas que necesitas y confirma la reserva.
-                        </p>
-                    </div>
-                    
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-icon">
-                            <i class="fas fa-handshake"></i>
-                        </div>
-                        <h3 class="step-title">Conecta con el propietario</h3>
-                        <p class="step-description">
-                            Coordina la entrega directamente con el propietario de forma segura.
-                        </p>
-                    </div>
-                    
-                    <div class="step-card animate-slide-in-right">
-                        <div class="step-number">4</div>
-                        <div class="step-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h3 class="step-title">Disfruta y califica</h3>
-                        <p class="step-description">
-                            Usa el artículo y comparte tu experiencia para ayudar a otros.
-                        </p>
-                    </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">24h</div>
+                    <div style="color: #666; margin-top: 10px;">disponibilidad</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">98%</div>
+                    <div style="color: #666; margin-top: 10px;">satisfacción</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Testimonials -->
-        <section class="testimonials-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-comment-alt"></i> Lo que dicen nuestros usuarios
-                    </h2>
-                    <p class="section-subtitle">Experiencias reales de la comunidad</p>
-                </div>
-                
-                <div class="testimonials-grid">
-                    <div class testimonial-card>
-                        <div class="testimonial-content">
-                            <p class="testimonial-text">
-                                "Alquilé un taladro por 2 horas para colgar unos cuadros. 
-                                ¡Mucho más barato que comprar uno! El proceso fue súper fácil."
-                            </p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Ana Martínez</h4>
-                                <p class="author-location">Madrid</p>
-                            </div>
-                            <div class="author-rating">
-                                <span class="stars">★★★★★</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <p class="testimonial-text">
-                                "Necesitaba un coche para mi boda por un día. 
-                                Encontré el perfecto en OS-RentHub y ahorré cientos de euros."
-                            </p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Carlos López</h4>
-                                <p class="author-location">Barcelona</p>
-                            </div>
-                            <div class="author-rating">
-                                <span class="stars">★★★★★</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <p class="testimonial-text">
-                                "Como propietario, he ganado dinero extra alquilando 
-                                mis herramientas que casi no uso. Excelente plataforma."
-                            </p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">María García</h4>
-                                <p class="author-location">Valencia</p>
-                            </div>
-                            <div class="author-rating">
-                                <span class="stars">★★★★☆</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- المكونات سيتم تحميلها هنا -->
+    <div id="components-container"></div>
+
+    <!-- Footer -->
+    <footer style="background: #0f172a; color: white; padding: 60px 0 30px; margin-top: 80px;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h3 style="margin-bottom: 20px; color: #4cc9f0;">
+                    <i class="fas fa-handshake"></i> OS-RentHub España
+                </h3>
+                <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
+                    La plataforma de alquiler líder en España. Conectamos personas que tienen cosas con personas que las necesitan.
+                </p>
             </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2 class="cta-title">¿Listo para empezar?</h2>
-                    <p class="cta-subtitle">
-                        Únete a miles de personas que ya están alquilando y ganando dinero extra.
-                    </p>
-                    <div class="cta-buttons">
-                        <button class="btn btn-primary btn-lg" onclick="window.location.href='auth.html?action=signup'">
-                            <i class="fas fa-user-plus"></i> Crear cuenta gratis
-                        </button>
-                        <button class="btn btn-outline btn-lg" onclick="window.location.href='how-it-works.html'">
-                            <i class="fas fa-play-circle"></i> Ver cómo funciona
-                        </button>
-                    </div>
-                </div>
+            
+            <div style="text-align: center; color: #94a3b8; font-size: 0.9rem;">
+                <p>&copy; 2024 OS-RentHub. Todos los derechos reservados.</p>
+                <p style="margin-top: 10px;">
+                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Términos</a> |
+                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Privacidad</a> |
+                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Ayuda</a>
+                </p>
             </div>
-        </section>
+        </div>
+    </footer>
 
-        <!-- Footer Component -->
-        <div id="footerContainer"></div>
-    </div>
-
-    <!-- JavaScript Files -->
-    <script src="js/main-script.js"></script>
-    
-    <!-- Load Components -->
     <script>
         // دالة تحميل المكونات
         async function loadComponents() {
-            try {
-                // تحميل Header
-                const headerResponse = await fetch('components/main-header.html');
-                const headerHTML = await headerResponse.text();
-                document.getElementById('headerContainer').innerHTML = headerHTML;
-                
-                // تحميل Search Section
-                const searchResponse = await fetch('components/search-section.html');
-                const searchHTML = await searchResponse.text();
-                document.getElementById('searchSectionContainer').innerHTML = searchHTML;
-                
-                // تحميل Categories Grid
-                const categoriesResponse = await fetch('components/categories-grid.html');
-                const categoriesHTML = await categoriesResponse.text();
-                document.getElementById('categoriesGridContainer').innerHTML = categoriesHTML;
-                
-                // تحميل Listings Grid
-                const listingsResponse = await fetch('components/listings-grid.html');
-                const listingsHTML = await listingsResponse.text();
-                document.getElementById('listingsGridContainer').innerHTML = listingsHTML;
-                
-                // تحميل Footer
-                const footerResponse = await fetch('components/main-footer.html');
-                const footerHTML = await footerResponse.text();
-                document.getElementById('footerContainer').innerHTML = footerHTML;
-                
-                console.log('✅ Todos los componentes cargados');
-                
-            } catch (error) {
-                console.error('Error cargando componentes:', error);
-                showErrorMessage();
+            const components = [
+                'components/search-section.html',
+                'components/categories-grid.html', 
+                'components/listings-grid.html'
+            ];
+            
+            const container = document.getElementById('components-container');
+            
+            for (const component of components) {
+                try {
+                    const response = await fetch(component);
+                    if (response.ok) {
+                        const html = await response.text();
+                        container.innerHTML += html;
+                    }
+                } catch (error) {
+                    console.log('Error cargando:', component);
+                }
             }
         }
         
-        // دالة إظهار رسالة خطأ
-        function showErrorMessage() {
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="error-message">
-                    <h2>¡Ups! Algo salió mal</h2>
-                    <p>No se pudieron cargar algunos componentes. Por favor, recarga la página.</p>
-                    <button onclick="window.location.reload()" class="btn btn-primary">
-                        <i class="fas fa-sync-alt"></i> Recargar página
-                    </button>
-                </div>
-            `;
+        function startSearch() {
+            alert('🔍 ¡Funcionalidad de búsqueda activada!');
         }
         
-        // دالة إخفاء شاشة التحميل
-        function hideLoadingScreen() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const mainContent = document.getElementById('mainContent');
-            
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                mainContent.style.display = 'block';
-                
-                // إضافة أنيميشن للمحتوى
-                mainContent.style.animation = 'fadeIn 0.8s ease';
-            }, 500);
-        }
-        
-        // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', async function() {
-            // إضافة أنيميشن تعريف
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                
-                .error-message {
-                    text-align: center;
-                    padding: 100px 20px;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-                
-                .error-message h2 {
-                    color: #ef4444;
-                    margin-bottom: 20px;
-                }
-                
-                .error-message p {
-                    color: #666;
-                    margin-bottom: 30px;
-                    font-size: 1.1rem;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // تحميل المكونات
-            await loadComponents();
-            
-            // إخفاء شاشة التحميل
-            hideLoadingScreen();
-            
-            // تتبع زيارة الصفحة
-            if (window.RentHub) {
-                window.RentHub.trackEvent('page_view', {
-                    page_title: document.title,
-                    page_location: window.location.href
-                });
-            }
-            
-            // إضافة أنماط إضافية
-            addAdditionalStyles();
-        });
-        
-        // إضافة الأنماط الإضافية
-        function addAdditionalStyles() {
-            const additionalStyles = `
-                /* أنماط Hero Section */
-                .hero-section {
-                    background: linear-gradient(135deg, #f5f7fa 0%, #f0f4ff 100%);
-                    padding: 100px 0 60px;
-                    text-align: center;
-                }
-                
-                .hero-content {
-                    max-width: 800px;
-                    margin: 0 auto;
-                }
-                
-                .hero-title {
-                    font-size: 3.5rem;
-                    font-weight: 800;
-                    line-height: 1.2;
-                    margin-bottom: 1.5rem;
-                    color: #1a1a1a;
-                }
-                
-                .hero-subtitle {
-                    font-size: 1.3rem;
-                    color: #666;
-                    line-height: 1.6;
-                    margin-bottom: 2.5rem;
-                    max-width: 700px;
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-                
-                .hero-stats {
-                    display: flex;
-                    justify-content: center;
-                    gap: 40px;
-                    margin-top: 40px;
-                    flex-wrap: wrap;
-                }
-                
-                .stat {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-                
-                .stat-number {
-                    font-size: 2.5rem;
-                    font-weight: 700;
-                    color: #4361ee;
-                    line-height: 1;
-                }
-                
-                .stat-label {
-                    font-size: 0.95rem;
-                    color: #666;
-                    margin-top: 8px;
-                    white-space: nowrap;
-                }
-                
-                /* How It Works */
-                .how-it-works-section {
-                    padding: 80px 0;
-                    background: white;
-                }
-                
-                .section-header {
-                    text-align: center;
-                    margin-bottom: 60px;
-                }
-                
-                .section-title {
-                    font-size: 2.5rem;
-                    font-weight: 800;
-                    color: #1a1a1a;
-                    margin-bottom: 15px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 15px;
-                }
-                
-                .section-subtitle {
-                    font-size: 1.2rem;
-                    color: #666;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-                
-                .steps-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                    gap: 30px;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                }
-                
-                .step-card {
-                    background: white;
-                    border-radius: 20px;
-                    padding: 30px;
-                    text-align: center;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-                    transition: all 0.4s ease;
-                    border: 1px solid #f0f0f0;
-                }
-                
-                .step-card:hover {
-                    transform: translateY(-8px);
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-                }
-                
-                .step-number {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 50px;
-                    height: 50px;
-                    background: linear-gradient(135deg, #4361ee, #3a0ca3);
-                    color: white;
-                    border-radius: 50%;
-                    font-size: 1.5rem;
-                    font-weight: 700;
-                    margin-bottom: 20px;
-                }
-                
-                .step-icon {
-                    font-size: 2.5rem;
-                    color: #4361ee;
-                    margin-bottom: 20px;
-                }
-                
-                .step-title {
-                    font-size: 1.4rem;
-                    font-weight: 700;
-                    color: #1a1a1a;
-                    margin-bottom: 15px;
-                }
-                
-                .step-description {
-                    color: #666;
-                    line-height: 1.6;
-                }
-                
-                /* Testimonials */
-                .testimonials-section {
-                    padding: 80px 0;
-                    background: #f8f9fa;
-                }
-                
-                .testimonials-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 30px;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                }
-                
-                .testimonial-card {
-                    background: white;
-                    border-radius: 20px;
-                    padding: 30px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-                    transition: all 0.4s ease;
-                    border: 1px solid #f0f0f0;
-                }
-                
-                .testimonial-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-                }
-                
-                .testimonial-content {
-                    margin-bottom: 25px;
-                }
-                
-                .testimonial-text {
-                    color: #666;
-                    line-height: 1.6;
-                    font-style: italic;
-                    font-size: 1.1rem;
-                }
-                
-                .testimonial-author {
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
-                }
-                
-                .author-avatar {
-                    font-size: 2.5rem;
-                    color: #4361ee;
-                }
-                
-                .author-info {
-                    flex: 1;
-                }
-                
-                .author-name {
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 5px;
-                }
-                
-                .author-location {
-                    color: #666;
-                    font-size: 0.9rem;
-                }
-                
-                .author-rating {
-                    color: #fbbf24;
-                }
-                
-                /* CTA Section */
-                .cta-section {
-                    padding: 100px 0;
-                    background: linear-gradient(135deg, #4361ee, #3a0ca3);
-                    color: white;
-                    text-align: center;
-                }
-                
-                .cta-content {
-                    max-width: 700px;
-                    margin: 0 auto;
-                }
-                
-                .cta-title {
-                    font-size: 3rem;
-                    font-weight: 800;
-                    margin-bottom: 20px;
-                    color: white;
-                }
-                
-                .cta-subtitle {
-                    font-size: 1.3rem;
-                    margin-bottom: 40px;
-                    opacity: 0.9;
-                }
-                
-                .cta-buttons {
-                    display: flex;
-                    gap: 20px;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                }
-                
-                .cta-section .btn-outline {
-                    background: transparent;
-                    color: white;
-                    border: 2px solid white;
-                }
-                
-                .cta-section .btn-outline:hover {
-                    background: white;
-                    color: #4361ee;
-                }
-                
-                /* تصميم متجاوب */
-                @media (max-width: 992px) {
-                    .hero-title {
-                        font-size: 2.75rem;
-                    }
-                    
-                    .section-title {
-                        font-size: 2rem;
-                    }
-                    
-                    .cta-title {
-                        font-size: 2.5rem;
-                    }
-                }
-                
-                @media (max-width: 768px) {
-                    .hero-section {
-                        padding: 80px 0 40px;
-                    }
-                    
-                    .hero-title {
-                        font-size: 2.25rem;
-                    }
-                    
-                    .hero-subtitle {
-                        font-size: 1.1rem;
-                    }
-                    
-                    .hero-stats {
-                        gap: 30px;
-                    }
-                    
-                    .stat-number {
-                        font-size: 2rem;
-                    }
-                    
-                    .steps-grid {
-                        grid-template-columns: 1fr;
-                        max-width: 400px;
-                    }
-                    
-                    .testimonials-grid {
-                        grid-template-columns: 1fr;
-                        max-width: 400px;
-                    }
-                    
-                    .cta-buttons {
-                        flex-direction: column;
-                        align-items: center;
-                    }
-                    
-                    .cta-buttons .btn {
-                        width: 100%;
-                        max-width: 300px;
-                    }
-                }
-                
-                @media (max-width: 480px) {
-                    .hero-title {
-                        font-size: 1.875rem;
-                    }
-                    
-                    .section-title {
-                        font-size: 1.75rem;
-                    }
-                    
-                    .cta-title {
-                        font-size: 2rem;
-                    }
-                    
-                    .hero-stats {
-                        flex-direction: column;
-                        gap: 20px;
-                    }
-                }
-            `;
-            
-            const styleElement = document.createElement('style');
-            styleElement.textContent = additionalStyles;
-            document.head.appendChild(styleElement);
-        }
-        
-        // دالة للمساعدة في التنقل
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-        
-        // جعل الدوال متاحة عالمياً
-        window.navigateTo = navigateTo;
-        window.loadComponents = loadComponents;
+        // تحميل المكونات عند بدء التشغيل
+        document.addEventListener('DOMContentLoaded', loadComponents);
     </script>
 </body>
 </html>
