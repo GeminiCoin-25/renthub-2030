@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentHub - Alojamiento Costero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; }
+        .navbar { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo h1 { font-size: 1.8rem; }
+        .logo h1 i { margin-right: 10px; }
+        .search-bar { display: flex; flex-grow: 0.5; }
+        .search-bar input { padding: 0.8rem 1rem; border: none; border-radius: 0 30px 30px 0; width: 100%; font-size: 1rem; }
+        .search-bar button { padding: 0.8rem 1.5rem; background-color: #ff7e30; color: white; border: none; border-radius: 30px 0 0 30px; cursor: pointer; font-weight: bold; }
+        .nav-buttons { display: flex; gap: 1rem; align-items: center; }
+        .btn-auth, .btn-publish { padding: 0.7rem 1.2rem; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-auth { background-color: #3498db; color: white; }
+        .btn-publish { background-color: #2ecc71; color: white; }
+        .back-home { margin: 1rem 2rem; }
+        .back-home a { color: #6a11cb; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .page-header { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); color: white; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+        .coastal-intro { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .coastal-intro h2 { color: #2c3e50; margin-bottom: 1.5rem; font-size: 2rem; }
+        .coastal-intro p { color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; }
+        .coastal-categories { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .category-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
+        .category-tab { padding: 12px 25px; background: #f0f0f0; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .category-tab.active { background: #0072ff; color: white; }
+        .coastal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .coastal-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.3s; border-left: 5px solid #0072ff; position: relative; }
+        .coastal-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .badge { position: absolute; top: 15px; right: 15px; background: #ff7e30; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .coastal-icon { font-size: 2.5rem; color: #0072ff; margin-bottom: 1rem; }
+        .coastal-card h3 { color: #2c3e50; margin-bottom: 0.8rem; }
+        .coastal-card p { color: #666; line-height: 1.6; margin-bottom: 1rem; }
+        .coastal-features { background: #f5f7fa; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; }
+        .coastal-price { color: #2ecc71; font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; }
+        .price-options { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 1rem; }
+        .coastal-btn { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .destinations { background: #f5f7fa; padding: 4rem 2rem; margin-top: 3rem; }
+        .destinations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .destination-item { text-align: center; padding: 2rem; }
+        .destination-icon { font-size: 2.5rem; color: #0072ff; margin-bottom: 1rem; }
+        footer { text-align: center; padding: 2rem; background-color: #2c3e50; color: #ecf0f1; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h1><i class="fas fa-handshake"></i> RentHub</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="coastalSearch" placeholder="Buscar playa o ciudad...">
+            <button onclick="searchCoastal()"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-auth" onclick="window.location.href='index.html#auth'">
+                <i class="fas fa-user"></i> Iniciar Sesión
+            </button>
+            <button class="btn-publish" onclick="window.location.href='index.html#auth'">
+                <i class="fas fa-plus-circle"></i> Publicar Alojamiento
+            </button>
+        </div>
+    </header>
+
+    <div class="back-home">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+    </div>
+
+    <section class="page-header">
+        <h1><i class="fas fa-umbrella-beach"></i> Alojamiento Costero</h1>
+        <p>Vive el verano español en su máximo esplendor. Habitaciones, apartamentos y casas cerca de las mejores playas</p>
+    </section>
+
+    <section class="coastal-intro">
+        <h2>Tu verano perfecto al mejor precio</h2>
+        <p>¿Por qué pagar precios de hotel cuando puedes alojarte como un local? Conectamos viajeros con propietarios que tienen habitaciones libres o apartamentos vacacionales en las costas más bonitas de España.</p>
+    </section>
+
+    <section class="coastal-categories">
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="filterCoastal('all')">Todos</button>
+            <button class="category-tab" onclick="filterCoastal('room')">Habitaciones</button>
+            <button class="category-tab" onclick="filterCoastal('apartment')">Apartamentos</button>
+            <button class="category-tab" onclick="filterCoastal('house')">Casas</button>
+            <button class="category-tab" onclick="filterCoastal('villa')">Villas</button>
+        </div>
+
+        <div class="coastal-grid" id="coastalContainer">
+        </div>
+    </section>
+
+    <section class="destinations">
+        <h2 style="text-align:center; color:#2c3e50; margin-bottom:2rem;">Destinos más populares</h2>
+        <div class="destinations-grid">
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <h3>Costa del Sol</h3>
+                <p>Málaga, Marbella, Torremolinos. 320 días de sol al año</p>
+            </div>
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-anchor"></i>
+                </div>
+                <h3>Costa Brava</h3>
+                <p>Playas salvajes y calas escondidas en Girona</p>
+            </div>
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-city"></i>
+                </div>
+                <h3>Barcelona</h3>
+                <p>Playas urbanas y cultura mediterránea</p>
+            </div>
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <h3>Islas Baleares</h3>
+                <p>Mallorca, Ibiza, Menorca. Paraíso en el Mediterráneo</p>
+            </div>
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-volcano"></i>
+                </div>
+                <h3>Canarias</h3>
+                <p>Verano eterno en Tenerife, Gran Canaria, Lanzarote</p>
+            </div>
+            <div class="destination-item">
+                <div class="destination-icon">
+                    <i class="fas fa-fish"></i>
+                </div>
+                <h3>Valencia</h3>
+                <p>Playas extensas y paella auténtica</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:linear-gradient(135deg, #00c6ff, #0072ff); color:white; padding:4rem 2rem; text-align:center;">
+        <h2 style="font-size:2.2rem; margin-bottom:1rem;">¿Tienes una habitación libre o apartamento vacacional?</h2>
+        <p style="font-size:1.2rem; margin-bottom:2rem; max-width:700px; margin-left:auto; margin-right:auto;">Millones de turistas buscan alojamiento en la costa española cada verano</p>
+        <button onclick="window.location.href='index.html#auth'" style="padding:15px 40px; background:white; color:#0072ff; border:none; border-radius:30px; font-size:1.3rem; font-weight:bold; cursor:pointer;">
+            <i class="fas fa-home"></i> Publica tu Alojamiento
+        </button>
+    </section>
+
+    <footer>
+        <p>© 2024 RentHub - Sección de Alojamiento Costero</p>
+        <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;"><i class="fas fa-info-circle"></i> Precios por persona/noche. Temporada alta (junio-septiembre)</p>
+    </footer>
+
+    <script>
+        const coastalProperties = [
+            { 
+                id: 1, 
+                title: "Habitación con vista al mar - Málaga", 
+                category: "room", 
+                description: "Habitación privada en piso compartido a 200m de la playa. Ideal para mochileros", 
+                features: "Vista al mar - WiFi - Cocina compartida - Toallas incluidas",
+                prices: { daily: "35€", weekly: "210€", monthly: "750€" },
+                badge: "Más reservado",
+                icon: "fas fa-bed"
+            },
+            { 
+                id: 2, 
+                title: "Apartamento en primera línea - Marbella", 
+                category: "apartment", 
+                description: "Apartamento completo con terraza y vistas directas al Mediterráneo", 
+                features: "2 dormitorios - Terraza - Piscina comunitaria - Aire acondicionado",
+                prices: { daily: "120€", weekly: "700€", monthly: "2500€" },
+                badge: "Lujo",
+                icon: "fas fa-building"
+            },
+            { 
+                id: 3, 
+                title: "Casa familiar con jardín - Costa Brava", 
+                category: "house", 
+                description: "Casa típica mediterránea con jardín privado y barbacoa", 
+                features: "4 dormitorios - Jardín 500m² - Parking - Cerca de calas",
+                prices: { daily: "180€", weekly: "1100€", monthly: "3800€" },
+                badge: "Para familias",
+                icon: "fas fa-home"
+            },
+            { 
+                id: 4, 
+                title: "Estudio para parejas - Barcelona", 
+                category: "apartment", 
+                description: "Estudio moderno a 5 min de la playa de la Barceloneta", 
+                features: "Cocina equipada - Smart TV - Ascensor - Lavadora",
+                prices: { daily: "65€", weekly: "380€", monthly: "1350€" },
+                badge: "Ciudad + playa",
+                icon: "fas fa-heart"
+            },
+            { 
+                id: 5, 
+                title: "Habitación económica - Valencia", 
+                category: "room", 
+                description: "Habitación simple pero acogedora en casa familiar cerca de la playa", 
+                features: "Desayuno incluido - Uso cocina - Bicicleta gratis - Familia local",
+                prices: { daily: "28€", weekly: "160€", monthly: "550€" },
+                badge: "Económico",
+                icon: "fas fa-euro-sign"
+            },
+            { 
+                id: 6, 
+                title: "Villa con piscina - Mallorca", 
+                category: "villa", 
+                description: "Villa exclusiva con piscina privada y vistas a la bahía", 
+                features: "5 dormitorios - Piscina - Jacuzzi - Servicio limpieza",
+                prices: { daily: "350€", weekly: "2200€", monthly: "7500€" },
+                badge: "Premium",
+                icon: "fas fa-swimming-pool"
+            },
+            { 
+                id: 7, 
+                title: "Ático con terraza - Alicante", 
+                category: "apartment", 
+                description: "Ático en última planta con terraza panorámica de 50m²", 
+                features: "Terraza - Hamacas - Barbacoa - Vistas 360°",
+                prices: { daily: "95€", weekly: "570€", monthly: "2000€" },
+                badge: "Vistas",
+                icon: "fas fa-city"
+            },
+            { 
+                id: 8, 
+                title: "Habitación en casa de pescadores - Galicia", 
+                category: "room", 
+                description: "Experiencia auténtica en casa de pescadores tradicionales", 
+                features: "Comida casera incluida - Actividades pesca - Cultura local",
+                prices: { daily: "40€", weekly: "240€", monthly: "850€" },
+                badge: "Experiencia",
+                icon: "fas fa-fish"
+            },
+            { 
+                id: 9, 
+                title: "Bungalow en camping - Cádiz", 
+                category: "house", 
+                description: "Bungalow completamente equipado en camping familiar junto al mar", 
+                features: "2 dormitorios - Cocina - Porche - Animación infantil",
+                prices: { daily: "75€", weekly: "450€", monthly: "1600€" },
+                badge: "Camping",
+                icon: "fas fa-campground"
+            },
+            { 
+                id: 10, 
+                title: "Loft industrial - Barcelona", 
+                category: "apartment", 
+                description: "Loft moderno en barrio trendy, a 10 min de playa en transporte", 
+                features: "Diseño industrial - Techo alto - WiFi rápido - Netflix",
+                prices: { daily: "85€", weekly: "500€", monthly: "1750€" },
+                badge: "Trendy",
+                icon: "fas fa-palette"
+            },
+            { 
+                id: 11, 
+                title: "Casa rural cerca playa - Asturias", 
+                category: "house", 
+                description: "Casa de piedra reformada entre montañas y playas vírgenes", 
+                features: "Chimenea - Jardín - Rutas senderismo - Playas naturales",
+                prices: { daily: "110€", weekly: "650€", monthly: "2300€" },
+                badge: "Naturaleza",
+                icon: "fas fa-mountain"
+            },
+            { 
+                id: 12, 
+                title: "Estudio para nómadas digitales - Tenerife", 
+                category: "apartment", 
+                description: "Estudio equipado para teletrabajo con WiFi de alta velocidad", 
+                features: "Escritorio ergonómico - Fibra óptica - Climatización - Comunidad nómadas",
+                prices: { daily: "55€", weekly: "330€", monthly: "1150€" },
+                badge: "Digital Nomad",
+                icon: "fas fa-laptop"
+            }
+        ];
+
+        function displayCoastal(filter = 'all') {
+            const container = document.getElementById('coastalContainer');
+            container.innerHTML = '';
+            
+            const filteredProperties = filter === 'all' 
+                ? coastalProperties 
+                : coastalProperties.filter(p => p.category === filter);
+            
+            filteredProperties.forEach(property => {
+                const card = document.createElement('div');
+                card.className = 'coastal-card';
+                card.innerHTML = `
+                    ${property.badge ? `<span class="badge">${property.badge}</span>` : ''}
+                    <div class="coastal-icon">
+                        <i class="${property.icon}"></i>
+                    </div>
+                    <h3>${property.title}</h3>
+                    <p>${property.description}</p>
+                    <div class="coastal-features">
+                        <strong>Características:</strong> ${property.features}
+                    </div>
+                    <div class="coastal-price">Desde ${property.prices.daily}/noche</div>
+                    <div class="price-options">
+                        <span><strong>Día:</strong> ${property.prices.daily}</span>
+                        <span><strong>Semana:</strong> ${property.prices.weekly}</span>
+                        <span><strong>Mes:</strong> ${property.prices.monthly}</span>
+                    </div>
+                    <button class="coastal-btn" onclick="rentCoastal(${property.id})">
+                        <i class="fas fa-calendar-alt"></i> Ver Disponibilidad
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCoastal(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayCoastal(category);
+        }
+
+        function searchCoastal() {
+            const query = document.getElementById('coastalSearch').value.toLowerCase();
+            if (!query) return;
+            
+            const results = coastalProperties.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query) ||
+                p.features.toLowerCase().includes(query)
+            );
+            
+            if (results.length > 0) {
+                const container = document.getElementById('coastalContainer');
+                container.innerHTML = '';
+                
+                results.forEach(property => {
+                    const card = document.createElement('div');
+                    card.className = 'coastal-card';
+                    card.innerHTML = `
+                        ${property.badge ? `<span class="badge">${property.badge}</span>` : ''}
+                        <div class="coastal-icon">
+                            <i class="${property.icon}"></i>
+                        </div>
+                        <h3>${property.title}</h3>
+                        <p>${property.description}</p>
+                        <div class="coastal-features">
+                            <strong>Características:</strong> ${property.features}
+                        </div>
+                        <div class="coastal-price">Desde ${property.prices.daily}/noche</div>
+                        <div class="price-options">
+                            <span><strong>Día:</strong> ${property.prices.daily}</span>
+                            <span><strong>Semana:</strong> ${property.prices.weekly}</span>
+                            <span><strong>Mes:</strong> ${property.prices.monthly}</span>
+                        </div>
+                        <button class="coastal-btn" onclick="rentCoastal(${property.id})">
+                            <i class="fas fa-calendar-alt"></i> Ver Disponibilidad
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+            } else {
+                alert(`No se encontraron alojamientos que coincidan con "${query}"`);
+            }
+        }
+
+        function rentCoastal(propertyId) {
+            const property = coastalProperties.find(p => p.id === propertyId);
+            alert(`Para reservar "${property.title}"\n\nPrecios:\n- Día: ${property.prices.daily}\n- Semana: ${property.prices.weekly}\n- Mes: ${property.prices.monthly}\n\nPor favor, inicia sesión para contactar al propietario.`);
+            window.location.href = 'index.html#auth';
+        }
+
+        window.onload = function() {
+            displayCoastal();
+            console.log("✅ Página de alojamiento costero lista!");
+        };
+    </script>
+</body>
+</html>
