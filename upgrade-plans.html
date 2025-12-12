@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ترقية الخطة - RentHub 2030</title>
+    <title>Mejorar Plan - RentHub 2030</title>
     <style>
         * {
             box-sizing: border-box;
@@ -25,7 +25,7 @@
             padding: 20px;
         }
         
-        /* الهيدر */
+        /* Header */
         header {
             background: white;
             padding: 20px 0;
@@ -71,14 +71,14 @@
             color: white;
         }
         
-        /* حالة الاشتراك الحالي */
+        /* Estado del plan actual */
         .current-plan-box {
             background: white;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 40px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-right: 5px solid #4f46e5;
+            border-left: 5px solid #4f46e5;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -117,7 +117,7 @@
             margin-top: 5px;
         }
         
-        /* مقارنة الخطط */
+        /* Comparación de planes */
         .plans-section {
             margin-bottom: 50px;
         }
@@ -141,7 +141,7 @@
             margin: 0 auto;
         }
         
-        /* شبكة الخطط */
+        /* Grid de planes */
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -170,10 +170,10 @@
         }
         
         .plan-card.popular::before {
-            content: "الأكثر اختياراً";
+            content: "Más Elegido";
             position: absolute;
             top: 15px;
-            left: 15px;
+            right: 15px;
             background: #4f46e5;
             color: white;
             padding: 6px 15px;
@@ -290,7 +290,7 @@
             box-shadow: none !important;
         }
         
-        /* جدول المقارنة */
+        /* Tabla comparativa */
         .comparison-table {
             background: white;
             border-radius: 15px;
@@ -325,7 +325,7 @@
         }
         
         .feature-cell {
-            text-align: right;
+            text-align: left;
             font-weight: 500;
             background: #fafafa;
         }
@@ -341,7 +341,7 @@
             font-size: 20px;
         }
         
-        /* فوتر */
+        /* Pie de página */
         footer {
             text-align: center;
             margin-top: 60px;
@@ -392,7 +392,7 @@
             display: block;
         }
         
-        /* رسائل */
+        /* Mensajes */
         .message {
             padding: 20px;
             border-radius: 10px;
@@ -445,7 +445,7 @@
     </style>
 </head>
 <body>
-    <!-- الهيدر -->
+    <!-- Header -->
     <header>
         <div class="container header-content">
             <div class="logo">
@@ -453,221 +453,221 @@
                 RentHub 2030
             </div>
             <nav class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="dashboard.html">لوحة التحكم</a>
-                <a href="publish.html">نشر إعلان</a>
-                <a href="my-ads.html">إعلاناتي</a>
-                <a href="profile.html">حسابي</a>
-                <a href="upgrade.html" class="active">ترقية الخطة</a>
+                <a href="index.html">Inicio</a>
+                <a href="dashboard.html">Panel de Control</a>
+                <a href="publish.html">Publicar Anuncio</a>
+                <a href="my-ads.html">Mis Anuncios</a>
+                <a href="profile.html">Mi Cuenta</a>
+                <a href="upgrade-plans.html" class="active">Mejorar Plan</a>
             </nav>
         </div>
     </header>
 
     <div class="container">
-        <!-- حالة الاشتراك الحالي -->
+        <!-- Estado del plan actual -->
         <div class="current-plan-box">
             <div class="current-plan-info">
-                <h2 id="currentPlanDisplay">خطتك الحالية</h2>
-                <p id="planDescription">جاري تحميل معلومات خطتك...</p>
+                <h2 id="currentPlanDisplay">Tu Plan Actual</h2>
+                <p id="planDescription">Cargando información de tu plan...</p>
                 <div class="plan-stats">
                     <div class="stat-item">
                         <div class="stat-value" id="adsUsedStat">0</div>
-                        <div class="stat-label">إعلان منشور</div>
+                        <div class="stat-label">Anuncios publicados</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="adsLimitStat">0</div>
-                        <div class="stat-label">الحد المسموح</div>
+                        <div class="stat-label">Límite permitido</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="adsRemainingStat">0</div>
-                        <div class="stat-label">متبقي للنشر</div>
+                        <div class="stat-label">Disponibles</div>
                     </div>
                 </div>
             </div>
             <div>
                 <button class="upgrade-btn secondary" onclick="window.location.href='publish.html'">
-                    ← العودة للنشر
+                    ← Volver a Publicar
                 </button>
             </div>
         </div>
 
-        <!-- رسائل النجاح -->
+        <!-- Mensajes de éxito -->
         <div id="successMessage" class="message success" style="display: none;">
-            تمت الترقية بنجاح! جاري تحديث معلومات حسابك...
+            ¡Mejora exitosa! Actualizando información de tu cuenta...
         </div>
 
-        <!-- مقارنة الخطط -->
+        <!-- Comparación de planes -->
         <div class="plans-section">
             <div class="section-title">
-                <h1>📊 اختر الخطة المناسبة لك</h1>
-                <p>قم بترقية خطتك للحصول على مميزات أكثر ونشر إعلانات غير محدودة</p>
+                <h1>📊 Elige el Plan Perfecto para Ti</h1>
+                <p>Mejora tu plan para obtener más características y publicar anuncios ilimitados</p>
             </div>
 
-            <!-- شبكة الخطط -->
+            <!-- Grid de planes -->
             <div class="plans-grid" id="plansContainer">
-                <!-- سيتم تعبئة الخطط بواسطة JavaScript -->
+                <!-- Se llenará con JavaScript -->
             </div>
         </div>
 
-        <!-- جدول مقارنة تفصيلي -->
+        <!-- Tabla comparativa detallada -->
         <div class="comparison-table">
             <table>
                 <thead>
                     <tr>
-                        <th class="feature-cell">الميزة</th>
-                        <th>المجانية</th>
-                        <th>النحاسية</th>
-                        <th>الفضية</th>
-                        <th>الذهبية</th>
+                        <th class="feature-cell">Característica</th>
+                        <th>Gratis</th>
+                        <th>Bronce</th>
+                        <th>Plata</th>
+                        <th>Oro</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="feature-cell">عدد الإعلانات</td>
+                        <td class="feature-cell">Número de Anuncios</td>
                         <td>1</td>
                         <td>5</td>
                         <td>20</td>
-                        <td>غير محدود</td>
+                        <td>Ilimitados</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">تمييز الإعلان</td>
-                        <td class="cross-cell">✗</td>
-                        <td class="cross-cell">✗</td>
-                        <td class="check-cell">✓</td>
-                        <td class="check-cell">✓</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-cell">أولوية في البحث</td>
-                        <td class="cross-cell">✗</td>
-                        <td class="check-cell">✓</td>
-                        <td class="check-cell">✓</td>
-                        <td class="check-cell">✓</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-cell">تقارير المشاهدات</td>
+                        <td class="feature-cell">Destacar Anuncio</td>
                         <td class="cross-cell">✗</td>
                         <td class="cross-cell">✗</td>
                         <td class="check-cell">✓</td>
                         <td class="check-cell">✓</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">دعم فوري</td>
+                        <td class="feature-cell">Prioridad en Búsquedas</td>
+                        <td class="cross-cell">✗</td>
+                        <td class="check-cell">✓</td>
+                        <td class="check-cell">✓</td>
+                        <td class="check-cell">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-cell">Reportes de Vistas</td>
                         <td class="cross-cell">✗</td>
                         <td class="cross-cell">✗</td>
                         <td class="check-cell">✓</td>
                         <td class="check-cell">✓</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">تحليلات متقدمة</td>
+                        <td class="feature-cell">Soporte Inmediato</td>
+                        <td class="cross-cell">✗</td>
+                        <td class="cross-cell">✗</td>
+                        <td class="check-cell">✓</td>
+                        <td class="check-cell">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-cell">Análisis Avanzados</td>
                         <td class="cross-cell">✗</td>
                         <td class="cross-cell">✗</td>
                         <td class="cross-cell">✗</td>
                         <td class="check-cell">✓</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">السعر الشهري</td>
-                        <td>مجاناً</td>
-                        <td>$5</td>
-                        <td>$15</td>
-                        <td>$30</td>
+                        <td class="feature-cell">Precio Mensual</td>
+                        <td>Gratis</td>
+                        <td>€5</td>
+                        <td>€15</td>
+                        <td>€30</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- الأسئلة الشائعة -->
+        <!-- Preguntas Frecuentes -->
         <div class="faq-section">
-            <h2 style="color: #4f46e5; margin-bottom: 30px; text-align: center;">❓ الأسئلة الشائعة</h2>
+            <h2 style="color: #4f46e5; margin-bottom: 30px; text-align: center;">❓ Preguntas Frecuentes</h2>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>كيف يتم تجديد الاشتراك؟</span>
+                    <span>¿Cómo se renueva la suscripción?</span>
                     <span>▼</span>
                 </div>
                 <div class="faq-answer">
-                    يتم تجديد الاشتراك تلقائياً في نفس اليوم من كل شهر. يمكنك إلغاء التجديد التلقائي في أي وقت من صفحة حسابك.
+                    La suscripción se renueva automáticamente el mismo día de cada mes. Puedes cancelar la renovación automática en cualquier momento desde tu cuenta.
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>هل يمكنني الترقية في منتصف الشهر؟</span>
+                    <span>¿Puedo mejorar a mitad de mes?</span>
                     <span>▼</span>
                 </div>
                 <div class="faq-answer">
-                    نعم، يمكنك الترقية في أي وقت. سيتم احتساب السعر التناسبي للأيام المتبقية من شهرك الحالي.
+                    Sí, puedes mejorar en cualquier momento. Se calculará el precio proporcional para los días restantes de tu mes actual.
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>ماذا يحدث للإعلانات الحالية عند الترقية؟</span>
+                    <span>¿Qué pasa con mis anuncios actuales al mejorar?</span>
                     <span>▼</span>
                 </div>
                 <div class="faq-answer">
-                    تبقى جميع إعلاناتك الحالية كما هي. بعد الترقية، ستحصل على الحد الجديد للإعلانات بالإضافة إلى المميزات الجديدة.
+                    Todos tus anuncios actuales permanecen como están. Después de mejorar, obtendrás el nuevo límite de anuncios más las nuevas características.
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>هل يمكنني العودة للخطة المجانية؟</span>
+                    <span>¿Puedo volver al plan gratuito?</span>
                     <span>▼</span>
                 </div>
                 <div class="faq-answer">
-                    نعم، يمكنك العودة للخطة المجانية في نهاية فترة اشتراكك الحالي. لن تفقد إعلاناتك، ولكن سيتم تطبيق قيود الخطة الجديدة عليها.
+                    Sí, puedes volver al plan gratuito al final de tu período de suscripción actual. No perderás tus anuncios, pero se aplicarán las limitaciones del nuevo plan.
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- الفوتر -->
+    <!-- Pie de página -->
     <footer>
-        <p>© 2023 RentHub 2030. جميع الحقوق محفوظة.</p>
-        <p style="font-size: 14px; margin-top: 10px; color: #888;">تواصل معنا: support@renthub.com | هاتف: 9200XXXXX</p>
+        <p>© 2023 RentHub 2030. Todos los derechos reservados.</p>
+        <p style="font-size: 14px; margin-top: 10px; color: #888;">Contáctanos: support@renthub.com | Teléfono: 900 123 456</p>
     </footer>
 
-    <!-- نظام الاشتراكات -->
+    <!-- Sistema de suscripciones -->
     <script src="js/subscriptions.js"></script>
     
-    <!-- كود خاص بصفحة الترقية -->
+    <!-- Código específico de la página de mejora -->
     <script>
-        // تهيئة الصفحة
+        // Inicializar página
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 صفحة الترقية جاهزة!');
+            console.log('🚀 ¡Página de Mejora lista!');
             updateCurrentPlanDisplay();
             renderPlans();
         });
         
-        // تحديث عرض الخطة الحالية
+        // Actualizar visualización del plan actual
         function updateCurrentPlanDisplay() {
             try {
                 const planInfo = getCurrentPlanInfo();
                 
-                // تحديث العناصر
-                document.getElementById('currentPlanDisplay').textContent = `خطتك الحالية: ${planInfo.name}`;
+                // Actualizar elementos
+                document.getElementById('currentPlanDisplay').textContent = `Tu Plan Actual: ${planInfo.name}`;
                 document.getElementById('planDescription').textContent = 
-                    `بسعر ${planInfo.price === 0 ? 'مجاناً' : `$${planInfo.price}/شهر`} - ${planInfo.adsLimit === 100 ? 'إعلانات غير محدودة' : `حد ${planInfo.adsLimit} إعلان`}`;
+                    `Por ${planInfo.price === 0 ? 'gratis' : `€${planInfo.price}/mes`} - ${planInfo.adsLimit === 100 ? 'anuncios ilimitados' : `límite de ${planInfo.adsLimit} anuncios`}`;
                 
                 document.getElementById('adsUsedStat').textContent = planInfo.adsUsed;
                 document.getElementById('adsLimitStat').textContent = planInfo.adsLimit === 100 ? '∞' : planInfo.adsLimit;
                 document.getElementById('adsRemainingStat').textContent = planInfo.adsRemaining;
                 
             } catch (error) {
-                console.error('خطأ في تحديث عرض الخطة:', error);
+                console.error('Error actualizando visualización del plan:', error);
             }
         }
         
-        // عرض الخطط المتاحة
+        // Mostrar planes disponibles
         function renderPlans() {
             const plansContainer = document.getElementById('plansContainer');
             if (!plansContainer) return;
             
             const plans = {
-                free: { name: "المجانية", price: 0, icon: "🆓", color: "#6c757d", popular: false },
-                bronze: { name: "النحاسية", price: 5, icon: "🥉", color: "#cd7f32", popular: false },
-                silver: { name: "الفضية", price: 15, icon: "🥈", color: "#c0c0c0", popular: true },
-                gold: { name: "الذهبية", price: 30, icon: "🥇", color: "#ffd700", popular: false }
+                free: { name: "Gratis", price: 0, icon: "🆓", color: "#6c757d", popular: false },
+                bronze: { name: "Bronce", price: 5, icon: "🥉", color: "#cd7f32", popular: false },
+                silver: { name: "Plata", price: 15, icon: "🥈", color: "#c0c0c0", popular: true },
+                gold: { name: "Oro", price: 30, icon: "🥇", color: "#ffd700", popular: false }
             };
             
             const currentPlan = getCurrentPlanInfo();
@@ -679,10 +679,10 @@
                 const isPopular = plan.popular;
                 
                 const features = {
-                    free: ["إعلان واحد فقط", "دعم عبر البريد", "ظهور عادي"],
-                    bronze: ["حتى 5 إعلانات", "أولوية في البحث", "دعم أسرع", "تمديد الإعلان"],
-                    silver: ["حتى 20 إعلان", "تمييز الإعلان", "دعم خلال 24 ساعة", "تقارير أساسية", "أولوية قصوى"],
-                    gold: ["إعلانات غير محدودة", "تمييز بارز", "دعم هاتفي", "تحليلات متقدمة", "ميزات حصرية"]
+                    free: ["1 anuncio solamente", "Soporte por email", "Apariencia estándar"],
+                    bronze: ["Hasta 5 anuncios", "Prioridad en búsquedas", "Soporte más rápido", "Extensión de anuncio"],
+                    silver: ["Hasta 20 anuncios", "Destacar anuncio", "Soporte en 24 horas", "Reportes básicos", "Prioridad máxima"],
+                    gold: ["Anuncios ilimitados", "Destacado premium", "Soporte telefónico", "Análisis avanzados", "Características exclusivas"]
                 };
                 
                 plansHTML += `
@@ -691,10 +691,10 @@
                             <div class="plan-icon">${plan.icon}</div>
                             <h3 class="plan-name" style="color: ${plan.color};">${plan.name}</h3>
                             <div class="plan-price" style="color: ${plan.color};">
-                                ${plan.price === 0 ? 'مجاناً' : `$${plan.price}`}
-                                ${plan.price > 0 ? '<span>/شهر</span>' : ''}
+                                ${plan.price === 0 ? 'Gratis' : `€${plan.price}`}
+                                ${plan.price > 0 ? '<span>/mes</span>' : ''}
                             </div>
-                            <div class="plan-period">${plan.price === 0 ? 'دائماً مجاناً' : 'فاتورة شهرية'}</div>
+                            <div class="plan-period">${plan.price === 0 ? 'Siempre gratis' : 'Factura mensual'}</div>
                         </div>
                         
                         <div class="plan-features">
@@ -710,7 +710,7 @@
                                     onclick="handleUpgrade('${key}')"
                                     ${isCurrentPlan ? 'disabled' : ''}
                                     style="${!isCurrentPlan ? `background: linear-gradient(135deg, ${plan.color}, ${plan.color}aa);` : ''}">
-                                ${isCurrentPlan ? '✅ خطتك الحالية' : `🔼 ترقية إلى ${plan.name}`}
+                                ${isCurrentPlan ? '✅ Tu Plan Actual' : `🔼 Mejorar a ${plan.name}`}
                             </button>
                         </div>
                     </div>
@@ -720,47 +720,47 @@
             plansContainer.innerHTML = plansHTML;
         }
         
-        // معالجة طلب الترقية
+        // Procesar solicitud de mejora
         function handleUpgrade(planKey) {
             const planInfo = getCurrentPlanInfo();
             
             if (planInfo.name === planKey) {
-                alert('هذه خطتك الحالية بالفعل!');
+                alert('¡Este ya es tu plan actual!');
                 return;
             }
             
             const planNames = {
-                free: "المجانية",
-                bronze: "النحاسية",
-                silver: "الفضية",
-                gold: "الذهبية"
+                free: "Gratis",
+                bronze: "Bronce",
+                silver: "Plata",
+                gold: "Oro"
             };
             
             const confirmUpgrade = confirm(
-                `هل أنت متأكد من ترقية اشتراكك؟\n\n` +
-                `من: ${planInfo.name}\n` +
-                `إلى: ${planNames[planKey]}\n\n` +
-                `سيتم تطبيق التغيير فوراً.`
+                `¿Estás seguro de mejorar tu suscripción?\n\n` +
+                `De: ${planInfo.name}\n` +
+                `A: ${planNames[planKey]}\n\n` +
+                `El cambio se aplicará inmediatamente.`
             );
             
             if (confirmUpgrade) {
-                // استدعاء دالة الترقية من نظام الاشتراكات
+                // Llamar a función de mejora del sistema de suscripciones
                 const success = upgradeUserPlan(planKey);
                 
                 if (success) {
-                    // عرض رسالة النجاح
+                    // Mostrar mensaje de éxito
                     document.getElementById('successMessage').style.display = 'block';
                     
-                    // تحديث العرض بعد ثانيتين
+                    // Actualizar visualización después de 2 segundos
                     setTimeout(() => {
                         updateCurrentPlanDisplay();
                         renderPlans();
                         document.getElementById('successMessage').style.display = 'none';
                     }, 2000);
                     
-                    // توجيه المستخدم للوحة التحكم بعد 3 ثواني
+                    // Redirigir al panel de control después de 3 segundos
                     setTimeout(() => {
-                        if (confirm('تمت الترقية بنجاح! هل تريد الانتقال إلى لوحة التحكم؟')) {
+                        if (confirm('¡Mejora exitosa! ¿Quieres ir al Panel de Control?')) {
                             window.location.href = 'dashboard.html';
                         }
                     }, 3000);
@@ -768,7 +768,7 @@
             }
         }
         
-        // تبديل عرض الأسئلة الشائعة
+        // Alternar visualización de preguntas frecuentes
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
             const icon = element.querySelector('span:last-child');
@@ -782,7 +782,7 @@
             }
         }
         
-        // دالة اختصار لترقية مباشرة (يمكن استخدامها من أزرار)
+        // Función de acceso directo para mejoras
         window.upgradeToPlan = function(planKey) {
             handleUpgrade(planKey);
         };
