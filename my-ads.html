@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعلاناتي - RentHub 2030</title>
+    <title>Mis Anuncios - RentHub 2030</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +25,7 @@
             padding: 20px;
         }
         
-        /* الهيدر */
+        /* Header */
         header {
             background: white;
             padding: 20px 0;
@@ -70,7 +71,7 @@
             color: white;
         }
         
-        /* إحصائيات سريعة */
+        /* Estadísticas rápidas */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -109,7 +110,7 @@
             font-size: 14px;
         }
         
-        /* عناصر التحكم */
+        /* Controles */
         .controls-bar {
             display: flex;
             justify-content: space-between;
@@ -162,7 +163,7 @@
             background: #e2e8f0;
         }
         
-        /* فلاتر البحث */
+        /* Filtros de búsqueda */
         .filters {
             background: white;
             padding: 20px;
@@ -202,7 +203,7 @@
             border-color: #3b82f6;
         }
         
-        /* قائمة الإعلانات */
+        /* Lista de anuncios */
         .ads-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -239,7 +240,7 @@
         .ad-badge {
             position: absolute;
             top: 15px;
-            left: 15px;
+            right: 15px;
             background: #10b981;
             color: white;
             padding: 5px 12px;
@@ -341,7 +342,7 @@
             background: #bae6fd;
         }
         
-        /* رسالة عدم وجود إعلانات */
+        /* Estado vacío */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -368,7 +369,7 @@
             margin: 0 auto 25px;
         }
         
-        /* تذييل الصفحة */
+        /* Pie de página */
         footer {
             text-align: center;
             margin-top: 50px;
@@ -379,7 +380,7 @@
             border-radius: 20px 20px 0 0;
         }
         
-        /* التنقل بين الصفحات */
+        /* Paginación */
         .pagination {
             display: flex;
             justify-content: center;
@@ -411,7 +412,7 @@
             border-color: #3b82f6;
         }
         
-        /* رسائل التنبيه */
+        /* Alertas */
         .alert {
             padding: 15px 20px;
             border-radius: 8px;
@@ -431,7 +432,7 @@
             border: 1px solid #fde68a;
         }
         
-        /* تصميم متجاوب */
+        /* Diseño responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -479,7 +480,7 @@
     </style>
 </head>
 <body>
-    <!-- الهيدر -->
+    <!-- Header -->
     <header>
         <div class="container header-content">
             <div class="logo">
@@ -487,248 +488,248 @@
                 RentHub 2030
             </div>
             <nav class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="dashboard.html">لوحة التحكم</a>
-                <a href="publish.html">نشر إعلان</a>
-                <a href="my-ads.html" class="active">إعلاناتي</a>
-                <a href="profile.html">حسابي</a>
-                <a href="upgrade-plans.html">ترقية الخطة</a>
+                <a href="index.html">Inicio</a>
+                <a href="dashboard.html">Panel de Control</a>
+                <a href="publish.html">Publicar Anuncio</a>
+                <a href="my-ads.html" class="active">Mis Anuncios</a>
+                <a href="profile.html">Mi Cuenta</a>
+                <a href="upgrade-plans.html">Mejorar Plan</a>
             </nav>
         </div>
     </header>
 
     <div class="container">
-        <!-- رسائل التنبيه -->
+        <!-- Alertas -->
         <div id="successAlert" class="alert alert-success" style="display: none;">
-            تم حذف الإعلان بنجاح!
+            ¡Anuncio eliminado exitosamente!
         </div>
         
         <div id="warningAlert" class="alert alert-warning" style="display: none;">
-            لا يمكن حذف هذا الإعلان حالياً. يرجى المحاولة لاحقاً.
+            No se puede eliminar este anuncio actualmente. Por favor, inténtalo más tarde.
         </div>
 
-        <!-- إحصائيات سريعة -->
+        <!-- Estadísticas rápidas -->
         <div class="stats-bar">
             <div class="stat-card">
                 <div class="stat-icon">📊</div>
                 <div class="stat-number" id="totalAds">0</div>
-                <div class="stat-label">إجمالي الإعلانات</div>
+                <div class="stat-label">Total de Anuncios</div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">✅</div>
                 <div class="stat-number" id="activeAds">0</div>
-                <div class="stat-label">إعلانات نشطة</div>
+                <div class="stat-label">Anuncios Activos</div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">⏸️</div>
                 <div class="stat-number" id="pausedAds">0</div>
-                <div class="stat-label">إعلانات متوقفة</div>
+                <div class="stat-label">Anuncios Pausados</div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">👁️</div>
                 <div class="stat-number" id="totalViews">0</div>
-                <div class="stat-label">مشاهدات هذا الشهر</div>
+                <div class="stat-label">Vistas Este Mes</div>
             </div>
         </div>
 
-        <!-- عناصر التحكم -->
+        <!-- Controles -->
         <div class="controls-bar">
-            <h1 class="page-title">📋 إعلاناتي المنشورة</h1>
+            <h1 class="page-title">📋 Mis Anuncios Publicados</h1>
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="refreshAds()">
-                    🔄 تحديث القائمة
+                    🔄 Actualizar Lista
                 </button>
                 <button class="btn btn-primary" onclick="window.location.href='publish.html'">
-                    ➕ نشر إعلان جديد
+                    ➕ Publicar Nuevo Anuncio
                 </button>
             </div>
         </div>
 
-        <!-- فلاتر البحث -->
+        <!-- Filtros de búsqueda -->
         <div class="filters">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label class="filter-label">حالة الإعلان</label>
+                    <label class="filter-label">Estado del Anuncio</label>
                     <select class="filter-select" id="statusFilter" onchange="filterAds()">
-                        <option value="all">جميع الإعلانات</option>
-                        <option value="active">نشطة فقط</option>
-                        <option value="paused">متوقفة فقط</option>
-                        <option value="pending">قيد المراجعة</option>
+                        <option value="all">Todos los Anuncios</option>
+                        <option value="active">Solo Activos</option>
+                        <option value="paused">Solo Pausados</option>
+                        <option value="pending">En Revisión</option>
                     </select>
                 </div>
                 
                 <div class="filter-group">
-                    <label class="filter-label">التصنيف</label>
+                    <label class="filter-label">Categoría</label>
                     <select class="filter-select" id="categoryFilter" onchange="filterAds()">
-                        <option value="all">جميع التصنيفات</option>
-                        <option value="cars">سيارات</option>
-                        <option value="tools">أدوات ومعدات</option>
-                        <option value="electronics">إلكترونيات</option>
-                        <option value="furniture">أثاث</option>
-                        <option value="properties">عقارات</option>
+                        <option value="all">Todas las Categorías</option>
+                        <option value="cars">Coches</option>
+                        <option value="tools">Herramientas y Equipos</option>
+                        <option value="electronics">Electrónica</option>
+                        <option value="furniture">Muebles</option>
+                        <option value="properties">Propiedades</option>
                     </select>
                 </div>
                 
                 <div class="filter-group">
-                    <label class="filter-label">الترتيب حسب</label>
+                    <label class="filter-label">Ordenar por</label>
                     <select class="filter-select" id="sortFilter" onchange="filterAds()">
-                        <option value="newest">الأحدث أولاً</option>
-                        <option value="oldest">الأقدم أولاً</option>
-                        <option value="views">الأكثر مشاهدة</option>
-                        <option value="price-high">الأعلى سعراً</option>
-                        <option value="price-low">الأقل سعراً</option>
+                        <option value="newest">Más Recientes</option>
+                        <option value="oldest">Más Antiguos</option>
+                        <option value="views">Más Vistos</option>
+                        <option value="price-high">Precio Más Alto</option>
+                        <option value="price-low">Precio Más Bajo</option>
                     </select>
                 </div>
             </div>
             
             <div class="filter-row">
                 <div class="filter-group">
-                    <label class="filter-label">بحث بالإسم</label>
-                    <input type="text" class="filter-input" id="searchInput" placeholder="ابحث في إعلاناتك..." onkeyup="filterAds()">
+                    <label class="filter-label">Buscar por Nombre</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="Busca en tus anuncios..." onkeyup="filterAds()">
                 </div>
                 
                 <div class="filter-group">
-                    <label class="filter-label">الفترة الزمنية</label>
+                    <label class="filter-label">Periodo de Tiempo</label>
                     <select class="filter-select" id="dateFilter" onchange="filterAds()">
-                        <option value="all">كل الفترات</option>
-                        <option value="today">اليوم</option>
-                        <option value="week">أخر 7 أيام</option>
-                        <option value="month">هذا الشهر</option>
-                        <option value="year">هذه السنة</option>
+                        <option value="all">Todos los Periodos</option>
+                        <option value="today">Hoy</option>
+                        <option value="week">Últimos 7 días</option>
+                        <option value="month">Este Mes</option>
+                        <option value="year">Este Año</option>
                     </select>
                 </div>
                 
                 <div class="filter-group">
                     <label class="filter-label">&nbsp;</label>
                     <button class="btn btn-secondary" onclick="clearFilters()" style="width: 100%;">
-                        🗑️ مسح الفلاتر
+                        🗑️ Limpiar Filtros
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- قائمة الإعلانات -->
+        <!-- Lista de anuncios -->
         <div class="ads-list" id="adsContainer">
-            <!-- سيتم تعبئتها بواسطة JavaScript -->
+            <!-- Se llenará con JavaScript -->
         </div>
 
-        <!-- حالة عدم وجود إعلانات -->
+        <!-- Estado vacío -->
         <div class="empty-state" id="emptyState" style="display: none;">
             <div class="empty-icon">📭</div>
-            <h3>لا توجد إعلانات حالياً</h3>
-            <p>لم تنشر أي إعلانات حتى الآن. ابدأ بنشر إعلانك الأول لاستعراضه هنا.</p>
+            <h3>No hay anuncios actualmente</h3>
+            <p>No has publicado ningún anuncio todavía. Comienza publicando tu primer anuncio para verlo aquí.</p>
             <button class="btn btn-primary" onclick="window.location.href='publish.html'">
-                ➕ نشر أول إعلان
+                ➕ Publicar Primer Anuncio
             </button>
         </div>
 
-        <!-- التنقل بين الصفحات -->
+        <!-- Paginación -->
         <div class="pagination" id="pagination" style="display: none;">
-            <!-- سيتم تعبئتها بواسطة JavaScript -->
+            <!-- Se llenará con JavaScript -->
         </div>
     </div>
 
-    <!-- تذييل الصفحة -->
+    <!-- Pie de página -->
     <footer>
-        <p>© 2023 RentHub 2030. جميع الحقوق محفوظة.</p>
-        <p style="font-size: 14px; margin-top: 10px; color: #94a3b8;">إدارة إعلاناتك بكل سهولة وأمان</p>
+        <p>© 2023 RentHub 2030. Todos los derechos reservados.</p>
+        <p style="font-size: 14px; margin-top: 10px; color: #94a3b8;">Gestiona tus anuncios con facilidad y seguridad</p>
     </footer>
 
-    <!-- نظام الاشتراكات -->
+    <!-- Sistema de suscripciones -->
     <script src="js/subscriptions.js"></script>
     
-    <!-- كود خاص بصفحة الإعلانات -->
+    <!-- Código específico de la página de anuncios -->
     <script>
-        // بيانات الإعلانات (ستأتي من قاعدة بيانات لاحقاً)
+        // Datos de anuncios
         let userAds = [];
         let filteredAds = [];
         let currentPage = 1;
         const adsPerPage = 6;
         
-        // تهيئة الصفحة
+        // Inicializar página
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📋 صفحة إعلاناتي جاهزة!');
+            console.log('📋 ¡Página Mis Anuncios lista!');
             loadUserAds();
             updateStats();
         });
         
-        // تحميل إعلانات المستخدم
+        // Cargar anuncios del usuario
         function loadUserAds() {
-            // محاكاة بيانات الإعلانات من localStorage
+            // Simular datos de anuncios desde localStorage
             const savedAds = localStorage.getItem('renthub_user_ads');
             
             if (savedAds) {
                 userAds = JSON.parse(savedAds);
             } else {
-                // بيانات تجريبية للإعلانات
+                // Datos de ejemplo para anuncios
                 userAds = [
                     {
                         id: 1,
-                        title: "سيارة تويوتا كامري 2022 للايجار اليومي",
+                        title: "Coche Toyota Camry 2022 para alquiler diario",
                         category: "cars",
                         price: 150,
                         status: "active",
                         views: 245,
                         date: "2023-10-15",
-                        description: "سيارة نظيفة جدا، موديل حديث، تكييف بارد، فتحة سقف، تأمين شامل.",
+                        description: "Coche muy limpio, modelo reciente, aire acondicionado frío, techo solar, seguro completo.",
                         image: "🚗"
                     },
                     {
                         id: 2,
-                        title: "معدات تصوير احترافية للايجار",
+                        title: "Equipo de fotografía profesional para alquiler",
                         category: "electronics",
                         price: 80,
                         status: "active",
                         views: 189,
                         date: "2023-10-10",
-                        description: "كاميرا كانون 5D مع عدسات متعددة وإضاءة احترافية.",
+                        description: "Cámara Canon 5D con múltiples lentes e iluminación profesional.",
                         image: "📷"
                     },
                     {
                         id: 3,
-                        title: "شقة مفروشة للايجار الشهري في الرياض",
+                        title: "Apartamento amueblado para alquiler mensual en Madrid",
                         category: "properties",
                         price: 3500,
                         status: "paused",
                         views: 512,
                         date: "2023-09-25",
-                        description: "شقة 3 غرف في حي العليا، مفروشة بالكامل، خدمات متكاملة.",
+                        description: "Apartamento de 3 habitaciones en zona Salamanca, completamente amueblado, servicios incluidos.",
                         image: "🏠"
                     },
                     {
                         id: 4,
-                        title: "أدوات بناء كهربائية متكاملة",
+                        title: "Herramientas de construcción eléctricas completas",
                         category: "tools",
                         price: 45,
                         status: "active",
                         views: 76,
                         date: "2023-10-20",
-                        description: "مثقاب، منشار، مطارق كهربائية وغيرها من أدوات البناء.",
+                        description: "Taladro, sierra, martillos eléctricos y otras herramientas de construcción.",
                         image: "🔨"
                     },
                     {
                         id: 5,
-                        title: "لابتوب ماك بوك برو للايجار الأسبوعي",
+                        title: "Portátil MacBook Pro para alquiler semanal",
                         category: "electronics",
                         price: 60,
                         status: "pending",
                         views: 32,
                         date: "2023-10-22",
-                        description: "ماك بوك برو 2021، شاشة 16 بوصة، أداء عالي للمهام الاحترافية.",
+                        description: "MacBook Pro 2021, pantalla de 16 pulgadas, alto rendimiento para tareas profesionales.",
                         image: "💻"
                     },
                     {
                         id: 6,
-                        title: "أثاث منزلي كامل للايجار",
+                        title: "Muebles completos para el hogar para alquilar",
                         category: "furniture",
                         price: 200,
                         status: "active",
                         views: 98,
                         date: "2023-10-05",
-                        description: "أثاث غرفة المعيشة والطعام، حالة ممتازة، توصيل مجاني.",
+                        description: "Muebles de salón y comedor, en excelente estado, entrega gratuita.",
                         image: "🛋️"
                     }
                 ];
@@ -739,12 +740,12 @@
             renderAds();
         }
         
-        // حفظ الإعلانات في localStorage
+        // Guardar anuncios en localStorage
         function saveAdsToStorage() {
             localStorage.setItem('renthub_user_ads', JSON.stringify(userAds));
         }
         
-        // تحديث الإحصائيات
+        // Actualizar estadísticas
         function updateStats() {
             const total = userAds.length;
             const active = userAds.filter(ad => ad.status === 'active').length;
@@ -757,7 +758,7 @@
             document.getElementById('totalViews').textContent = totalViews;
         }
         
-        // عرض الإعلانات
+        // Mostrar anuncios
         function renderAds() {
             const container = document.getElementById('adsContainer');
             const emptyState = document.getElementById('emptyState');
@@ -771,7 +772,7 @@
             
             emptyState.style.display = 'none';
             
-            // حساب صفحات التقسيم
+            // Calcular páginas
             const totalPages = Math.ceil(filteredAds.length / adsPerPage);
             const startIndex = (currentPage - 1) * adsPerPage;
             const endIndex = startIndex + adsPerPage;
@@ -781,9 +782,9 @@
             
             pageAds.forEach(ad => {
                 const statusText = {
-                    'active': 'نشط',
-                    'paused': 'متوقف',
-                    'pending': 'قيد المراجعة'
+                    'active': 'Activo',
+                    'paused': 'Pausado',
+                    'pending': 'En Revisión'
                 };
                 
                 const statusColor = {
@@ -793,11 +794,11 @@
                 };
                 
                 const categoryText = {
-                    'cars': 'سيارات',
-                    'tools': 'أدوات',
-                    'electronics': 'إلكترونيات',
-                    'furniture': 'أثاث',
-                    'properties': 'عقارات'
+                    'cars': 'Coches',
+                    'tools': 'Herramientas',
+                    'electronics': 'Electrónica',
+                    'furniture': 'Muebles',
+                    'properties': 'Propiedades'
                 };
                 
                 adsHTML += `
@@ -812,26 +813,26 @@
                         <div class="ad-content">
                             <div class="ad-title">
                                 <span>${ad.title}</span>
-                                <span class="ad-price">${ad.price} ريال/يوم</span>
+                                <span class="ad-price">${ad.price} €/día</span>
                             </div>
                             
                             <p class="ad-description">${ad.description}</p>
                             
                             <div class="ad-meta">
                                 <span>${categoryText[ad.category]}</span>
-                                <span>👁️ ${ad.views} مشاهدة</span>
+                                <span>👁️ ${ad.views} vistas</span>
                                 <span>📅 ${formatDate(ad.date)}</span>
                             </div>
                             
                             <div class="ad-actions">
                                 <button class="action-btn view-btn" onclick="viewAd(${ad.id})">
-                                    👁️ مشاهدة
+                                    👁️ Ver
                                 </button>
                                 <button class="action-btn edit-btn" onclick="editAd(${ad.id})">
-                                    ✏️ تعديل
+                                    ✏️ Editar
                                 </button>
                                 <button class="action-btn delete-btn" onclick="deleteAd(${ad.id})">
-                                    🗑️ حذف
+                                    🗑️ Eliminar
                                 </button>
                             </div>
                         </div>
@@ -841,7 +842,7 @@
             
             container.innerHTML = adsHTML;
             
-            // عرض الترقيم الصفحي إذا كان هناك أكثر من صفحة
+            // Mostrar paginación si hay más de una página
             if (totalPages > 1) {
                 renderPagination(totalPages);
                 document.getElementById('pagination').style.display = 'flex';
@@ -850,19 +851,19 @@
             }
         }
         
-        // عرض الترقيم الصفحي
+        // Mostrar paginación
         function renderPagination(totalPages) {
             const pagination = document.getElementById('pagination');
             let paginationHTML = '';
             
-            // زر الصفحة السابقة
+            // Botón página anterior
             paginationHTML += `
                 <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
                     ←
                 </button>
             `;
             
-            // أزرار الصفحات
+            // Botones de páginas
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
                     paginationHTML += `
@@ -875,7 +876,7 @@
                 }
             }
             
-            // زر الصفحة التالية
+            // Botón página siguiente
             paginationHTML += `
                 <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">
                     →
@@ -885,14 +886,14 @@
             pagination.innerHTML = paginationHTML;
         }
         
-        // تغيير الصفحة
+        // Cambiar página
         function changePage(page) {
             currentPage = page;
             renderAds();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        // فلترة الإعلانات
+        // Filtrar anuncios
         function filterAds() {
             const status = document.getElementById('statusFilter').value;
             const category = document.getElementById('categoryFilter').value;
@@ -901,17 +902,17 @@
             const sort = document.getElementById('sortFilter').value;
             
             filteredAds = userAds.filter(ad => {
-                // فلترة الحالة
+                // Filtrar estado
                 if (status !== 'all' && ad.status !== status) return false;
                 
-                // فلترة التصنيف
+                // Filtrar categoría
                 if (category !== 'all' && ad.category !== category) return false;
                 
-                // فلترة البحث
+                // Filtrar búsqueda
                 if (search && !ad.title.toLowerCase().includes(search) && 
                     !ad.description.toLowerCase().includes(search)) return false;
                 
-                // فلترة التاريخ
+                // Filtrar fecha
                 if (dateFilter !== 'all') {
                     const adDate = new Date(ad.date);
                     const now = new Date();
@@ -938,7 +939,7 @@
                 return true;
             });
             
-            // ترتيب النتائج
+            // Ordenar resultados
             filteredAds.sort((a, b) => {
                 switch (sort) {
                     case 'newest':
@@ -960,7 +961,7 @@
             renderAds();
         }
         
-        // مسح الفلاتر
+        // Limpiar filtros
         function clearFilters() {
             document.getElementById('statusFilter').value = 'all';
             document.getElementById('categoryFilter').value = 'all';
@@ -973,55 +974,55 @@
             renderAds();
         }
         
-        // تحديث القائمة
+        // Actualizar lista
         function refreshAds() {
             loadUserAds();
-            showAlert('success', 'تم تحديث قائمة الإعلانات');
+            showAlert('success', 'Lista de anuncios actualizada');
         }
         
-        // مشاهدة إعلان
+        // Ver anuncio
         function viewAd(id) {
             const ad = userAds.find(a => a.id === id);
             if (ad) {
-                alert(`مشاهدة الإعلان:\n\n${ad.title}\n\n${ad.description}\n\nالسعر: ${ad.price} ريال/يوم\nالمشاهدات: ${ad.views}`);
-                // يمكن توجيه المستخدم لصفحة تفاصيل الإعلان
+                alert(`Viendo Anuncio:\n\n${ad.title}\n\n${ad.description}\n\nPrecio: ${ad.price} €/día\nVistas: ${ad.views}`);
+                // Puede redirigir a página de detalles
                 // window.location.href = `ad-details.html?id=${id}`;
             }
         }
         
-        // تعديل إعلان
+        // Editar anuncio
         function editAd(id) {
             const ad = userAds.find(a => a.id === id);
             if (ad) {
-                if (confirm(`هل تريد تعديل الإعلان:\n"${ad.title}"؟`)) {
-                    // يمكن توجيه المستخدم لصفحة التعديل
+                if (confirm(`¿Quieres editar el anuncio:\n"${ad.title}"?`)) {
+                    // Puede redirigir a página de edición
                     // window.location.href = `edit-ad.html?id=${id}`;
-                    alert('سيتم توجيهك لصفحة التعديل قريباً...');
+                    alert('Serás redirigido a la página de edición próximamente...');
                 }
             }
         }
         
-        // حذف إعلان
+        // Eliminar anuncio
         function deleteAd(id) {
             const ad = userAds.find(a => a.id === id);
             if (!ad) return;
             
-            if (confirm(`هل أنت متأكد من حذف الإعلان:\n"${ad.title}"؟\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
-                // حذف الإعلان
+            if (confirm(`¿Estás seguro de eliminar el anuncio:\n"${ad.title}"?\n\nEsta acción no se puede deshacer.`)) {
+                // Eliminar anuncio
                 userAds = userAds.filter(a => a.id !== id);
                 filteredAds = filteredAds.filter(a => a.id !== id);
                 
-                // حفظ التغييرات
+                // Guardar cambios
                 saveAdsToStorage();
                 
-                // تحديث العرض
+                // Actualizar visualización
                 renderAds();
                 updateStats();
                 
-                // إظهار رسالة نجاح
-                showAlert('success', 'تم حذف الإعلان بنجاح');
+                // Mostrar mensaje de éxito
+                showAlert('success', 'Anuncio eliminado exitosamente');
                 
-                // تحديث عداد الإعلانات في نظام الاشتراكات
+                // Actualizar contador en sistema de suscripciones
                 if (typeof currentUser !== 'undefined' && currentUser) {
                     if (currentUser.adsPublished > 0) {
                         currentUser.adsPublished--;
@@ -1031,13 +1032,13 @@
             }
         }
         
-        // تنسيق التاريخ
+        // Formatear fecha
         function formatDate(dateString) {
             const date = new Date(dateString);
-            return date.toLocaleDateString('ar-SA');
+            return date.toLocaleDateString('es-ES');
         }
         
-        // عرض رسالة تنبيه
+        // Mostrar alerta
         function showAlert(type, message) {
             const alertDiv = type === 'success' ? 
                 document.getElementById('successAlert') : 
@@ -1051,7 +1052,7 @@
             }, 4000);
         }
         
-        // جعل الدوال متاحة عالمياً
+        // Hacer funciones disponibles globalmente
         window.refreshAds = refreshAds;
         window.filterAds = filterAds;
         window.clearFilters = clearFilters;
