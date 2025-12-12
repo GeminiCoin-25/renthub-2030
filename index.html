@@ -3,22 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="موقع RentHub لتأجير الأشياء من حولك. وفر المال، كسب دخل إضافي، وساهم في اقتصاد المشاركة.">
     <title>RentHub - أؤجر أي شيء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="logo.png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        .navbar { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; color: #222; line-height: 1.6; }
+        .navbar { 
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); 
+            color: white; 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            flex-wrap: wrap;
+        }
         .logo h1 { font-size: 1.8rem; }
         .logo h1 i { margin-left: 10px; }
-        .search-bar { display: flex; flex-grow: 0.5; }
-        .search-bar input { padding: 0.8rem 1rem; border: none; border-radius: 30px 0 0 30px; width: 100%; font-size: 1rem; }
-        .search-bar button { padding: 0.8rem 1.5rem; background-color: #ff7e30; color: white; border: none; border-radius: 0 30px 30px 0; cursor: pointer; font-weight: bold; }
-        .nav-buttons { display: flex; gap: 1rem; align-items: center; }
+        .search-bar { 
+            display: flex; 
+            flex-grow: 0.5; 
+            margin: 0.5rem 0;
+        }
+        .search-bar div { 
+            display: flex; 
+            width: 100%;
+        }
+        .search-bar input { 
+            padding: 0.8rem 1rem; 
+            border: none; 
+            font-size: 1rem; 
+            min-width: 50px;
+        }
+        .search-bar input:first-of-type { 
+            border-radius: 30px 0 0 30px; 
+            flex: 3;
+        }
+        .search-bar input:nth-of-type(2) { 
+            border-left: 1px solid #ddd; 
+            border-right: 1px solid #ddd; 
+            flex: 2; 
+            border-radius: 0;
+        }
+        .search-bar button { 
+            padding: 0.8rem 1.5rem; 
+            background-color: #ff7e30; 
+            color: white; 
+            border: none; 
+            border-radius: 0 30px 30px 0; 
+            cursor: pointer; 
+            font-weight: bold; 
+            white-space: nowrap;
+        }
+        .nav-buttons { 
+            display: flex; 
+            gap: 0.8rem; 
+            align-items: center; 
+            flex-wrap: wrap;
+        }
         .lang-switcher { display: flex; gap: 5px; }
-        .lang-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        .lang-btn { 
+            background: rgba(255,255,255,0.2); 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 14px; 
+        }
         .lang-btn.active { background: white; color: #6a11cb; }
-        .btn-auth, .btn-publish { padding: 0.7rem 1.2rem; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-auth, .btn-publish { 
+            padding: 0.7rem 1.2rem; 
+            border: none; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-size: 0.95rem;
+        }
         .btn-auth { background-color: #3498db; color: white; }
         .btn-publish { background-color: #2ecc71; color: white; }
         .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
@@ -58,8 +127,11 @@
             <h1><i class="fas fa-handshake"></i> RentHub</h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="ماذا تريد أن تؤجر؟">
-            <button onclick="searchItems()"><i class="fas fa-search"></i> بحث</button>
+            <div>
+                <input type="text" id="searchInput" placeholder="ماذا تريد أن تؤجر؟ (مثل: دريل، جرار)">
+                <input type="text" id="locationInput" placeholder="المدينة أو الحي">
+                <button onclick="searchItems()"><i class="fas fa-search"></i> بحث</button>
+            </div>
         </div>
         <div class="nav-buttons">
             <div class="lang-switcher">
@@ -99,276 +171,322 @@
             <h2>أؤجر <span class="highlight">أي شيء</span>، في <span class="highlight">أي وقت</span></h2>
             <p>انضم إلى أكبر مجتمع لتأجير الأشياء من حولك. وفر المال، كسب دخل إضافي، وساهم في اقتصاد المشاركة.</p>
         </section>
-        <section class="categories">
-            <h2><i class="fas fa-th-list"></i> الفئات الشائعة</h2>
-            <div class="categories-grid" id="categoriesContainer"></div>
-        </section>
-        <section class="live-ads">
-            <h2><i class="fas fa-bolt"></i> إعلانات حية من المجتمع</h2>
-            <div class="ads-grid" id="adsContainer"></div>
-        </section>
-    </main>
-    <footer>
-        <p>© 2024 RentHub. هذا مشروع تعليمي قيد التطوير.</p>
-    </footer>
-    <!-- مكتبات Firebase - إصدار متوافق -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script>
-        // 🔥 إعدادات Firebase - بالمفتاح الجديد
-        const firebaseConfig = {
-            apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
-            authDomain: "renthub-2030.firebaseapp.com",
-            projectId: "renthub-2030",
-            storageBucket: "renthub-2030.firebasestorage.app",
-            messagingSenderId: "23301901800",
-            appId: "1:23301901800:web:2679c834aac406c72d685d",
-            measurementId: "G-7JJ40H01FM"
-        };
+            <section class="categories">
+        <h2><i class="fas fa-th-list"></i> الفئات الشائعة</h2>
+        <div class="categories-grid" id="categoriesContainer">
+            <div class="category-card" style="border-top: 5px solid #FF6B8B;">
+                <div class="category-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>الكترونيات 🎮</h3>
+                <p>7,530 إعلان</p>
+            </div>
+            <div class="category-card" style="border-top: 5px solid #36D7B7;">
+                <div class="category-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>أدوات يدوية 🔧</h3>
+                <p>8,320 إعلان</p>
+            </div>
+            <div class="category-card" style="border-top: 5px solid #FFCE56;">
+                <div class="category-icon">
+                    <i class="fas fa-futbol"></i>
+                </div>
+                <h3>رياضة وترفيه ⚽</h3>
+                <p>4,210 إعلان</p>
+            </div>
+            <div class="category-card" style="border-top: 5px solid #9B59B6;">
+                <div class="category-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <h3>أزياء وعمل 👔</h3>
+                <p>15,240 إعلان</p>
+            </div>
+            <div class="category-card" style="border-top: 5px solid #3498DB;">
+                <div class="category-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>سيارات ومواصلات 🚗</h3>
+                <p>12,450 إعلان</p>
+            </div>
+            <div class="category-card" style="border-top: 5px solid #E74C3C;">
+                <div class="category-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>منزل وحديقة 🏠</h3>
+                <p>9,870 إعلان</p>
+            </div>
+        </div>
+    </section>
+    <section class="live-ads">
+        <h2><i class="fas fa-bolt"></i> إعلانات حية من المجتمع</h2>
+        <div class="ads-grid" id="adsContainer">
+            <!-- إعلانات وهمية للتجربة -->
+            <div class="ad-card">
+                <h3>دريل كهربائي احترافي</h3>
+                <p>دريل بقوة 750 واط، مناسب لكل الأعمال المنزلية. جديد بالكامل.</p>
+                <p class="ad-price">15 ريال/ساعة</p>
+                <span class="ad-category">أدوات يدوية</span>
+                <p style="margin-top:10px; color:#888; font-size:0.9rem;">
+                    <i class="fas fa-user"></i> أحمد (الرياض)
+                </p>
+            </div>
+            <div class="ad-card">
+                <h3>كاميرا كانون EOS 90D</h3>
+                <p>كاميرا احترافية للإيجار اليومي. مناسبة للفعاليات والمناسبات.</p>
+                <p class="ad-price">50 ريال/ساعة</p>
+                <span class="ad-category">الكترونيات</span>
+                <p style="margin-top:10px; color:#888; font-size:0.9rem;">
+                    <i class="fas fa-user"></i> سارة (جدة)
+                </p>
+            </div>
+            <div class="ad-card">
+                <h3>جرار زراعي صغير</h3>
+                <p>جرار بحالة ممتازة للإيجار اليومي. مناسب للأراضي الزراعية.</p>
+                <p class="ad-price">200 ريال/ساعة</p>
+                <span class="ad-category">معدات زراعية</span>
+                <p style="margin-top:10px; color:#888; font-size:0.9rem;">
+                    <i class="fas fa-user"></i> خالد (القصيم)
+                </p>
+            </div>
+            <div class="ad-card">
+                <h3>سيارة زفاف بيضاء</h3>
+                <p>مرسيدس 2023 للإيجار للمناسبات مع سائق محترف.</p>
+                <p class="ad-price">150 ريال/ساعة</p>
+                <span class="ad-category">سيارات</span>
+                <p style="margin-top:10px; color:#888; font-size:0.9rem;">
+                    <i class="fas fa-user"></i> محمد (الدمام)
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; text-align: right; padding-bottom: 2rem; border-bottom: 1px solid #3c5576; margin-bottom: 1.5rem;">
+        <div style="flex: 1; min-width: 200px; padding: 0 1rem;">
+            <h4 style="color: #2ecc71; margin-bottom: 1rem;"><i class="fas fa-handshake"></i> RentHub</h4>
+            <p style="color: #bdc3c7;">منصة تأجير الأشياء الأولى. وفر المال، كسب دخل إضافي، وساهم في اقتصاد المشاركة.</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 0 1rem;">
+            <h4 style="color: #2ecc71; margin-bottom: 1rem;"><i class="fas fa-link"></i> روابط سريعة</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="index.html" style="color: #ecf0f1; text-decoration: none;">الرئيسية</a></li>
+                <li><a href="about.html" style="color: #ecf0f1; text-decoration: none;">من نحن</a></li>
+                <li><a href="privacy.html" style="color: #ecf0f1; text-decoration: none;">سياسة الخصوصية</a></li>
+            </ul>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 0 1rem;">
+            <h4 style="color: #2ecc71; margin-bottom: 1rem;"><i class="fas fa-headset"></i> التواصل</h4>
+            <p style="color: #bdc3c7;"><i class="fas fa-envelope"></i> info@renthub.com</p>
+            <p style="color: #bdc3c7;"><i class="fas fa-phone"></i> +966 12 345 6789</p>
+        </div>
+    </div>
+    <p style="color: #95a5a6; font-size: 0.9rem; margin-bottom: 1rem;">
+        © 2024 RentHub. هذا مشروع تعليمي قيد التطوير.
+    </p>
+    <div style="color: #95a5a6; font-size: 0.8rem;">
+        <span>تم التطوير باستخدام <i class="fas fa-heart" style="color: #e74c3c;"></i></span>
+    </div>
+</footer>
+<!-- مكتبات Firebase - إصدار متوافق -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+    // 🔥 إعدادات Firebase - بالمفتاح الجديد
+    const firebaseConfig = {
+        apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
+        authDomain: "renthub-2030.firebaseapp.com",
+        projectId: "renthub-2030",
+        storageBucket: "renthub-2030.firebasestorage.app",
+        messagingSenderId: "23301901800",
+        appId: "1:23301901800:web:2679c834aac406c72d685d",
+        measurementId: "G-7JJ40H01FM"
+    };
 
-        // تهيئة Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        console.log("✅ Firebase جاهز!");
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    console.log("✅ Firebase جاهز!");
 
-        // وظائف اللغات
-        function setLanguage(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            localStorage.setItem('siteLang', lang);
-        }
+    // وظائف اللغات
+    function setLanguage(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        localStorage.setItem('siteLang', lang);
+    }
 
-        // بيانات الفئات
-        const categories = [
-            { id: 1, name: "الكترونيات 🎮", icon: "fas fa-gamepad", count: "7,530 إعلان", color: "#FF6B8B" },
-            { id: 2, name: "أدوات يدوية 🔧", icon: "fas fa-tools", count: "8,320 إعلان", color: "#36D7B7" },
-            { id: 3, name: "رياضة وترفيه ⚽", icon: "fas fa-futbol", count: "4,210 إعلان", color: "#FFCE56" },
-            { id: 4, name: "أزياء وعمل 👔", icon: "fas fa-tshirt", count: "15,240 إعلان", color: "#9B59B6" },
-            { id: 5, name: "سيارات ومواصلات 🚗", icon: "fas fa-car", count: "12,450 إعلان", color: "#3498DB" },
-            { id: 6, name: "منزل وحديقة 🏠", icon: "fas fa-home", count: "9,870 إعلان", color: "#E74C3C" }
-        ];
+    // ========== عرض الفئات والإعلانات المباشرة ==========
+    // (لم تعد هناك حاجة لـ displayCategories و displayAds لأن الكود ثابت الآن)
 
-        let ads = [];
-
-        // عرض الفئات
-        function displayCategories() {
-            const container = document.getElementById('categoriesContainer');
-            container.innerHTML = '';
-            categories.forEach(cat => {
-                const card = document.createElement('div');
-                card.className = 'category-card';
-                card.style.borderTop = `5px solid ${cat.color}`;
-                card.innerHTML = `
-                    <div class="category-icon">
-                        <i class="${cat.icon}"></i>
-                    </div>
-                    <h3>${cat.name}</h3>
-                    <p>${cat.count}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // عرض الإعلانات
-        function displayAds() {
-            const container = document.getElementById('adsContainer');
-            container.innerHTML = '';
-            if (ads.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#666; grid-column:1/-1;">لا توجد إعلانات حالياً. كن أول من ينشر إعلان!</p>';
-                return;
-            }
-            ads.forEach(ad => {
-                const card = document.createElement('div');
-                card.className = 'ad-card';
-                card.innerHTML = `
-                    <h3>${ad.title}</h3>
-                    <p>${ad.description || 'لا يوجد وصف'}</p>
-                    <p class="ad-price">${ad.price} ريال/ساعة</p>
-                    <span class="ad-category">${ad.category}</span>
-                    <p style="margin-top:10px; color:#888; font-size:0.9rem;">
-                        <i class="fas fa-user"></i> ${ad.userEmail || 'مستخدم'}
-                    </p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // ========== دوال المصادقة ==========
-        function showAuthModal() {
-            document.getElementById('authModal').style.display = 'flex';
-        }
-
-        function hideAuthModal() {
+    // ========== دوال المصادقة ==========
+            function hideAuthModal() {
             document.getElementById('authModal').style.display = 'none';
             document.getElementById('authMessage').textContent = '';
             document.getElementById('authEmail').value = '';
             document.getElementById('authPassword').value = '';
         }
 
+        // 🔐 تسجيل حساب جديد
         async function signupUser() {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
             const messageEl = document.getElementById('authMessage');
-            
+
             if (!email || !password || password.length < 6) {
-                messageEl.textContent = '⚠️ أدخل بريداً صحيحاً وكلمة مرور (6 أحرف على الأقل)';
-                messageEl.style.color = '#e74c3c';
+                messageEl.textContent = '⚠️ أدخل بريدًا إلكترونيًا صالحًا وكلمة مرور (6 أحرف على الأقل)';
+                messageEl.style.backgroundColor = '#fff3cd';
+                messageEl.style.color = '#856404';
                 return;
             }
-            
+
             try {
-                await auth.createUserWithEmailAndPassword(email, password);
-                messageEl.textContent = '✅ تم إنشاء حسابك بنجاح!';
-                messageEl.style.color = '#2ecc71';
-                updateUI();
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                messageEl.textContent = '🎉 تم إنشاء حسابك بنجاح!';
+                messageEl.style.backgroundColor = '#d4edda';
+                messageEl.style.color = '#155724';
+                
+                // تحديث زر التسجيل ليعرض اسم المستخدم
+                updateAuthButton(userCredential.user);
                 
                 setTimeout(() => {
                     hideAuthModal();
-                    loadAdsFromFirebase();
-                    alert('مرحباً بك في RentHub!');
-                }, 1500);
+                    // توجيه إلى لوحة التحكم بعد 2 ثانية
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+
             } catch (error) {
-                messageEl.textContent = `❌ خطأ: ${error.message}`;
-                messageEl.style.color = '#e74c3c';
+                console.error('خطأ في التسجيل:', error);
+                let errorMsg = '❌ حدث خطأ غير متوقع';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMsg = '⚠️ هذا البريد الإلكتروني مستخدم مسبقاً';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg = '⚠️ البريد الإلكتروني غير صالح';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMsg = '⚠️ كلمة المرور ضعيفة (6 أحرف على الأقل)';
+                }
+                messageEl.textContent = errorMsg;
+                messageEl.style.backgroundColor = '#f8d7da';
+                messageEl.style.color = '#721c24';
             }
         }
 
+        // 🔓 تسجيل الدخول
         async function loginUser() {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
             const messageEl = document.getElementById('authMessage');
-            
+
+            if (!email || !password) {
+                messageEl.textContent = '⚠️ أدخل البريد الإلكتروني وكلمة المرور';
+                messageEl.style.backgroundColor = '#fff3cd';
+                messageEl.style.color = '#856404';
+                return;
+            }
+
             try {
-                await auth.signInWithEmailAndPassword(email, password);
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 messageEl.textContent = '✅ تم تسجيل الدخول بنجاح!';
-                messageEl.style.color = '#2ecc71';
-                updateUI();
+                messageEl.style.backgroundColor = '#d4edda';
+                messageEl.style.color = '#155724';
+                
+                updateAuthButton(userCredential.user);
                 
                 setTimeout(() => {
                     hideAuthModal();
-                    loadAdsFromFirebase();
+                    window.location.href = 'dashboard.html';
                 }, 1500);
+
             } catch (error) {
-                messageEl.textContent = `❌ خطأ في الدخول: ${error.message}`;
-                messageEl.style.color = '#e74c3c';
+                console.error('خطأ في الدخول:', error);
+                let errorMsg = '❌ حدث خطأ غير متوقع';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMsg = '⚠️ البريد الإلكتروني أو كلمة المرور غير صحيحة';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMsg = '⚠️ تم تجاوز عدد المحاولات، حاول لاحقاً';
+                }
+                messageEl.textContent = errorMsg;
+                messageEl.style.backgroundColor = '#f8d7da';
+                messageEl.style.color = '#721c24';
             }
         }
 
-        function logoutUser() {
-            auth.signOut().then(() => {
-                updateUI();
-                ads = [];
-                displayAds();
-                alert('تم تسجيل الخروج');
-            });
-        }
-
-        function updateUI() {
-            const user = auth.currentUser;
-            const authBtn = document.getElementById('userAuthBtn');
-            const publishBtn = document.getElementById('publishBtn');
-            
+        // 🔄 تحديث زر المصادقة في الشريط العلوي
+        function updateAuthButton(user) {
+            const btn = document.getElementById('userAuthBtn');
             if (user) {
-                authBtn.innerHTML = `<i class="fas fa-user-check"></i> ${user.email.split('@')[0]}`;
-                authBtn.className = 'btn-auth user-logged-in';
-                authBtn.onclick = logoutUser;
-                publishBtn.disabled = false;
-                publishBtn.style.opacity = '1';
-                publishBtn.title = 'انشر إعلانك الآن';
+                const displayName = user.email.split('@')[0];
+                btn.innerHTML = `<i class="fas fa-user-check"></i> ${displayName}`;
+                btn.classList.add('user-logged-in');
+                btn.onclick = () => { window.location.href = 'dashboard.html'; };
             } else {
-                authBtn.innerHTML = '<i class="fas fa-user"></i> دخول';
-                authBtn.className = 'btn-auth';
-                authBtn.onclick = showAuthModal;
-                publishBtn.disabled = true;
-                publishBtn.style.opacity = '0.6';
-                publishBtn.title = 'سجل دخول أولاً لنشر إعلان';
+                btn.innerHTML = `<i class="fas fa-user"></i> دخول`;
+                btn.classList.remove('user-logged-in');
+                btn.onclick = showAuthModal;
             }
         }
 
-        // ========== دوال Firebase للإعلانات ==========
-        async function loadAdsFromFirebase() {
-            try {
-                const querySnapshot = await db.collection('ads').orderBy('createdAt', 'desc').limit(10).get();
-                ads = [];
-                querySnapshot.forEach((doc) => {
-                    ads.push({ id: doc.id, ...doc.data() });
-                });
-                displayAds();
-                console.log("✅ تم تحميل الإعلانات من Firebase");
-            } catch (error) {
-                console.error("❌ خطأ في تحميل الإعلانات:", error);
-            }
-        }
-
-        function showAdForm() {
-            const user = auth.currentUser;
-            if (!user) {
-                showAuthModal();
-                alert('❗ سجل دخول أولاً لنشر إعلان');
-                return;
-            }
-            
-            const title = prompt("عنوان الإعلان:");
-            if (!title) return;
-            
-            const price = prompt("السعر بالريال للساعة:");
-            if (!price) return;
-            
-            const category = prompt("الفئة (اكتب: أدوات، سيارات، الكترونيات، إلخ):");
-            
-            db.collection('ads').add({
-                title: title,
-                price: parseInt(price),
-                category: category || "عام",
-                description: "إعلان مضافة عبر الموقع",
-                userEmail: user.email,
-                userId: user.uid,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert(`✅ تم نشر إعلانك "${title}" بنجاح!`);
-                loadAdsFromFirebase();
-            })
-            .catch(error => {
-                alert(`❌ خطأ: ${error.message}`);
-            });
-        }
-
-        // دالة البحث
+        // 🔍 دالة البحث (محسنة لتشمل المدينة)
         function searchItems() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            if (!query) return;
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const locationTerm = document.getElementById('locationInput').value.trim();
+            const message = `🔎 البحث عن: "${searchTerm || 'أي شيء'}" في "${locationTerm || 'أي مدينة'}"`;
             
-            const results = ads.filter(ad => 
-                ad.title.toLowerCase().includes(query) || 
-                (ad.description && ad.description.toLowerCase().includes(query))
-            );
+            // عرض رسالة مؤقتة (يمكن استبدالها بعرض نتائج حقيقية لاحقاً)
+            const alertDiv = document.createElement('div');
+            alertDiv.innerHTML = `
+                <div style="position:fixed; top:100px; right:20px; background:#6a11cb; color:white; padding:15px; border-radius:10px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+                    <i class="fas fa-search"></i> ${message}
+                    <br><small style="opacity:0.8;">(هذه نسخة تجريبية - التطوير قيد التقدم)</small>
+                    <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; float:left; cursor:pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
             
-            if (results.length > 0) {
-                const originalAds = [...ads];
-                ads = results;
-                displayAds();
-                ads = originalAds;
-            } else {
-                alert(`🔍 لم يتم العثور على نتائج لـ "${query}"`);
-            }
+            // إخفاء الرسالة بعد 3 ثوانٍ
+            setTimeout(() => {
+                if (alertDiv.parentElement) alertDiv.remove();
+            }, 3000);
+            
+            console.log('بحث:', { searchTerm, locationTerm });
         }
 
-        // ========== عند تحميل الصفحة ==========
+        // 📝 دالة نشر إعلان جديد (توجيه إلى صفحة النشر)
+        function showAdForm() {
+            // التحقق أولاً إذا كان المستخدم مسجلاً
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // إذا مسجل، توجيه إلى صفحة نشر الإعلان
+                    window.location.href = 'item_detail.html?action=new';
+                } else {
+                    // إذا غير مسجل، عرض نافذة التسجيل
+                    showAuthModal();
+                    document.getElementById('authMessage').textContent = '👋 يرجى التسجيل أولاً لنشر إعلان';
+                    document.getElementById('authMessage').style.backgroundColor = '#fff3cd';
+                    document.getElementById('authMessage').style.color = '#856404';
+                }
+            });
+        }
+
+        // 👁️ مراقبة حالة المصادقة عند تحميل الصفحة
         auth.onAuthStateChanged((user) => {
-            updateUI();
-            if (user) {
-                loadAdsFromFirebase();
-            }
+            updateAuthButton(user);
+            console.log('حالة المستخدم:', user ? 'مسجل الدخول' : 'غير مسجل');
         });
 
-        window.onload = function() {
-            displayCategories();
-            displayAds();
-            console.log("🚀 RentHub جاهز للعمل!");
-        };
+        // 📱 جعل النافذة التنبيهية قابلة للإغلاق بالنقر خارجها
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) hideAuthModal();
+        });
+
+        // 🎬 تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 RentHub جاهز للتشغيل!');
+            // لا حاجة لاستدعاء displayCategories و displayAds لأن البيانات ثابتة الآن
+        });
     </script>
 </body>
 </html>
