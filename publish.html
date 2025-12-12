@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نشر إعلان جديد - RentHub 2030</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الهيدر */
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 20px 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.9;
+        }
+        
+        /* حالة الاشتراك */
+        .subscription-status {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-right: 5px solid #4f46e5;
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .plan-badge {
+            background: #4f46e5;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            transition: width 0.5s ease;
+        }
+        
+        /* نموذج النشر */
+        .publish-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .form-title {
+            color: #4f46e5;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* أزرار */
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .publish-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .publish-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .publish-btn:active {
+            transform: translateY(0);
+        }
+        
+        .secondary-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .secondary-btn:hover {
+            background: #e2e8f0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* فوتر */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        /* رسائل */
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span>🏠</span>
+                RentHub 2030
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="dashboard.html">لوحة التحكم</a>
+                <a href="my-ads.html">إعلاناتي</a>
+                <a href="profile.html">حسابي</a>
+                <a href="upgrade.html" style="background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px;">
+                    ترقية الخطة
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- حالة الاشتراك -->
+        <div class="subscription-status">
+            <div class="status-header">
+                <h2>حالة اشتراكك</h2>
+                <span class="plan-badge" id="currentPlanName">جاري التحميل...</span>
+            </div>
+            <p id="planDescription">نظام الاشتراك يحمّل...</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="usageProgress" style="width: 0%"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                <span id="adsUsed">0 إعلان</span>
+                <span id="adsLimit">0 إعلان</span>
+            </div>
+            
+            <div id="upgradeMessage" class="message warning" style="margin-top: 15px;">
+                <strong>ملاحظة:</strong> وصلت للحد الأقصى. <a href="upgrade.html" style="color: #92400e; font-weight: bold;">ترقية الآن</a>
+            </div>
+        </div>
+
+        <!-- نموذج نشر الإعلان -->
+        <div class="publish-card">
+            <h1 class="form-title">📝 نشر إعلان جديد</h1>
+            
+            <div id="publishMessage" class="message"></div>
+            
+            <form id="adForm">
+                <div class="form-group">
+                    <label for="adTitle">عنوان الإعلان *</label>
+                    <input type="text" id="adTitle" placeholder="مثال: سيارتي للايجار اليومي - موديل 2023" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="adCategory">التصنيف *</label>
+                        <select id="adCategory" required>
+                            <option value="">اختر التصنيف</option>
+                            <option value="cars">سيارات</option>
+                            <option value="tools">أدوات ومعدات</option>
+                            <option value="electronics">إلكترونيات</option>
+                            <option value="furniture">أثاث</option>
+                            <option value="properties">عقارات</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adPrice">السعر (ريال/يوم) *</label>
+                        <input type="number" id="adPrice" placeholder="مثال: 100" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="adCity">المدينة *</label>
+                        <select id="adCity" required>
+                            <option value="">اختر المدينة</option>
+                            <option value="riyadh">الرياض</option>
+                            <option value="jeddah">جدة</option>
+                            <option value="dammam">الدمام</option>
+                            <option value="makkah">مكة</option>
+                            <option value="madina">المدينة</option>
+                            <option value="khobar">الخبر</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adPhone">رقم الجوال *</label>
+                        <input type="tel" id="adPhone" placeholder="05XXXXXXXX" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adDescription">وصف مفصل للإعلان *</label>
+                    <textarea id="adDescription" placeholder="صف ما تقدمه للايجار بالتفصيل..." required></textarea>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px; text-align: left;">
+                        <span id="charCount">0</span>/500 حرف
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>رفع صورة (اختياري)</label>
+                    <input type="file" id="adImage" accept="image/*">
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">الحجم الأقصى: 5MB</div>
+                </div>
+            </form>
+            
+            <div class="buttons-container">
+                <button class="secondary-btn" onclick="window.location.href='dashboard.html'">
+                    ← العودة للوحة التحكم
+                </button>
+                <button class="publish-btn" onclick="handlePublishAd()">
+                    🚀 نشر الإعلان الآن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>© 2023 RentHub 2030. جميع الحقوق محفوظة.</p>
+        <p style="font-size: 14px; margin-top: 10px;">نظام آمن لنشر وإدارة الإعلانات</p>
+    </footer>
+
+    <!-- نظام الاشتراكات -->
+    <script src="js/subscriptions.js"></script>
+    
+    <!-- كود خاص بصفحة النشر -->
+    <script>
+        // تحديث عداد الأحرف
+        document.getElementById('adDescription').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count;
+            
+            if (count > 500) {
+                this.value = this.value.substring(0, 500);
+                document.getElementById('charCount').textContent = 500;
+            }
+        });
+        
+        // تحديث حالة الاشتراك في الصفحة
+        function updateSubscriptionDisplay() {
+            try {
+                const planInfo = getCurrentPlanInfo();
+                
+                // تحديث العناصر
+                document.getElementById('currentPlanName').textContent = planInfo.name;
+                document.getElementById('planDescription').textContent = 
+                    `خطة ${planInfo.name} - ${planInfo.price === 0 ? 'مجانية' : `$${planInfo.price}/شهر`}`;
+                
+                document.getElementById('adsUsed').textContent = `${planInfo.adsUsed} إعلان`;
+                document.getElementById('adsLimit').textContent = 
+                    `${planInfo.adsLimit === 100 ? 'غير محدود' : planInfo.adsLimit} إعلان`;
+                
+                // شريط التقدم
+                document.getElementById('usageProgress').style.width = `${planInfo.usagePercentage}%`;
+                
+                // رسالة الترقية
+                const upgradeMsg = document.getElementById('upgradeMessage');
+                if (planInfo.adsRemaining <= 0 && planInfo.adsLimit !== 100) {
+                    upgradeMsg.style.display = 'block';
+                } else {
+                    upgradeMsg.style.display = 'none';
+                }
+                
+                // لون الشريط حسب الخطة
+                document.getElementById('usageProgress').style.background = planInfo.color;
+                document.getElementById('currentPlanName').style.background = planInfo.color;
+                
+            } catch (error) {
+                console.error('خطأ في تحديث العرض:', error);
+            }
+        }
+        
+        // معالجة نشر الإعلان
+        async function handlePublishAd() {
+            // جمع بيانات النموذج
+            const adData = {
+                title: document.getElementById('adTitle').value,
+                category: document.getElementById('adCategory').value,
+                price: document.getElementById('adPrice').value,
+                city: document.getElementById('adCity').value,
+                phone: document.getElementById('adPhone').value,
+                description: document.getElementById('adDescription').value,
+                image: document.getElementById('adImage').files[0] ? 'uploaded' : null,
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            
+            // التحقق من الحقول المطلوبة
+            const requiredFields = ['title', 'category', 'price', 'city', 'phone', 'description'];
+            const emptyFields = requiredFields.filter(field => !adData[field]);
+            
+            if (emptyFields.length > 0) {
+                showMessage('⚠️ يرجى ملء جميع الحقول المطلوبة', 'warning');
+                return;
+            }
+            
+            // التحقق من صحة رقم الجوال
+            const phoneRegex = /^05[0-9]{8}$/;
+            if (!phoneRegex.test(adData.phone)) {
+                showMessage('📱 رقم الجوال غير صحيح. يجب أن يكون 10 أرقام تبدأ بـ 05', 'warning');
+                return;
+            }
+            
+            // استخدام نظام الاشتراكات للتحقق والنشر
+            const result = publishNewAd(adData);
+            
+            if (result) {
+                showMessage('✅ تم إرسال إعلانك بنجاح! جاري المراجعة والنشر...', 'success');
+                updateSubscriptionDisplay();
+                
+                // إعادة تعيين النموذج بعد 2 ثانية
+                setTimeout(() => {
+                    document.getElementById('adForm').reset();
+                    document.getElementById('charCount').textContent = '0';
+                }, 2000);
+            }
+        }
+        
+        // عرض الرسائل
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('publishMessage');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثواني
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // تحديث العرض عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // انتظار تحميل نظام الاشتراكات
+            setTimeout(() => {
+                updateSubscriptionDisplay();
+            }, 300);
+            
+            // إضافة مستمع لزر النشر (بديل للـ onclick)
+            document.querySelector('.publish-btn').addEventListener('click', handlePublishAd);
+            
+            console.log('📄 صفحة النشر جاهزة!');
+        });
+    </script>
+</body>
+</html>
