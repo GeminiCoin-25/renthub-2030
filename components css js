@@ -1,0 +1,297 @@
+<header class="main-header">
+    <div class="container">
+        <div class="header-content">
+            <!-- الشعار -->
+            <a href="index.html" class="logo">
+                <i class="fas fa-handshake logo-icon"></i>
+                <span class="logo-text">OS-<span class="logo-highlight">RentHub</span></span>
+            </a>
+            
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="¿Qué quieres alquilar? (taladro, coche...)" id="searchInput">
+                    <input type="text" class="search-input" placeholder="Ciudad (Madrid, Barcelona...)" id="locationInput">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+            
+            <!-- أزرار المستخدم -->
+            <div class="user-actions">
+                <!-- أزرار اللغة -->
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="es" onclick="changeLanguage('es')">
+                        <span class="flag">🇪🇸</span> ES
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">
+                        <span class="flag">🇬🇧</span> EN
+                    </button>
+                    <button class="lang-btn" data-lang="ar" onclick="changeLanguage('ar')">
+                        <span class="flag">🇸🇦</span> AR
+                    </button>
+                </div>
+                
+                <!-- أزرار التنقل -->
+                <button class="nav-btn" onclick="window.location.href='auth.html'">
+                    <i class="fas fa-user"></i> Iniciar Sesión
+                </button>
+                
+                <button class="nav-btn primary" onclick="window.location.href='publish.html'">
+                    <i class="fas fa-plus-circle"></i> Publicar Anuncio
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<style>
+    /* أنماط Header */
+    .main-header {
+        background: #ffffff;
+        border-bottom: 1px solid #eaeaea;
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #1a1a1a;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    
+    .logo-icon {
+        color: #4361ee;
+        margin-right: 10px;
+        font-size: 1.8rem;
+    }
+    
+    .logo-highlight {
+        color: #4361ee;
+    }
+    
+    .search-container {
+        flex: 1;
+        max-width: 600px;
+    }
+    
+    .search-box {
+        display: flex;
+        background: #f8f9fa;
+        border-radius: 50px;
+        padding: 8px;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+    }
+    
+    .search-box:focus-within {
+        border-color: #4361ee;
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
+    }
+    
+    .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 12px 15px;
+        font-size: 1rem;
+        outline: none;
+    }
+    
+    .search-btn {
+        background: linear-gradient(135deg, #4361ee, #3a0ca3);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 25px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .language-switcher {
+        display: flex;
+        background: #f8f9fa;
+        border-radius: 50px;
+        padding: 5px;
+    }
+    
+    .lang-btn {
+        background: transparent;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.3s;
+    }
+    
+    .lang-btn.active {
+        background: #ffffff;
+        color: #4361ee;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .nav-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #ffffff;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+    
+    .nav-btn.primary {
+        background: linear-gradient(135deg, #4361ee, #3a0ca3);
+        color: white;
+        border: none;
+    }
+    
+    .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* تصميم متجاوب */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-container {
+            width: 100%;
+        }
+        
+        .search-box {
+            flex-direction: column;
+            border-radius: 12px;
+        }
+        
+        .search-input {
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+        }
+        
+        .search-btn {
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .user-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+</style>
+
+<script>
+    // دالة البحث
+    function performSearch() {
+        const item = document.getElementById('searchInput').value;
+        const location = document.getElementById('locationInput').value;
+        
+        if (!item && !location) {
+            alert('Por favor, introduce lo que buscas o la ubicación');
+            return;
+        }
+        
+        // رسالة مؤقتة
+        const searchMsg = document.createElement('div');
+        searchMsg.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #4361ee;
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            ">
+                🔍 Buscando "${item || 'cualquier cosa'}" en "${location || 'toda España'}"
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    float: left;
+                    cursor: pointer;
+                ">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        document.body.appendChild(searchMsg);
+        
+        setTimeout(() => {
+            if (searchMsg.parentElement) searchMsg.remove();
+        }, 3000);
+        
+        console.log('Búsqueda:', { item, location });
+    }
+    
+    // تغيير اللغة
+    function changeLanguage(lang) {
+        // تحديث أزرار اللغة
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // تغيير اتجاه النص للعربية
+        if (lang === 'ar') {
+            document.querySelector('.search-box').style.flexDirection = 'row-reverse';
+        } else {
+            document.querySelector('.search-box').style.flexDirection = 'row';
+        }
+        
+        // حفظ اللغة
+        localStorage.setItem('siteLanguage', lang);
+        
+        // إعادة تحميل لترجمة الصفحة (سيتم تطبيقها في index.html النهائي)
+        if (window.location.pathname.includes('index.html')) {
+            window.location.reload();
+        }
+    }
+    
+    // تحميل اللغة المحفوظة
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedLang = localStorage.getItem('siteLanguage') || 'es';
+        const btn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
+        if (btn) {
+            btn.click();
+        }
+    });
+</script>
