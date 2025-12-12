@@ -3,780 +3,815 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentHub 2030 - Alquila lo que necesites</title>
+    <title>RentHub - Tu plataforma de alquiler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --success: #2ecc71;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
             line-height: 1.6;
-            min-height: 100vh;
+            color: var(--dark);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Header */
+
+        /* Header & Navbar */
         header {
-            padding: 25px 0;
-            margin-bottom: 40px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
-        
-        .header-content {
+
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
+
         .logo {
-            font-size: 32px;
-            font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-        
-        .logo-icon {
-            font-size: 40px;
-        }
-        
-        .language-switcher {
-            display: flex;
             gap: 10px;
-            align-items: center;
-        }
-        
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .lang-btn.active {
-            background: white;
-            color: #667eea;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
         }
-        
-        .lang-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
+
+        .logo i {
+            font-size: 1.8rem;
         }
-        
+
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 2rem;
             align-items: center;
         }
-        
+
         .nav-links a {
-            color: white;
             text-decoration: none;
+            color: var(--dark);
             font-weight: 500;
-            padding: 10px 20px;
-            border-radius: 25px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: color 0.3s;
         }
-        
+
         .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.15);
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
         }
-        
-        .login-btn {
-            background: white;
-            color: #667eea !important;
-            font-weight: bold !important;
-        }
-        
-        .login-btn:hover {
-            background: #f8f9fa !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* Contenido principal */
+
+        /* Hero Section */
         .hero {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9)),
+                        url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 5% 100px;
             text-align: center;
-            padding: 60px 20px;
-            margin-bottom: 40px;
         }
-        
+
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: 800;
-            line-height: 1.2;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s;
         }
-        
+
         .hero p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
             opacity: 0.9;
         }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 18px 35px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-primary {
+
+        .search-box {
             background: white;
-            color: #667eea;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-        }
-        
-        /* Estadísticas */
-        .stats {
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            gap: 15px;
         }
-        
-        .stat-item {
-            text-align: center;
+
+        .search-input {
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
-        
-        .stat-number {
-            font-size: 42px;
-            font-weight: bold;
-            margin-bottom: 10px;
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
-        
-        .stat-label {
-            font-size: 16px;
-            opacity: 0.9;
+
+        /* Categories */
+        .categories {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        /* Características */
-        .features {
-            margin-bottom: 60px;
-        }
-        
+
         .section-title {
             text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
-        
-        .features-grid {
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .category-info {
+            padding: 1.5rem;
+        }
+
+        .category-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .category-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: var(--light);
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        /* Featured Listings */
+        .featured-listings {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .listings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 2rem;
+            margin-top: 2rem;
         }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 35px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 25px;
-        }
-        
-        .feature-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .feature-description {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-        
-        /* Planes de precios */
-        .pricing {
-            margin-bottom: 60px;
-        }
-        
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .plan-card {
+
+        .listing-card {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            color: #333;
-            transition: all 0.3s;
-            position: relative;
+            border-radius: 15px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
-        
-        .plan-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+
+        .listing-card:hover {
+            transform: translateY(-5px);
         }
-        
-        .plan-card.popular {
-            border: 3px solid #667eea;
-            transform: scale(1.05);
+
+        .listing-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
-        
-        .plan-badge {
+
+        .listing-price {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #667eea;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
             color: white;
-            padding: 8px 20px;
+            padding: 5px 15px;
             border-radius: 20px;
-            font-size: 14px;
             font-weight: bold;
         }
-        
-        .plan-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+
+        .listing-info {
+            padding: 1.5rem;
         }
-        
-        .plan-name {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2d3748;
+
+        .listing-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
-        
-        .plan-price {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            color: #667eea;
+
+        .listing-location {
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 1rem;
         }
-        
-        .plan-period {
-            color: #718096;
-            margin-bottom: 25px;
+
+        .listing-features {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
         }
-        
-        .plan-features {
-            list-style: none;
-            margin-bottom: 35px;
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
         }
-        
-        .plan-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 1rem;
         }
-        
-        .plan-features li:last-child {
-            border-bottom: none;
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
-        
-        .check-icon {
-            color: #48bb78;
-            font-size: 18px;
+
+        .footer-links ul {
+            list-style: none;
         }
-        
-        .plan-btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            border: 2px solid #667eea;
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
         }
-        
-        .plan-btn:hover {
-            background: white;
-            color: #667eea;
-        }
-        
-        /* Pie de página */
-        footer {
-            text-align: center;
-            padding: 50px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
+
         .footer-links a {
-            color: white;
+            color: #ddd;
             text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
+            transition: color 0.3s;
         }
-        
+
         .footer-links a:hover {
-            opacity: 1;
+            color: white;
         }
-        
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+        }
+
         .copyright {
-            opacity: 0.7;
-            font-size: 14px;
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
         }
-        
-        /* Diseño responsive */
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .header-content {
+            .navbar {
                 flex-direction: column;
-                gap: 20px;
+                gap: 1rem;
+                padding: 1rem;
             }
-            
+
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-direction: column;
+                gap: 1rem;
             }
-            
+
             .hero h1 {
-                font-size: 36px;
+                font-size: 2rem;
             }
-            
-            .hero p {
-                font-size: 18px;
-            }
-            
-            .btn {
-                padding: 15px 25px;
-                font-size: 16px;
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                padding: 20px;
-            }
-            
-            .stat-number {
-                font-size: 32px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .plan-card.popular {
-                transform: none;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .stats {
+
+            .search-box {
                 grid-template-columns: 1fr;
             }
-            
-            .cta-buttons {
+
+            .steps {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="header-content">
-                <div class="logo">
-                    <span class="logo-icon">🏠</span>
-                    <span>RentHub 2030</span>
-                </div>
-                
-                <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="es">ES</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="ar">AR</button>
-                </div>
-                
-                <nav class="nav-links">
-                    <a href="#features">Características</a>
-                    <a href="#pricing">Planes</a>
-                    <a href="#how-it-works">Cómo funciona</a>
-                    <a href="dashboard.html" class="login-btn">
-                        <span>🚀</span>
-                        <span>Panel de Control</span>
-                    </a>
-                </nav>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fas fa-handshake"></i> RentHub
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="#categories">Categorías</a>
+                <a href="#how-it-works">Cómo Funciona</a>
+                <a href="#listings">Productos Destacados</a>
+                <a href="dashboard.html">Mi Panel</a>
             </div>
-        </header>
+            
+            <div class="nav-buttons" id="authButtons">
+                <!-- Los botones se llenarán con JavaScript -->
+            </div>
+        </nav>
+    </header>
 
-        <!-- Contenido principal -->
-        <main>
-            <section class="hero">
-                <h1>Alquila lo que necesites,<br>cuando lo necesites</h1>
-                <p>Desde herramientas de bricolaje hasta coches de lujo. Encuentra, reserva y recibe el mismo día con RentHub 2030</p>
-                
-                <div class="cta-buttons">
-                    <a href="dashboard.html" class="btn btn-primary">
-                        <span>🚀</span>
-                        <span>Empieza Gratis</span>
-                    </a>
-                    <a href="#pricing" class="btn btn-secondary">
-                        <span>💎</span>
-                        <span>Ver Planes</span>
-                    </a>
-                </div>
-            </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Alquila lo que necesites, cuando lo necesites</h1>
+        <p>Encuentra miles de productos para alquilar en tu zona. Desde herramientas hasta vehículos, todo al alcance de un clic.</p>
+        
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="¿Qué necesitas alquilar?" id="searchInput">
+            <input type="text" class="search-input" placeholder="Ubicación" id="locationInput">
+            <select class="search-input" id="categorySelect">
+                <option value="">Todas las categorías</option>
+                <option value="tools">Herramientas</option>
+                <option value="vehicles">Vehículos</option>
+                <option value="electronics">Electrónica</option>
+                <option value="events">Eventos</option>
+                <option value="sports">Deportes</option>
+                <option value="home">Hogar</option>
+            </select>
+            <button class="btn btn-primary" onclick="searchListings()">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+    </section>
 
-            <!-- Estadísticas -->
-            <section class="stats">
-                <div class="stat-item">
-                    <div class="stat-number">+5,000</div>
-                    <div class="stat-label">Artículos disponibles</div>
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+        <div class="section-title">
+            <h2>Categorías Populares</h2>
+            <p>Encuentra lo que buscas en nuestras principales categorías</p>
+        </div>
+        
+        <div class="categories-grid">
+            <a href="listings.html?category=tools" class="category-card">
+                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="category-info">
+                    <h3>Herramientas</h3>
+                    <p>Taladros, sierras, herramientas eléctricas y más</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">24h</div>
-                    <div class="stat-label">Disponibilidad</div>
+            </a>
+            
+            <a href="listings.html?category=vehicles" class="category-card">
+                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="category-info">
+                    <h3>Vehículos</h3>
+                    <p>Coches, motos, bicicletas y vehículos especiales</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Satisfacción clientes</div>
+            </a>
+            
+            <a href="listings.html?category=electronics" class="category-card">
+                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="category-info">
+                    <h3>Electrónica</h3>
+                    <p>Cámaras, drones, equipos de sonido y más</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">+10,000</div>
-                    <div class="stat-label">Clientes satisfechos</div>
+            </a>
+            
+            <a href="listings.html?category=events" class="category-card">
+                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="category-info">
+                    <h3>Eventos</h3>
+                    <p>Mobiliario, decoración y equipo para fiestas</p>
                 </div>
-            </section>
+            </a>
+        </div>
+    </section>
 
-            <!-- Características -->
-            <section class="features" id="features">
-                <h2 class="section-title">✨ ¿Por qué elegir RentHub?</h2>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3 class="feature-title">Super Rápido</h3>
-                        <p class="feature-description">Busca, reserva y recibe en minutos. Nuestro sistema rápido te ahorra tiempo y esfuerzo.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">🔒</div>
-                        <h3 class="feature-title">Totalmente Seguro</h3>
-                        <p class="feature-description">Sistema de seguridad completo con seguro de productos y garantía de devolución.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">💰</div>
-                        <h3 class="feature-title">Precios Competitivos</h3>
-                        <p class="feature-description">Los mejores precios del mercado con múltiples opciones de pago y facilidades.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h3 class="feature-title">Soporte 24/7</h3>
-                        <p class="feature-description">Equipo de soporte técnico disponible 24/7 para ayudarte con cualquier consulta.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">🌍</div>
-                        <h3 class="feature-title">Cobertura Amplia</h3>
-                        <p class="feature-description">Servicio disponible en toda España con entrega rápida en áreas extensas.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">⭐</div>
-                        <h3 class="feature-title">Calificaciones y Reseñas</h3>
-                        <p class="feature-description">Sistema de calificación transparente que garantiza proveedores confiables.</p>
-                    </div>
-                </div>
-            </section>
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-title">
+            <h2>¿Cómo Funciona?</h2>
+            <p>Alquilar nunca fue tan fácil</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Regístrate</h3>
+                <p>Crea tu cuenta gratuita en minutos</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Busca</h3>
+                <p>Encuentra lo que necesitas cerca de ti</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Alquila</h3>
+                <p>Contacta con el propietario y reserva</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Disfruta</h3>
+                <p>Usa el producto y devuélvelo en perfecto estado</p>
+            </div>
+        </div>
+    </section>
 
-            <!-- Planes de precios -->
-            <section class="pricing" id="pricing">
-                <h2 class="section-title">📊 Elige tu plan ideal</h2>
-                
-                <div class="plans-grid">
-                    <div class="plan-card">
-                        <div class="plan-icon">🆓</div>
-                        <h3 class="plan-name">Gratis</h3>
-                        <div class="plan-price">0€</div>
-                        <div class="plan-period">Empieza gratis</div>
-                        
-                        <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> Publicar 1 anuncio</li>
-                            <li><span class="check-icon">✓</span> Soporte por email</li>
-                            <li><span class="check-icon">✓</span> Página básica de anuncio</li>
-                            <li><span class="check-icon">✓</span> Aparecer en búsquedas</li>
-                        </ul>
-                        
-                        <button class="plan-btn" onclick="window.location.href='dashboard.html'">
-                            Empieza Gratis
-                        </button>
-                    </div>
-                    
-                    <div class="plan-card popular">
-                        <div class="plan-badge">Más Popular</div>
-                        <div class="plan-icon">🥈</div>
-                        <h3 class="plan-name">Plata</h3>
-                        <div class="plan-price">15€</div>
-                        <div class="plan-period">por mes</div>
-                        
-                        <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> Hasta 20 anuncios</li>
-                            <li><span class="check-icon">✓</span> Destacar anuncio</li>
-                            <li><span class="check-icon">✓</span> Soporte 24/7</li>
-                            <li><span class="check-icon">✓</span> Reportes de rendimiento</li>
-                            <li><span class="check-icon">✓</span> Prioridad en búsquedas</li>
-                        </ul>
-                        
-                        <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
-                            Elegir Plata
-                        </button>
-                    </div>
-                    
-                    <div class="plan-card">
-                        <div class="plan-icon">🥇</div>
-                        <h3 class="plan-name">Oro</h3>
-                        <div class="plan-price">30€</div>
-                        <div class="plan-period">por mes</div>
-                        
-                        <ul class="plan-features">
-                            <li><span class="check-icon">✓</span> Anuncios ilimitados</li>
-                            <li><span class="check-icon">✓</span> Destacado premium</li>
-                            <li><span class="check-icon">✓</span> Soporte telefónico rápido</li>
-                            <li><span class="check-icon">✓</span> Análisis avanzados</li>
-                            <li><span class="check-icon">✓</span> Ventajas exclusivas</li>
-                        </ul>
-                        
-                        <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
-                            Elegir Oro
-                        </button>
-                    </div>
-                </div>
-            </section>
+    <!-- Featured Listings -->
+    <section class="featured-listings" id="listings">
+        <div class="section-title">
+            <h2>Productos Destacados</h2>
+            <p>Los productos más populares de la semana</p>
+        </div>
+        
+        <div class="listings-grid" id="featuredListings">
+            <!-- Los anuncios se cargarán con JavaScript -->
+        </div>
+    </section>
 
-            <!-- Cómo funciona -->
-            <section class="features" id="how-it-works" style="margin-top: 80px;">
-                <h2 class="section-title">🔄 ¿Cómo funciona?</h2>
-                
-                <div class="features-grid">
-                    <div class="feature-card" style="text-align: center;">
-                        <div class="feature-icon" style="font-size: 60px;">1️⃣</div>
-                        <h3 class="feature-title">Crea tu cuenta</h3>
-                        <p class="feature-description">Regístrate en minutos y comienza a usar la plataforma inmediatamente.</p>
-                    </div>
-                    
-                    <div class="feature-card" style="text-align: center;">
-                        <div class="feature-icon" style="font-size: 60px;">2️⃣</div>
-                        <h3 class="feature-title">Publica tu anuncio</h3>
-                        <p class="feature-description">Añade detalles de lo que quieres alquilar con fotos y precio adecuado.</p>
-                    </div>
-                    
-                    <div class="feature-card" style="text-align: center;">
-                        <div class="feature-icon" style="font-size: 60px;">3️⃣</div>
-                        <h3 class="feature-title">Conecta con clientes</h3>
-                        <p class="feature-description">Responde consultas y acuerda detalles del alquiler con los clientes.</p>
-                    </div>
-                    
-                    <div class="feature-card" style="text-align: center;">
-                        <div class="feature-icon" style="font-size: 60px;">4️⃣</div>
-                        <h3 class="feature-title">Gana dinero</h3>
-                        <p class="feature-description">Recibe tu dinero de forma segura y rápida después de cada transacción.</p>
-                    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <a href="index.html" class="footer-logo">
+                    <i class="fas fa-handshake"></i> RentHub
+                </a>
+                <p>La plataforma de alquiler más confiable de España. Conectamos personas con productos.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
                 </div>
-            </section>
-        </main>
-
-        <!-- Pie de página -->
-        <footer>
+            </div>
+            
             <div class="footer-links">
-                <a href="dashboard.html">Panel de Control</a>
-                <a href="publish.html">Publicar Anuncio</a>
-                <a href="my-ads.html">Mis Anuncios</a>
-                <a href="profile.html">Mi Cuenta</a>
-                <a href="upgrade-plans.html">Mejorar Plan</a>
-                <a href="#features">Características</a>
-                <a href="#pricing">Planes</a>
-                <a href="#how-it-works">Cómo funciona</a>
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#categories">Categorías</a></li>
+                    <li><a href="#how-it-works">Cómo Funciona</a></li>
+                    <li><a href="#listings">Productos</a></li>
+                    <li><a href="dashboard.html">Mi Cuenta</a></li>
+                </ul>
             </div>
             
-            <div class="copyright">
-                © 2023 RentHub 2030. Todos los derechos reservados.
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Política de Cookies</a></li>
+                    <li><a href="#">Aviso Legal</a></li>
+                </ul>
             </div>
-        </footer>
-    </div>
+            
+            <div class="footer-links">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@renthub.com</li>
+                    <li><i class="fas fa-phone"></i> +34 900 123 456</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Madrid, España</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2024 RentHub. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-    <!-- Código JavaScript -->
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <script>
-        // Sistema de cambio de idioma
-        document.addEventListener('DOMContentLoaded', function() {
-            const year = new Date().getFullYear();
-            const copyrightElement = document.querySelector('.copyright');
-            if (copyrightElement) {
-                copyrightElement.textContent = `© ${year} RentHub 2030. Todos los derechos reservados.`;
+        // Firebase Configuration (misma que en auth.html)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
+            authDomain: "renthub-2030.firebaseapp.com",
+            projectId: "renthub-2030",
+            storageBucket: "renthub-2030.firebasestorage.app",
+            messagingSenderId: "23301901800",
+            appId: "1:23301901800:web:2679c834aac406c72d685d"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Estado de autenticación
+        auth.onAuthStateChanged((user) => {
+            updateAuthButtons(user);
+            if (user) {
+                loadFeaturedListings();
             }
-            
-            // Navegación suave
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Cambio de idioma
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const selectedLang = this.getAttribute('data-lang');
-                    
-                    // Remover activo de todos los botones
-                    langButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Activar el botón seleccionado
-                    this.classList.add('active');
-                    
-                    // Guardar preferencia de idioma
-                    localStorage.setItem('preferred_language', selectedLang);
-                    
-                    // Aquí podrías cargar traducciones dinámicas
-                    if (selectedLang === 'en') {
-                        // Cambiar a inglés (sería dinámico en un sistema real)
-                        alert('English version coming soon! For now, continue in Spanish.');
-                        this.classList.remove('active');
-                        document.querySelector('[data-lang="es"]').classList.add('active');
-                    } else if (selectedLang === 'ar') {
-                        // Cambiar a árabe
-                        alert('النسخة العربية قريباً! للآن، استمر بالإسبانية.');
-                        this.classList.remove('active');
-                        document.querySelector('[data-lang="es"]').classList.add('active');
-                    }
-                });
-            });
-            
-            // Cargar idioma preferido
-            const savedLang = localStorage.getItem('preferred_language') || 'es';
-            const langBtn = document.querySelector(`[data-lang="${savedLang}"]`);
-            if (langBtn) {
-                langButtons.forEach(btn => btn.classList.remove('active'));
-                langBtn.classList.add('active');
-            }
-            
-            console.log('🏠 ¡Página principal lista!');
         });
-        
-        // Efecto de máquina de escribir (opcional)
-        const heroText = "Alquila lo que necesites,\ncuando lo necesites";
-        const heroElement = document.querySelector('.hero h1');
-        
-        if (heroElement) {
-            let index = 0;
-            const typeWriter = () => {
-                if (index < heroText.length) {
-                    heroElement.innerHTML = heroText.substring(0, index + 1) + 
-                        (index < heroText.length - 1 ? '<span style="border-right: 2px solid white; animation: blink 0.7s infinite;">|</span>' : '');
-                    index++;
-                    setTimeout(typeWriter, 50);
-                }
-            };
+
+        // Actualizar botones de autenticación
+        function updateAuthButtons(user) {
+            const authButtons = document.getElementById('authButtons');
             
-            setTimeout(typeWriter, 1000);
-        }
-        
-        // CSS para parpadeo
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes blink {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0; }
+            if (user) {
+                // Usuario logueado
+                authButtons.innerHTML = `
+                    <a href="dashboard.html" class="btn btn-outline">
+                        <i class="fas fa-user-circle"></i> Mi Panel
+                    </a>
+                    <button class="btn btn-primary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                `;
+            } else {
+                // Usuario no logueado
+                authButtons.innerHTML = `
+                    <a href="auth.html" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </a>
+                    <a href="auth.html" class="btn btn-primary" onclick="switchToRegister()">
+                        <i class="fas fa-user-plus"></i> Registrarse
+                    </a>
+                `;
             }
-        `;
-        document.head.appendChild(style);
-        
-        // Mensaje de bienvenida
-        function showWelcomeMessage() {
-            alert('¡Bienvenido a RentHub 2030! Serás redirigido al Panel de Control donde podrás:\n\n1. Publicar tu primer anuncio\n2. Explorar planes de suscripción\n3. Gestionar tus anuncios\n4. Actualizar tu perfil\n\n¡Te deseamos una excelente experiencia! 🚀');
         }
-        
-        window.showWelcomeMessage = showWelcomeMessage;
+
+        // Cerrar sesión
+        function logout() {
+            auth.signOut()
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error al cerrar sesión:', error);
+                });
+        }
+
+        // Cambiar a registro desde el index
+        function switchToRegister() {
+            localStorage.setItem('authTab', 'register');
+        }
+
+        // Cargar productos destacados
+        async function loadFeaturedListings() {
+            try {
+                const listingsRef = db.collection('listings');
+                const snapshot = await listingsRef
+                    .where('featured', '==', true)
+                    .limit(6)
+                    .get();
+                
+                const listingsGrid = document.getElementById('featuredListings');
+                
+                if (snapshot.empty) {
+                    // Mostrar datos de ejemplo si no hay anuncios
+                    const sampleListings = [
+                        {
+                            id: '1',
+                            title: 'Taladro Percutor Profesional',
+                            location: 'Madrid',
+                            price: '15€/día',
+                            image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                            features: '1200W • Inalámbrico • Kit completo'
+                        },
+                        {
+                            id: '2',
+                            title: 'Cámara DSLR Canon EOS',
+                            location: 'Barcelona',
+                            price: '40€/día',
+                            image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                            features: '24MP • 4K • 2 Lentes'
+                        },
+                        {
+                            id: '3',
+                            title: 'Bicicleta de Montaña',
+                            location: 'Valencia',
+                            price: '12€/día',
+                            image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                            features: '29" • 21 Velocidades • Suspensión'
+                        }
+                    ];
+                    
+                    listingsGrid.innerHTML = sampleListings.map(listing => `
+                        <div class="listing-card">
+                            <div class="listing-img" style="background-image: url('${listing.image}')">
+                                <span class="listing-price">${listing.price}</span>
+                            </div>
+                            <div class="listing-info">
+                                <h3 class="listing-title">${listing.title}</h3>
+                                <div class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${listing.location}
+                                </div>
+                                <div class="listing-features">
+                                    <span>${listing.features}</span>
+                                    <button class="btn btn-primary" onclick="viewListing('${listing.id}')">Ver Detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    // Mostrar anuncios reales de Firebase
+                    listingsGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const listing = doc.data();
+                        listingsGrid.innerHTML += `
+                            <div class="listing-card">
+                                <div class="listing-img" style="background-image: url('${listing.images?.[0] || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}')">
+                                    <span class="listing-price">${listing.price}€/${listing.priceType || 'día'}</span>
+                                </div>
+                                <div class="listing-info">
+                                    <h3 class="listing-title">${listing.title}</h3>
+                                    <div class="listing-location">
+                                        <i class="fas fa-map-marker-alt"></i> ${listing.location}
+                                    </div>
+                                    <div class="listing-features">
+                                        <span>${listing.category || 'General'}</span>
+                                        <button class="btn btn-primary" onclick="viewListing('${doc.id}')">Ver Detalles</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error('Error cargando anuncios:', error);
+            }
+        }
+
+        // Ver detalles del anuncio
+        function viewListing(id) {
+            window.location.href = `listing-detail.html?id=${id}`;
+        }
+
+        // Buscar anuncios
+        function searchListings() {
+            const query = document.getElementById('searchInput').value;
+            const location = document.getElementById('locationInput').value;
+            const category = document.getElementById('categorySelect').value;
+            
+            let url = 'listings.html?';
+            const params = [];
+            
+            if (query) params.push(`q=${encodeURIComponent(query)}`);
+            if (location) params.push(`location=${encodeURIComponent(location)}`);
+            if (category) params.push(`category=${encodeURIComponent(category)}`);
+            
+            window.location.href = url + params.join('&');
+        }
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ Página principal lista');
+            
+            // Cargar productos destacados
+            loadFeaturedListings();
+            
+            // Comprobar si hay sesión guardada
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('👤 Usuario logueado:', user.email);
+                }
+            });
+        });
     </script>
 </body>
 </html>
