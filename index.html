@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OS-RentHub - Alquila Cualquier Cosa en España</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>RentHub 2030 - تأجير كل ما تحتاجه</title>
     <style>
-        /* أنماط أساسية */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f8f9fa; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
         
-        /* Header */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الهيدر */
         header {
-            background: white;
-            padding: 15px 0;
-            border-bottom: 1px solid #eaeaea;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 25px 0;
+            margin-bottom: 40px;
         }
         
         .header-content {
@@ -30,148 +38,676 @@
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 32px;
             font-weight: bold;
-            color: #4361ee;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        /* Hero */
+        .logo-icon {
+            font-size: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .login-btn {
+            background: white;
+            color: #667eea !important;
+            font-weight: bold !important;
+        }
+        
+        .login-btn:hover {
+            background: #f8f9fa !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* المحتوى الرئيسي */
         .hero {
             text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #f5f7fa, #f0f4ff);
+            padding: 60px 20px;
+            margin-bottom: 40px;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            color: #1a1a1a;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+        
+        /* إحصائيات */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* ميزات */
+        .features {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 25px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        /* خطط التسعير */
+        .pricing {
+            margin-bottom: 60px;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            color: #333;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .plan-card.popular {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+        
+        .plan-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .plan-icon {
+            font-size: 48px;
             margin-bottom: 20px;
         }
         
-        .highlight {
-            color: #4361ee;
+        .plan-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2d3748;
         }
         
-        /* أزرار */
-        .btn {
-            display: inline-block;
-            background: #4361ee;
+        .plan-price {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+        
+        .plan-period {
+            color: #718096;
+            margin-bottom: 25px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .check-icon {
+            color: #48bb78;
+            font-size: 18px;
+        }
+        
+        .plan-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            border: 2px solid #667eea;
+            background: #667eea;
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            border: none;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .plan-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        /* الفوتر */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .btn {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 32px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
+    <div class="container">
+        <!-- الهيدر -->
+        <header>
             <div class="header-content">
-                <a href="#" class="logo">
-                    <i class="fas fa-handshake"></i> OS-RentHub
-                </a>
-                <div>
-                    <button class="btn" onclick="window.location.href='auth.html'">
-                        <i class="fas fa-user"></i> Iniciar Sesión
-                    </button>
+                <div class="logo">
+                    <span class="logo-icon">🏠</span>
+                    <span>RentHub 2030</span>
                 </div>
+                
+                <nav class="nav-links">
+                    <a href="#features">المميزات</a>
+                    <a href="#pricing">الخطط</a>
+                    <a href="#how-it-works">كيف تعمل</a>
+                    <a href="dashboard.html" class="login-btn">
+                        <span>🚀</span>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </nav>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Alquila <span class="highlight">lo que necesites</span>,<br>cuando lo <span class="highlight">necesites</span></h1>
-            <p style="font-size: 1.2rem; color: #666; margin: 20px 0 30px;">
-                Desde un taladro para colgar un cuadro hasta un coche para tu boda.<br>
-                Encuentra lo que buscas en minutos.
-            </p>
+        <!-- المحتوى الرئيسي -->
+        <main>
+            <section class="hero">
+                <h1>أجر ما تحتاجه،<br>عندما تحتاجه</h1>
+                <p>من أدوات المنزل إلى السيارات الفاخرة. ابحث، احجز، واستلم في نفس اليوم مع RentHub 2030</p>
+                
+                <div class="cta-buttons">
+                    <a href="dashboard.html" class="btn btn-primary">
+                        <span>🚀</span>
+                        <span>ابدأ الآن مجاناً</span>
+                    </a>
+                    <a href="#pricing" class="btn btn-secondary">
+                        <span>💎</span>
+                        <span>عرض الخطط</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- إحصائيات -->
+            <section class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">+5,000</div>
+                    <div class="stat-label">أداة متاحة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24h</div>
+                    <div class="stat-label">خدمة متواصلة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">رضا العملاء</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">+10,000</div>
+                    <div class="stat-label">عملاء راضون</div>
+                </div>
+            </section>
+
+            <!-- المميزات -->
+            <section class="features" id="features">
+                <h2 class="section-title">✨ لماذا تختار RentHub؟</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">سرعة فائقة</h3>
+                        <p class="feature-description">ابحث، احجز، واستلم خلال دقائق. نظامنا السريع يوفر لك الوقت والجهد.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title">أمان كامل</h3>
+                        <p class="feature-description">نظام تأمين متكامل مع تأمين على المنتجات وضمان استرجاع الأموال.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">أسعار تنافسية</h3>
+                        <p class="feature-description">أفضل الأسعار في السوق مع خيارات دفع متعددة وتسهيلات مالية.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3 class="feature-title">دعم متواصل</h3>
+                        <p class="feature-description">فريق دعم فني متاح 24/7 لمساعدتك في أي استفسار أو مشكلة.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3 class="feature-title">تغطية واسعة</h3>
+                        <p class="feature-description">خدمتنا متاحة في جميع مدن المملكة مع توصيل سريع لنطاق واسع.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⭐</div>
+                        <h3 class="feature-title">تقييم ومراجعات</h3>
+                        <p class="feature-description">نظام تقييم شفاف يضمن لك التعامل مع موردين موثوقين وخدمة ممتازة.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- خطط التسعير -->
+            <section class="pricing" id="pricing">
+                <h2 class="section-title">📊 اختر خطتك المناسبة</h2>
+                
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <div class="plan-icon">🆓</div>
+                        <h3 class="plan-name">المجانية</h3>
+                        <div class="plan-price">0 ر.س</div>
+                        <div class="plan-period">ابدأ مجاناً</div>
+                        
+                        <ul class="plan-features">
+                            <li><span class="check-icon">✓</span> نشر إعلان واحد</li>
+                            <li><span class="check-icon">✓</span> دعم عبر البريد</li>
+                            <li><span class="check-icon">✓</span> صفحة إعلان أساسية</li>
+                            <li><span class="check-icon">✓</span> ظهور في البحث</li>
+                        </ul>
+                        
+                        <button class="plan-btn" onclick="window.location.href='dashboard.html'">
+                            ابدأ مجاناً
+                        </button>
+                    </div>
+                    
+                    <div class="plan-card popular">
+                        <div class="plan-badge">الأكثر طلباً</div>
+                        <div class="plan-icon">🥈</div>
+                        <h3 class="plan-name">الفضية</h3>
+                        <div class="plan-price">15 ر.س</div>
+                        <div class="plan-period">شهرياً</div>
+                        
+                        <ul class="plan-features">
+                            <li><span class="check-icon">✓</span> حتى 20 إعلان</li>
+                            <li><span class="check-icon">✓</span> تمييز الإعلان</li>
+                            <li><span class="check-icon">✓</span> دعم فوري 24/7</li>
+                            <li><span class="check-icon">✓</span> تقارير أداء</li>
+                            <li><span class="check-icon">✓</span> أولوية في البحث</li>
+                        </ul>
+                        
+                        <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
+                            اختر الفضية
+                        </button>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <div class="plan-icon">🥇</div>
+                        <h3 class="plan-name">الذهبية</h3>
+                        <div class="plan-price">30 ر.س</div>
+                        <div class="plan-period">شهرياً</div>
+                        
+                        <ul class="plan-features">
+                            <li><span class="check-icon">✓</span> إعلانات غير محدودة</li>
+                            <li><span class="check-icon">✓</span> تمييز بارز</li>
+                            <li><span class="check-icon">✓</span> دعم هاتفي سريع</li>
+                            <li><span class="check-icon">✓</span> تحليلات متقدمة</li>
+                            <li><span class="check-icon">✓</span> مزايا حصرية</li>
+                        </ul>
+                        
+                        <button class="plan-btn" onclick="window.location.href='upgrade-plans.html'">
+                            اختر الذهبية
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- كيف تعمل -->
+            <section class="features" id="how-it-works" style="margin-top: 80px;">
+                <h2 class="section-title">🔄 كيف تعمل منصتنا؟</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card" style="text-align: center;">
+                        <div class="feature-icon" style="font-size: 60px;">1️⃣</div>
+                        <h3 class="feature-title">سجل حسابك</h3>
+                        <p class="feature-description">أنشئ حسابك في دقائق وابدأ فوراً في استخدام المنصة.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: center;">
+                        <div class="feature-icon" style="font-size: 60px;">2️⃣</div>
+                        <h3 class="feature-title">انشر إعلانك</h3>
+                        <p class="feature-description">أضف تفاصيل ما تريد تأجيره مع الصور والسعر المناسب.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: center;">
+                        <div class="feature-icon" style="font-size: 60px;">3️⃣</div>
+                        <h3 class="feature-title">تواصل مع العملاء</h3>
+                        <p class="feature-description">رد على استفسارات العملاء واتفق على تفاصيل التأجير.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: center;">
+                        <div class="feature-icon" style="font-size: 60px;">4️⃣</div>
+                        <h3 class="feature-title">اكسب المال</h3>
+                        <p class="feature-description">استلم أموالك بشكل آمن وسريع بعد إتمام الصفقة.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- الفوتر -->
+        <footer>
+            <div class="footer-links">
+                <a href="dashboard.html">لوحة التحكم</a>
+                <a href="publish.html">نشر إعلان</a>
+                <a href="my-ads.html">إعلاناتي</a>
+                <a href="profile.html">حسابي</a>
+                <a href="upgrade-plans.html">ترقية الخطة</a>
+                <a href="#features">المميزات</a>
+                <a href="#pricing">الخطط</a>
+                <a href="#how-it-works">كيف تعمل</a>
+            </div>
             
-            <div style="margin: 40px 0;">
-                <button class="btn" style="font-size: 1.1rem; padding: 15px 30px;" onclick="startSearch()">
-                    <i class="fas fa-search"></i> Empezar a buscar
-                </button>
+            <div class="copyright">
+                © 2023 RentHub 2030. جميع الحقوق محفوظة.
             </div>
-            
-            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 60px; flex-wrap: wrap;">
-                <div style="text-align: center;">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">+5,000</div>
-                    <div style="color: #666; margin-top: 10px;">artículos disponibles</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">24h</div>
-                    <div style="color: #666; margin-top: 10px;">disponibilidad</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">98%</div>
-                    <div style="color: #666; margin-top: 10px;">satisfacción</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </footer>
+    </div>
 
-    <!-- المكونات سيتم تحميلها هنا -->
-    <div id="components-container"></div>
-
-    <!-- Footer -->
-    <footer style="background: #0f172a; color: white; padding: 60px 0 30px; margin-top: 80px;">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h3 style="margin-bottom: 20px; color: #4cc9f0;">
-                    <i class="fas fa-handshake"></i> OS-RentHub España
-                </h3>
-                <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
-                    La plataforma de alquiler líder en España. Conectamos personas que tienen cosas con personas que las necesitan.
-                </p>
-            </div>
-            
-            <div style="text-align: center; color: #94a3b8; font-size: 0.9rem;">
-                <p>&copy; 2024 OS-RentHub. Todos los derechos reservados.</p>
-                <p style="margin-top: 10px;">
-                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Términos</a> |
-                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Privacidad</a> |
-                    <a href="#" style="color: #cbd5e1; margin: 0 10px;">Ayuda</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-
+    <!-- كود JavaScript -->
     <script>
-        // دالة تحميل المكونات
-        async function loadComponents() {
-            const components = [
-                'components/search-section.html',
-                'components/categories-grid.html', 
-                'components/listings-grid.html'
-            ];
-            
-            const container = document.getElementById('components-container');
-            
-            for (const component of components) {
-                try {
-                    const response = await fetch(component);
-                    if (response.ok) {
-                        const html = await response.text();
-                        container.innerHTML += html;
-                    }
-                } catch (error) {
-                    console.log('Error cargando:', component);
-                }
+        // تحديث تاريخ حقوق النشر
+        document.addEventListener('DOMContentLoaded', function() {
+            const year = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.copyright');
+            if (copyrightElement) {
+                copyrightElement.textContent = `© ${year} RentHub 2030. جميع الحقوق محفوظة.`;
             }
+            
+            // تحسين التنقل السلس
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            console.log('🏠 الصفحة الرئيسية جاهزة!');
+        });
+        
+        // إظهار رسالة ترحيب عند النقر على "ابدأ الآن"
+        function showWelcomeMessage() {
+            alert('مرحباً بك في RentHub 2030! سيتم توجيهك إلى لوحة التحكم حيث يمكنك:\n\n1. نشر إعلانك الأول\n2. استعراض خطط الاشتراك\n3. إدارة إعلاناتك\n4. تحديث ملفك الشخصي\n\nنتمنى لك تجربة ممتعة معنا! 🚀');
         }
         
-        function startSearch() {
-            alert('🔍 ¡Funcionalidad de búsqueda activada!');
+        // جعل الدالة متاحة عالمياً
+        window.showWelcomeMessage = showWelcomeMessage;
+        
+        // تأثير كتابة للنص الرئيسي (اختياري)
+        const heroText = "أجر ما تحتاجه،\nعندما تحتاجه";
+        const heroElement = document.querySelector('.hero h1');
+        
+        if (heroElement) {
+            let index = 0;
+            const typeWriter = () => {
+                if (index < heroText.length) {
+                    heroElement.innerHTML = heroText.substring(0, index + 1) + 
+                        (index < heroText.length - 1 ? '<span style="border-right: 2px solid white; animation: blink 0.7s infinite;">|</span>' : '');
+                    index++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            
+            // بدء تأثير الكتابة بعد تحميل الصفحة
+            setTimeout(typeWriter, 1000);
         }
         
-        // تحميل المكونات عند بدء التشغيل
-        document.addEventListener('DOMContentLoaded', loadComponents);
+        // إضافة CSS للوميض
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
