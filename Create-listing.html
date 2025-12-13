@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نشر منتج جديد - RentHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            color: #10b981;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .price-input {
+            position: relative;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+        
+        .price-input input {
+            padding-left: 40px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #64748b;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🏠 RentHub</div>
+            <h1>نشر منتج جديد للتأجير</h1>
+            <p class="subtitle">املأ التفاصيل أدناه لعرض منتجك للآلاف من العملاء</p>
+        </div>
+        
+        <!-- رسائل التنبيه -->
+        <div id="message" class="message"></div>
+        
+        <!-- نموذج نشر المنتج -->
+        <form id="createListingForm">
+            <div class="form-group">
+                <label for="title">عنوان المنتج *</label>
+                <input type="text" id="title" placeholder="مثال: دراجة جبلية جديدة" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">وصف المنتج *</label>
+                <textarea id="description" placeholder="صف منتجك بالتفصيل..." required></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category">الفئة *</label>
+                    <select id="category" required>
+                        <option value="">اختر فئة</option>
+                        <option value="vehicles">مركبات</option>
+                        <option value="tools">أدوات</option>
+                        <option value="electronics">إلكترونيات</option>
+                        <option value="sports">رياضة</option>
+                        <option value="home">منزل</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="condition">الحالة *</label>
+                    <select id="condition" required>
+                        <option value="">اختر الحالة</option>
+                        <option value="new">جديد</option>
+                        <option value="excellent">ممتاز</option>
+                        <option value="good">جيد</option>
+                        <option value="acceptable">مقبول</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price">السعر *</label>
+                    <div class="price-input">
+                        <span class="currency-symbol">€</span>
+                        <input type="number" id="price" min="1" placeholder="0.00" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priceType">نوع السعر *</label>
+                    <select id="priceType" required>
+                        <option value="day">يومي</option>
+                        <option value="week">أسبوعي</option>
+                        <option value="month">شهري</option>
+                        <option value="hour">بالساعة</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">الموقع</label>
+                <input type="text" id="location" placeholder="المدينة أو المنطقة">
+            </div>
+            
+            <div class="form-group">
+                <label for="imageUrl">رابط الصورة (اختياري)</label>
+                <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+            </div>
+            
+            <button type="submit" class="btn">🚀 نشر المنتج الآن</button>
+        </form>
+        
+        <a href="dashboard.html" class="btn-back">← العودة إلى لوحة التحكم</a>
+    </div>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
+            authDomain: "renthub-2030.firebaseapp.com",
+            projectId: "renthub-2030",
+            storageBucket: "renthub-2030.firebasestorage.app",
+            messagingSenderId: "23301901800",
+            appId: "1:23301901800:web:2679c834aac406c72d685d"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        // معالجة النموذج
+        document.getElementById('createListingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = 'جاري النشر...';
+            btn.disabled = true;
+            
+            const messageDiv = document.getElementById('message');
+            
+            try {
+                // التحقق من تسجيل الدخول
+                const user = auth.currentUser;
+                if (!user) {
+                    showMessage('يجب تسجيل الدخول أولاً', 'error');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // جمع بيانات النموذج
+                const listingData = {
+                    title: document.getElementById('title').value,
+                    description: document.getElementById('description').value,
+                    category: document.getElementById('category').value,
+                    condition: document.getElementById('condition').value,
+                    price: parseFloat(document.getElementById('price').value),
+                    priceType: document.getElementById('priceType').value,
+                    location: document.getElementById('location').value || '',
+                    imageUrl: document.getElementById('imageUrl').value || '',
+                    ownerId: user.uid,
+                    ownerEmail: user.email,
+                    status: 'active',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    views: 0
+                };
+                
+                // حفظ في Firestore
+                await db.collection('listings').add(listingData);
+                
+                // عرض رسالة نجاح
+                showMessage('✅ تم نشر المنتج بنجاح! سيتم توجيهك خلال 3 ثوانٍ...', 'success');
+                
+                // إعادة تعيين النموذج
+                document.getElementById('createListingForm').reset();
+                
+                // التوجيه إلى لوحة التحكم بعد 3 ثوانٍ
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('خطأ:', error);
+                showMessage('❌ حدث خطأ: ' + error.message, 'error');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+        
+        // دالة لعرض الرسائل
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثوانٍ (إلا إذا كانت نجاح)
+            if (type !== 'success') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // التحقق من تسجيل الدخول عند تحميل الصفحة
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                showMessage('يجب تسجيل الدخول أولاً', 'error');
+                setTimeout(() => {
+                    window.location.href = 'auth.html';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
