@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentHub 2030 - La plataforma de alquiler más confiable</title>
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com 'unsafe-inline';
+        style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline';
+        img-src 'self' https: data:;
+        connect-src 'self' https://*.firebaseapp.com https://*.googleapis.com;
+        font-src 'self' https://cdnjs.cloudflare.com;
+    ">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ======================================================= */
@@ -11,13 +22,13 @@
         /* ======================================================= */
         :root {
             /* الألوان الجديدة: احترافية، دافئة، وهادئة */
-            --primary: #5E35B1;   /* بنفسجي عميق - اللون الأساسي */
-            --secondary: #6A5ACD; /* بنفسجي أفتح - لون تكميلي */
-            --success: #2ecc71;   /* لون النجاح */
-            --light: #F5F5F5;     /* رمادي فاتح جديد - لخلفية الأقسام الدافئة */
-            --dark: #1A1A1A;      /* أسود قوي للنصوص والشعار (مثل Buddy) */
+            --primary: #5E35B1;
+            --secondary: #6A5ACD;
+            --success: #2ecc71;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
             --gray: #6C757D;
-            --accent: #FF8A65;    /* برتقالي خوخي - لتسليط الضوء على الأسعار */
+            --accent: #FF8A65;
         }
 
         * {
@@ -58,13 +69,13 @@
             gap: 10px;
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--dark); /* الشعار أسود (قوي ومحترف) */
+            color: var(--dark);
             text-decoration: none;
         }
 
         .logo i {
             font-size: 1.8rem;
-            color: var(--primary); /* الأيقونة فقط باللون الأساسي */
+            color: var(--primary);
         }
 
         .nav-links {
@@ -91,7 +102,7 @@
 
         .btn {
             padding: 0.6rem 1.5rem;
-            border-radius: 8px; /* تقليل استدارة الأزرار للمظهر الاحترافي */
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
@@ -147,14 +158,12 @@
         }
 
         .search-box {
-            /* تصميم صندوق البحث الجديد */
             background: white;
             padding: 20px;
             border-radius: 8px;
-            max-width: 900px; /* تم زيادة العرض قليلاً لاستيعاب فلاتر أكثر */
+            max-width: 900px;
             margin: 2rem auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            /* تغيير الشبكة لاستيعاب 5 فلاتر + زر */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
             gap: 15px;
@@ -179,7 +188,7 @@
             padding: 5rem 5%;
             max-width: 1400px;
             margin: 0 auto;
-            background-color: var(--light); /* خلفية دافئة لقسم الفئات */
+            background-color: var(--light);
         }
 
         .section-title {
@@ -207,17 +216,20 @@
             transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
 
         .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(94, 53, 177, 0.2);
         }
 
-        .category-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
+        .category-icon {
+            font-size: 3rem;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
         }
 
         .category-info {
@@ -225,34 +237,94 @@
         }
 
         .category-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Featured Listings */
+        .featured {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .listing-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(94, 53, 177, 0.2);
+        }
+
+        .listing-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .listing-price {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .listing-info {
+            padding: 1.5rem;
+        }
+
+        .listing-title {
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
         }
 
-        .category-info p {
+        .listing-location {
             color: var(--gray);
-            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .listing-features {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
         }
 
         /* How It Works */
         .how-it-works {
-            background: white;
             padding: 5rem 5%;
-            text-align: center;
+            background-color: var(--light);
         }
 
-        .steps {
-            display: flex;
-            justify-content: center;
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .step {
-            flex: 1;
-            min-width: 250px;
-            max-width: 300px;
+            text-align: center;
         }
 
         .step-number {
@@ -266,120 +338,44 @@
             justify-content: center;
             font-size: 1.5rem;
             font-weight: bold;
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.5rem;
         }
 
-        /* Featured Listings */
-        .featured-listings {
-            padding: 5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-            background-color: var(--light); 
-        }
-
-        .listings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .listing-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .listing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .listing-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .listing-price {
-            background: var(--accent); 
-            color: white;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .listing-info {
-            padding: 1.5rem;
-        }
-
-        .listing-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .listing-location {
-            color: var(--gray);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .step h3 {
             margin-bottom: 1rem;
-        }
-
-        .listing-features {
-            display: flex;
-            justify-content: space-between;
-            color: var(--gray);
-            font-size: 0.9rem;
+            color: var(--dark);
         }
 
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 4rem 5% 2rem;
+            padding: 3rem 5% 1rem;
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
             max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
+            margin: 0 auto 2rem;
         }
 
         .footer-links h4 {
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            color: var(--accent);
         }
 
         .footer-links ul {
             list-style: none;
         }
 
-        .footer-links li {
+        .footer-links ul li {
             margin-bottom: 0.5rem;
         }
 
         .footer-links a {
-            color: #ddd;
+            color: #ccc;
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -388,55 +384,12 @@
             color: white;
         }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.2rem;
-        }
-
         .copyright {
             text-align: center;
-            margin-top: 3rem;
             padding-top: 2rem;
-            border-top: 1px solid #444;
-            color: #aaa;
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .search-box {
-                /* جعل كل عنصر في سطر منفصل على الهاتف */
-                grid-template-columns: 1fr;
-            }
-
-            .steps {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Animations */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -447,161 +400,216 @@
                 transform: translateY(0);
             }
         }
+
+        /* Error/Success Messages */
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border-left: 4px solid #3c3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">
-                <i class="fas fa-handshake"></i> RentHub
+                <i class="fas fa-cube"></i>
+                <span>RentHub</span>
             </a>
             
             <div class="nav-links">
-                <a href="index.html">Inicio</a>
                 <a href="#categories">Categorías</a>
                 <a href="#how-it-works">Cómo Funciona</a>
-                <a href="#listings">Productos Destacados</a>
-                <a href="dashboard.html">Mi Panel</a>
+                <a href="#listings">Productos</a>
+                <a href="dashboard.html">Mi Cuenta</a>
             </div>
             
             <div class="nav-buttons" id="authButtons">
-                </div>
+                <!-- Botones dinámicos -->
+            </div>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>Alquila lo que necesites, cuando lo necesites</h1>
-        <p>Encuentra miles de productos para alquilar en tu zona. Desde herramientas hasta vehículos, todo al alcance de un clic.</p>
+        <h1>Alquila lo que necesitas, cuando lo necesitas</h1>
+        <p>Desde herramientas profesionales hasta equipos deportivos. Miles de productos disponibles en tu ciudad.</p>
         
         <div class="search-box">
-            <input type="text" class="search-input" placeholder="Artículo, Marca, Modelo..." id="searchInput">
-            <input type="text" class="search-input" placeholder="Ciudad o Código Postal" id="locationInput">
-            <select class="search-input" id="categorySelect">
-                <option value="">Categoría</option>
-                <option value="tools">Herramientas</option>
-                <option value="vehicles">Vehículos</option>
-                <option value="electronics">Electrónica</option>
-                <option value="events">Eventos</option>
-                <option value="sports">Deportes</option>
-                <option value="home">Hogar</option>
+            <input type="text" id="searchInput" class="search-input" placeholder="¿Qué buscas?" maxlength="100">
+            <input type="text" id="locationInput" class="search-input" placeholder="Ciudad" maxlength="50">
+            <select id="categorySelect" class="search-input">
+                <option value="">Todas las categorías</option>
+                <option value="herramientas">Herramientas</option>
+                <option value="electronica">Electrónica</option>
+                <option value="deportes">Deportes</option>
+                <option value="vehiculos">Vehículos</option>
+                <option value="eventos">Eventos</option>
             </select>
-            <select class="search-input" id="durationSelect">
+            <select id="durationSelect" class="search-input">
                 <option value="">Duración</option>
-                <option value="1">1 día</option>
-                <option value="3">3 días</option>
-                <option value="7">1 semana</option>
-                <option value="30">1 mes</option>
+                <option value="hora">Por hora</option>
+                <option value="dia">Por día</option>
+                <option value="semana">Por semana</option>
+                <option value="mes">Por mes</option>
             </select>
-            <input type="number" class="search-input" placeholder="Precio Máx (€)" id="maxPriceInput">
+            <input type="number" id="maxPriceInput" class="search-input" placeholder="Precio máx (€)" min="0" max="10000">
             <button class="btn btn-primary" onclick="searchListings()">
-                <i class="fas fa-search"></i> ¡Buscar Ahora!
+                <i class="fas fa-search"></i> Buscar
             </button>
         </div>
     </section>
 
+    <!-- Categories -->
     <section class="categories" id="categories">
         <div class="section-title">
-            <h2>Categorías Populares</h2>
-            <p>Encuentra lo que buscas en nuestras principales categorías</p>
+            <h2>Explora por Categorías</h2>
+            <p>Encuentra exactamente lo que necesitas</p>
         </div>
         
         <div class="categories-grid">
-            <a href="listings.html?category=tools" class="category-card">
-                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+            <a href="listings.html?category=herramientas" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
                 <div class="category-info">
                     <h3>Herramientas</h3>
-                    <p>Taladros, sierras, herramientas eléctricas y más</p>
+                    <p>Equipos profesionales para bricolaje y construcción</p>
                 </div>
             </a>
             
-            <a href="listings.html?category=vehicles" class="category-card">
-                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
-                <div class="category-info">
-                    <h3>Vehículos</h3>
-                    <p>Coches, motos, bicicletas و vehículos especiales</p>
+            <a href="listings.html?category=electronica" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-camera"></i>
                 </div>
-            </a>
-            
-            <a href="listings.html?category=electronics" class="category-card">
-                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="category-info">
                     <h3>Electrónica</h3>
-                    <p>Cámaras, drones, equipos de sonido و más</p>
+                    <p>Cámaras, drones, equipos de sonido y más</p>
                 </div>
             </a>
             
-            <a href="listings.html?category=events" class="category-card">
-                <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+            <a href="listings.html?category=deportes" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Deportes</h3>
+                    <p>Bicicletas, esquís, kayaks y equipamiento</p>
+                </div>
+            </a>
+            
+            <a href="listings.html?category=vehiculos" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Vehículos</h3>
+                    <p>Coches, motos, furgonetas y más</p>
+                </div>
+            </a>
+            
+            <a href="listings.html?category=eventos" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-glass-cheers"></i>
+                </div>
                 <div class="category-info">
                     <h3>Eventos</h3>
-                    <p>Mobiliario, decoración و equipo para fiestas</p>
+                    <p>Equipos para bodas, fiestas y celebraciones</p>
+                </div>
+            </a>
+            
+            <a href="listings.html?category=jardin" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Jardín</h3>
+                    <p>Cortacéspedes, desbrozadoras y más</p>
                 </div>
             </a>
         </div>
     </section>
 
+    <!-- Featured Listings -->
+    <section class="featured" id="listings">
+        <div class="section-title">
+            <h2>Productos Destacados</h2>
+            <p>Los más populares de tu zona</p>
+        </div>
+        
+        <div class="listings-grid" id="featuredListings">
+            <!-- Productos dinámicos -->
+        </div>
+    </section>
+
+    <!-- How It Works -->
     <section class="how-it-works" id="how-it-works">
         <div class="section-title">
             <h2>¿Cómo Funciona?</h2>
-            <p>Alquilar nunca كان بهذه السهولة</p>
+            <p>Tan fácil como 1, 2, 3</p>
         </div>
         
-        <div class="steps">
+        <div class="steps-grid">
             <div class="step">
                 <div class="step-number">1</div>
-                <h3>Regístrate</h3>
-                <p>Crea tu cuenta gratuita en minutos</p>
+                <h3>Busca</h3>
+                <p>Encuentra el producto perfecto entre miles de opciones disponibles en tu ciudad</p>
             </div>
             
             <div class="step">
                 <div class="step-number">2</div>
-                <h3>Busca</h3>
-                <p>Encuentra lo que necesitas cerca de ti</p>
+                <h3>Reserva</h3>
+                <p>Reserva online de forma segura. Pago protegido y verificado</p>
             </div>
             
             <div class="step">
                 <div class="step-number">3</div>
-                <h3>Alquila</h3>
-                <p>Contacta con el propietario y reserva</p>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
                 <h3>Disfruta</h3>
-                <p>Usa el producto y devuélvelo en perfecto estado</p>
+                <p>Recoge el producto y úsalo. Devuélvelo cuando termines</p>
             </div>
         </div>
     </section>
 
-    <section class="featured-listings" id="listings">
-        <div class="section-title">
-            <h2>Productos Destacados</h2>
-            <p>Los productos más populares de la semana</p>
-        </div>
-        
-        <div class="listings-grid" id="featuredListings">
-            </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div>
-                <a href="index.html" class="footer-logo">
-                    <i class="fas fa-handshake"></i> RentHub
-                </a>
-                <p>La plataforma de alquiler más confiable de España. Conectamos personas con productos.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
+            <div class="footer-links">
+                <h4>RentHub</h4>
+                <p>La plataforma líder de alquiler en España. Conectando personas con lo que necesitan.</p>
             </div>
             
             <div class="footer-links">
-                <h4>Enlaces Rápidos</h4>
+                <h4>Enlaces</h4>
                 <ul>
-                    <li><a href="index.html">Inicio</a></li>
                     <li><a href="#categories">Categorías</a></li>
                     <li><a href="#how-it-works">Cómo Funciona</a></li>
                     <li><a href="#listings">Productos</a></li>
@@ -622,7 +630,7 @@
             <div class="footer-links">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><i class="fas fa-envelope"></i> info@renthub.com</li>
+                    <li><i class="fas fa-envelope"></i> info@renthub.es</li>
                     <li><i class="fas fa-phone"></i> +34 900 123 456</li>
                     <li><i class="fas fa-map-marker-alt"></i> Madrid, España</li>
                 </ul>
@@ -634,12 +642,84 @@
         </div>
     </footer>
 
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Firebase Configuration
+        // ========================================
+        // 🔒 SECURITY UTILITIES
+        // ========================================
+        
+        const SecurityUtils = {
+            // XSS Protection: تعقيم النصوص
+            sanitizeText(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = String(text);
+                return div.innerHTML;
+            },
+            
+            // تحقق من صحة الـ URL
+            isValidURL(url) {
+                try {
+                    const urlObj = new URL(url);
+                    return urlObj.protocol === 'https:' && 
+                           (urlObj.hostname.includes('unsplash.com') || 
+                            urlObj.hostname.includes('cloudinary.com') ||
+                            urlObj.hostname.includes('firebasestorage.googleapis.com'));
+                } catch {
+                    return false;
+                }
+            },
+            
+            // تعقيم الـ URL
+            sanitizeURL(url) {
+                return this.isValidURL(url) ? url : 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+            },
+            
+            // Input Validation
+            validateSearchInput(input, maxLength = 100) {
+                if (!input) return '';
+                return String(input).trim().slice(0, maxLength);
+            },
+            
+            // التحقق من الأرقام
+            validateNumber(num, min = 0, max = 10000) {
+                const parsed = parseFloat(num);
+                if (isNaN(parsed)) return null;
+                return Math.max(min, Math.min(max, parsed));
+            },
+            
+            // Rate Limiting (بسيط)
+            rateLimiter: {
+                requests: {},
+                isAllowed(key, maxRequests = 10, timeWindow = 60000) {
+                    const now = Date.now();
+                    if (!this.requests[key]) {
+                        this.requests[key] = [];
+                    }
+                    
+                    // تنظيف الطلبات القديمة
+                    this.requests[key] = this.requests[key].filter(
+                        time => now - time < timeWindow
+                    );
+                    
+                    if (this.requests[key].length >= maxRequests) {
+                        return false;
+                    }
+                    
+                    this.requests[key].push(now);
+                    return true;
+                }
+            }
+        };
+
+        // ========================================
+        // 🔥 FIREBASE CONFIGURATION
+        // ========================================
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
             authDomain: "renthub-2030.firebaseapp.com",
@@ -654,55 +734,83 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // حالة التحقق و تحميل المنتجات (لا تغيير)
+        // ========================================
+        // 🔐 AUTHENTICATION
+        // ========================================
+        
         auth.onAuthStateChanged((user) => {
             updateAuthButtons(user);
             if (user) {
                 loadFeaturedListings();
+            } else {
+                loadFeaturedListings();
             }
         });
 
-        // تحديث أزرار المصادقة (لا تغيير)
         function updateAuthButtons(user) {
             const authButtons = document.getElementById('authButtons');
             
             if (user) {
-                authButtons.innerHTML = `
-                    <a href="dashboard.html" class="btn btn-outline">
-                        <i class="fas fa-user-circle"></i> Mi Panel
-                    </a>
-                    <button class="btn btn-primary" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                    </button>
-                `;
+                const dashboardBtn = document.createElement('a');
+                dashboardBtn.href = 'dashboard.html';
+                dashboardBtn.className = 'btn btn-outline';
+                dashboardBtn.innerHTML = '<i class="fas fa-user-circle"></i> Mi Panel';
+                
+                const logoutBtn = document.createElement('button');
+                logoutBtn.className = 'btn btn-primary';
+                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Cerrar Sesión';
+                logoutBtn.onclick = logout;
+                
+                authButtons.innerHTML = '';
+                authButtons.appendChild(dashboardBtn);
+                authButtons.appendChild(logoutBtn);
             } else {
-                authButtons.innerHTML = `
-                    <a href="auth.html" class="btn btn-outline">
-                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                    </a>
-                    <a href="auth.html" class="btn btn-primary" onclick="switchToRegister()">
-                        <i class="fas fa-user-plus"></i> Registrarse
-                    </a>
-                `;
+                const loginBtn = document.createElement('a');
+                loginBtn.href = 'auth.html';
+                loginBtn.className = 'btn btn-outline';
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                
+                const registerBtn = document.createElement('a');
+                registerBtn.href = 'auth.html';
+                registerBtn.className = 'btn btn-primary';
+                registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
+                registerBtn.onclick = switchToRegister;
+                
+                authButtons.innerHTML = '';
+                authButtons.appendChild(loginBtn);
+                authButtons.appendChild(registerBtn);
             }
         }
 
-        // باقي وظائف JavaScript
         function logout() {
             auth.signOut()
                 .then(() => {
                     window.location.reload();
                 })
                 .catch((error) => {
-                    console.error('Error al cerrar sesión:', error);
+                    console.error('Logout error');
+                    showAlert('Error al cerrar sesión', 'error');
                 });
         }
 
         function switchToRegister() {
-            localStorage.setItem('authTab', 'register');
+            try {
+                sessionStorage.setItem('authTab', 'register');
+            } catch (e) {
+                console.error('Storage error');
+            }
         }
 
+        // ========================================
+        // 📦 LOAD LISTINGS (SECURE)
+        // ========================================
+        
         async function loadFeaturedListings() {
+            if (!SecurityUtils.rateLimiter.isAllowed('loadListings', 5, 10000)) {
+                console.warn('Too many requests');
+                return;
+            }
+            
             try {
                 const listingsRef = db.collection('listings');
                 const snapshot = await listingsRef
@@ -711,111 +819,446 @@
                     .get();
                 
                 const listingsGrid = document.getElementById('featuredListings');
+                listingsGrid.innerHTML = '';
                 
                 if (snapshot.empty) {
-                    const sampleListings = [
-                        {
-                            id: '1',
-                            title: 'Taladro Percutor Profesional',
-                            location: 'Madrid',
-                            price: '15€/día',
-                            image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-                            features: '1200W • Inalámbrico • Kit completo'
-                        },
-                        {
-                            id: '2',
-                            title: 'Cámara DSLR Canon EOS',
-                            location: 'Barcelona',
-                            price: '40€/día',
-                            image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-                            features: '24MP • 4K • 2 Lentes'
-                        },
-                        {
-                            id: '3',
-                            title: 'Bicicleta de Montaña',
-                            location: 'Valencia',
-                            price: '12€/día',
-                            image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-                            features: '29" • 21 Velocidades • Suspensión'
-                        }
-                    ];
-                    
-                    listingsGrid.innerHTML = sampleListings.map(listing => `
-                        <div class="listing-card">
-                            <div class="listing-img" style="background-image: url('${listing.image}')">
-                                <span class="listing-price">${listing.price}</span>
-                            </div>
-                            <div class="listing-info">
-                                <h3 class="listing-title">${listing.title}</h3>
-                                <div class="listing-location">
-                                    <i class="fas fa-map-marker-alt"></i> ${listing.location}
-                                </div>
-                                <div class="listing-features">
-                                    <span>${listing.features}</span>
-                                    <button class="btn btn-primary" onclick="viewListing('${listing.id}')">Ver Detalles</button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
+                    displaySampleListings();
                 } else {
-                    listingsGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const listing = doc.data();
-                        listingsGrid.innerHTML += `
-                            <div class="listing-card">
-                                <div class="listing-img" style="background-image: url('${listing.images?.[0] || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}')">
-                                    <span class="listing-price">${listing.price}€/${listing.priceType || 'día'}</span>
-                                </div>
-                                <div class="listing-info">
-                                    <h3 class="listing-title">${listing.title}</h3>
-                                    <div class="listing-location">
-                                        <i class="fas fa-map-marker-alt"></i> ${listing.location}
-                                    </div>
-                                    <div class="listing-features">
-                                        <span>${listing.category || 'General'}</span>
-                                        <button class="btn btn-primary" onclick="viewListing('${doc.id}')">Ver Detalles</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        const card = createSecureListingCard(doc.id, listing);
+                        listingsGrid.appendChild(card);
                     });
                 }
             } catch (error) {
-                console.error('Error cargando anuncios:', error);
+                console.error('Load error');
+                displaySampleListings();
             }
         }
-        // الوظيفة تحتاج إلى تحديث منطق البحث بالفلترين الجديدين (المدة والسعر)
+
+        // ========================================
+        // 🛡️ SECURE CARD CREATION (NO XSS)
+        // ========================================
+        
+        function createSecureListingCard(id, listing) {
+            const card = document.createElement('div');
+            card.className = 'listing-card';
+            
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'listing-img';
+            const imageUrl = SecurityUtils.sanitizeURL(listing.images?.[0] || '');
+            imgDiv.style.backgroundImage = `url('${imageUrl}')`;
+            
+            const priceSpan = document.createElement('span');
+            priceSpan.className = 'listing-price';
+            const price = SecurityUtils.validateNumber(listing.price, 0, 100000);
+            priceSpan.textContent = `${price || '0'}€/${SecurityUtils.sanitizeText(listing.priceType || 'día')}`;
+            imgDiv.appendChild(priceSpan);
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'listing-info';
+            
+            const title = document.createElement('h3');
+            title.className = 'listing-title';
+            title.textContent = SecurityUtils.sanitizeText(listing.title || 'Sin título');
+            
+            const location = document.createElement('div');
+            location.className = 'listing-location';
+            const locationIcon = document.createElement('i');
+            locationIcon.className = 'fas fa-map-marker-alt';
+            location.appendChild(locationIcon);
+            location.appendChild(document.createTextNode(' ' + SecurityUtils.sanitizeText(listing.location || 'España')));
+            
+            const features = document.createElement('div');
+            features.className = 'listing-features';
+            
+            const categorySpan = document.createElement('span');
+            categorySpan.textContent = SecurityUtils.sanitizeText(listing.category || 'General');
+            
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'btn btn-primary';
+            viewBtn.textContent = 'Ver Detalles';
+            viewBtn.onclick = () => viewListing(SecurityUtils.sanitizeText(id));
+            
+            features.appendChild(categorySpan);
+            features.appendChild(viewBtn);
+            
+            infoDiv.appendChild(title);
+            infoDiv.appendChild(location);
+            infoDiv.appendChild(features);
+            
+            card.appendChild(imgDiv);
+            card.appendChild(infoDiv);
+            
+            return card;
+        }
+
+        // ========================================
+        // 🎯 SAMPLE LISTINGS (FALLBACK)
+        // ========================================
+        
+        function displaySampleListings() {
+            const sampleListings = [
+                {
+                    id: '1',
+                    title: 'Taladro Percutor Profesional',
+                    location: 'Madrid',
+                    price: 15,
+                    priceType: 'día',
+                    images: ['https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
+                    category: 'Herramientas'
+                },
+                {
+                    id: '2',
+                    title: 'Cámara DSLR Canon EOS',
+                    location: 'Barcelona',
+                    price: 40,
+                    priceType: 'día',
+                    images: ['https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
+                    category: 'Electrónica'
+                },
+                {
+                    id: '3',
+                    title: 'Bicicleta de Montaña',
+                    location: 'Valencia',
+                    price: 12,
+                    priceType: 'día',
+                    images: ['https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
+                    category: 'Deportes'
+                }
+            ];
+            
+            const listingsGrid = document.getElementById('featuredListings');
+            listingsGrid.innerHTML = '';
+            
+            sampleListings.forEach(listing => {
+                const card = createSecureListingCard(listing.id, listing);
+                listingsGrid.appendChild(card);
+            });
+        }
+
+        // ========================================
+        // 🔍 SECURE SEARCH
+        // ========================================
+        
         function searchListings() {
-            const query = document.getElementById('searchInput').value;
-            const location = document.getElementById('locationInput').value;
+            const query = SecurityUtils.validateSearchInput(
+                document.getElementById('searchInput').value, 100
+            );
+            const location = SecurityUtils.validateSearchInput(
+                document.getElementById('locationInput').value, 50
+            );
             const category = document.getElementById('categorySelect').value;
-            // المتغيرات الجديدة لمنطق الـ 5000 يورو
-            const duration = document.getElementById('durationSelect').value; 
-            const maxPrice = document.getElementById('maxPriceInput').value;
+            const duration = document.getElementById('durationSelect').value;
+            const maxPriceInput = document.getElementById('maxPriceInput').value;
+            const maxPrice = SecurityUtils.validateNumber(maxPriceInput, 0, 10000);
             
-            let url = 'listings.html?';
             const params = [];
-            
             if (query) params.push(`q=${encodeURIComponent(query)}`);
             if (location) params.push(`location=${encodeURIComponent(location)}`);
             if (category) params.push(`category=${encodeURIComponent(category)}`);
             if (duration) params.push(`duration=${encodeURIComponent(duration)}`);
-            if (maxPrice) params.push(`maxPrice=${encodeURIComponent(maxPrice)}`);
+            if (maxPrice !== null) params.push(`maxPrice=${maxPrice}`);
             
-            window.location.href = url + params.join('&');
+            window.location.href = 'listings.html?' + params.join('&');
         }
 
+        function viewListing(id) {
+            if (!id) return;
+            window.location.href = `listing-detail.html?id=${encodeURIComponent(id)}`;
+        }
+
+        // ========================================
+        // 🎨 UI HELPERS
+        // ========================================
+        
+        function showAlert(message, type = 'error') {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // ========================================
+        // 🚀 INITIALIZATION
+        // ========================================
+        
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('✅ الصفحة الرئيسية جاهزة');
+            console.log('✅ RentHub Secure - Ready');
             
             loadFeaturedListings();
             
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    console.log('👤 المستخدم مسجل الدخول:', user.email);
-                }
-            });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        searchListings();
+                    }
+                });
+            }
         });
     </script>
 </body>
 </html>
+🔥 2. Firebase Security Rules (firestore.rules)
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========================================
+    // 🔒 SECURITY RULES FOR RENTHUB
+    // ========================================
+    
+    // Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    function isValidString(text, minLen, maxLen) {
+      return text is string && 
+             text.size() >= minLen && 
+             text.size() <= maxLen;
+    }
+    
+    function isValidPrice(price) {
+      return price is number && 
+             price >= 0 && 
+             price <= 100000;
+    }
+    
+    function isValidEmail(email) {
+      return email is string && 
+             email.matches('.*@.*\\..*');
+    }
+    
+    // ========================================
+    // LISTINGS COLLECTION
+    // ========================================
+    match /listings/{listingId} {
+      
+      // القراءة: متاحة للجميع
+      allow read: if true;
+      
+      // الإنشاء: فقط للمستخدمين المسجلين
+      allow create: if isSignedIn() &&
+        // التحقق من صحة البيانات
+        isValidString(request.resource.data.title, 5, 100) &&
+        isValidString(request.resource.data.description, 10, 2000) &&
+        isValidString(request.resource.data.location, 2, 50) &&
+        isValidString(request.resource.data.category, 2, 50) &&
+        isValidPrice(request.resource.data.price) &&
+        request.resource.data.userId == request.auth.uid &&
+        // التحقق من الصور
+        request.resource.data.images is list &&
+        request.resource.data.images.size() >= 1 &&
+        request.resource.data.images.size() <= 10 &&
+        // التحقق من القيم المنطقية
+        request.resource.data.available is bool &&
+        request.resource.data.featured is bool &&
+        // تاريخ الإنشاء
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.updatedAt == request.time;
+      
+      // التحديث: فقط المالك
+      allow update: if isSignedIn() &&
+        resource.data.userId == request.auth.uid &&
+        // لا يمكن تغيير المالك أو تاريخ الإنشاء
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        // تحديث تاريخ التعديل
+        request.resource.data.updatedAt == request.time &&
+        // التحقق من صحة البيانات المحدثة
+        isValidString(request.resource.data.title, 5, 100) &&
+        isValidString(request.resource.data.description, 10, 2000) &&
+        isValidPrice(request.resource.data.price);
+      
+      // الحذف: فقط المالك
+      allow delete: if isSignedIn() &&
+        resource.data.userId == request.auth.uid;
+    }
+    
+    // ========================================
+    // BOOKINGS COLLECTION
+    // ========================================
+    match /bookings/{bookingId} {
+      
+      // القراءة: المالك أو المستأجر فقط
+      allow read: if isSignedIn() && (
+        resource.data.renterId == request.auth.uid ||
+        resource.data.ownerId == request.auth.uid
+      );
+      
+      // الإنشاء: المستخدم المسجل فقط
+      allow create: if isSignedIn() &&
+        request.resource.data.renterId == request.auth.uid &&
+        // التحقق من صحة التواريخ
+        request.resource.data.startDate is timestamp &&
+        request.resource.data.endDate is timestamp &&
+        request.resource.data.endDate > request.resource.data.startDate &&
+        // التحقق من السعر
+        isValidPrice(request.resource.data.totalPrice) &&
+        // الحالة الابتدائية
+        request.resource.data.status == 'pending' &&
+        request.resource.data.createdAt == request.time;
+      
+      // التحديث: المالك فقط (لتغيير الحالة)
+      allow update: if isSignedIn() &&
+        resource.data.ownerId == request.auth.uid &&
+        // يمكن فقط تحديث الحالة
+        request.resource.data.status in ['approved', 'rejected', 'cancelled'] &&
+        request.resource.data.updatedAt == request.time;
+      
+      // الحذف: غير مسموح
+      allow delete: if false;
+    }
+    
+    // ========================================
+    // USERS COLLECTION
+    // ========================================
+    match /users/{userId} {
+      
+      // القراءة: المستخدم نفسه فقط
+      allow read: if isSignedIn() && 
+        request.auth.uid == userId;
+      
+      // الإنشاء: عند التسجيل فقط
+      allow create: if isSignedIn() &&
+        request.auth.uid == userId &&
+        isValidString(request.resource.data.displayName, 2, 50) &&
+        isValidEmail(request.resource.data.email) &&
+        request.resource.data.createdAt == request.time;
+      
+      // التحديث: المستخدم نفسه فقط
+      allow update: if isSignedIn() &&
+        request.auth.uid == userId &&
+        // لا يمكن تغيير البريد أو تاريخ الإنشاء
+        request.resource.data.email == resource.data.email &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.updatedAt == request.time;
+      
+      // الحذف: غير مسموح (استخدم Firebase Auth)
+      allow delete: if false;
+    }
+    
+    // ========================================
+    // REVIEWS COLLECTION
+    // ========================================
+    match /reviews/{reviewId} {
+      
+      // القراءة: متاحة للجميع
+      allow read: if true;
+      
+      // الإنشاء: المستخدم المسجل فقط
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid &&
+        isValidString(request.resource.data.comment, 10, 500) &&
+        request.resource.data.rating is number &&
+        request.resource.data.rating >= 1 &&
+        request.resource.data.rating <= 5 &&
+        request.resource.data.createdAt == request.time;
+      
+      // التحديث: المالك فقط
+      allow update: if isSignedIn() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.updatedAt == request.time;
+      
+      // الحذف: المالك فقط
+      allow delete: if isSignedIn() &&
+        resource.data.userId == request.auth.uid;
+    }
+    
+    // ========================================
+    // MESSAGES COLLECTION
+    // ========================================
+    match /messages/{messageId} {
+      
+      // القراءة: المرسل أو المستقبل فقط
+      allow read: if isSignedIn() && (
+        resource.data.senderId == request.auth.uid ||
+        resource.data.receiverId == request.auth.uid
+      );
+      
+      // الإنشاء: المستخدم المسجل فقط
+      allow create: if isSignedIn() &&
+        request.resource.data.senderId == request.auth.uid &&
+        isValidString(request.resource.data.content, 1, 1000) &&
+        request.resource.data.createdAt == request.time;
+      
+      // التحديث والحذف: غير مسموح
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // ========================================
+    // ADMIN COLLECTION (للإحصائيات فقط)
+    // ========================================
+    match /admin/{document=**} {
+      allow read, write: if false; // Admin SDK only
+    }
+    
+    // ========================================
+    // DEFAULT: رفض كل شيء آخر
+    // ========================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// ========================================
+// 🔥 FIREBASE STORAGE RULES
+// ========================================
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB max
+    }
+    
+    // ========================================
+    // USER AVATARS
+    // ========================================
+    match /avatars/{userId}/{fileName} {
+      allow read: if true;
+      
+      allow write: if isSignedIn() &&
+        request.auth.uid == userId &&
+        isImage() &&
+        isValidSize();
+    }
+    
+    // ========================================
+    // LISTING IMAGES
+    // ========================================
+    match /listings/{userId}/{listingId}/{fileName} {
+      allow read: if true;
+      
+      allow write: if isSignedIn() &&
+        request.auth.uid == userId &&
+        isImage() &&
+        isValidSize();
+      
+      allow delete: if isSignedIn() &&
+        request.auth.uid == userId;
+    }
+    
+    // ========================================
+    // DEFAULT: رفض كل شيء آخر
+    // ========================================
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
