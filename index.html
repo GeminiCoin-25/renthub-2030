@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentHub - Tu plataforma de alquiler</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>RentHub 2030 - La plataforma de alquiler más confiable</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ======================================================= */
+        /* == تصميم CSS المحدث: الألوان والشبكات الاحترافية == */
+        /* ======================================================= */
         :root {
-            --primary: #6a11cb;
-            --secondary: #2575fc;
-            --success: #2ecc71;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
+            /* الألوان الجديدة: احترافية، دافئة، وهادئة */
+            --primary: #5E35B1;   /* بنفسجي عميق - اللون الأساسي */
+            --secondary: #6A5ACD; /* بنفسجي أفتح - لون تكميلي */
+            --success: #2ecc71;   /* لون النجاح */
+            --light: #F5F5F5;     /* رمادي فاتح جديد - لخلفية الأقسام الدافئة */
+            --dark: #1A1A1A;      /* أسود قوي للنصوص والشعار (مثل Buddy) */
+            --gray: #6C757D;
+            --accent: #FF8A65;    /* برتقالي خوخي - لتسليط الضوء على الأسعار */
         }
 
         * {
@@ -26,12 +30,13 @@
         body {
             line-height: 1.6;
             color: var(--dark);
+            background-color: white;
         }
 
         /* Header & Navbar */
         header {
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.08);
             position: fixed;
             width: 100%;
             top: 0;
@@ -53,12 +58,13 @@
             gap: 10px;
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--dark); /* الشعار أسود (قوي ومحترف) */
             text-decoration: none;
         }
 
         .logo i {
             font-size: 1.8rem;
+            color: var(--primary); /* الأيقونة فقط باللون الأساسي */
         }
 
         .nav-links {
@@ -85,7 +91,7 @@
 
         .btn {
             padding: 0.6rem 1.5rem;
-            border-radius: 25px;
+            border-radius: 8px; /* تقليل استدارة الأزرار للمظهر الاحترافي */
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
@@ -106,18 +112,19 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary);
             color: white;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(94, 53, 177, 0.4);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9)),
+            background: linear-gradient(135deg, rgba(94, 53, 177, 0.9), rgba(106, 90, 205, 0.9)), 
                         url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
@@ -140,21 +147,23 @@
         }
 
         .search-box {
+            /* تصميم صندوق البحث الجديد */
             background: white;
             padding: 20px;
-            border-radius: 15px;
-            max-width: 800px;
+            border-radius: 8px;
+            max-width: 900px; /* تم زيادة العرض قليلاً لاستيعاب فلاتر أكثر */
             margin: 2rem auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            /* تغيير الشبكة لاستيعاب 5 فلاتر + زر */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
             gap: 15px;
         }
 
         .search-input {
             padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             font-size: 1rem;
             transition: border-color 0.3s;
         }
@@ -162,6 +171,7 @@
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.2);
         }
 
         /* Categories */
@@ -169,6 +179,7 @@
             padding: 5rem 5%;
             max-width: 1400px;
             margin: 0 auto;
+            background-color: var(--light); /* خلفية دافئة لقسم الفئات */
         }
 
         .section-title {
@@ -190,16 +201,17 @@
 
         .category-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
             color: inherit;
         }
 
         .category-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .category-img {
@@ -224,7 +236,7 @@
 
         /* How It Works */
         .how-it-works {
-            background: var(--light);
+            background: white;
             padding: 5rem 5%;
             text-align: center;
         }
@@ -262,6 +274,7 @@
             padding: 5rem 5%;
             max-width: 1400px;
             margin: 0 auto;
+            background-color: var(--light); 
         }
 
         .listings-grid {
@@ -273,14 +286,15 @@
 
         .listing-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .listing-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .listing-img {
@@ -291,11 +305,11 @@
         }
 
         .listing-price {
+            background: var(--accent); 
+            color: white;
             position: absolute;
             top: 15px;
             right: 15px;
-            background: var(--primary);
-            color: white;
             padding: 5px 15px;
             border-radius: 20px;
             font-weight: bold;
@@ -412,6 +426,7 @@
             }
 
             .search-box {
+                /* جعل كل عنصر في سطر منفصل على الهاتف */
                 grid-template-columns: 1fr;
             }
 
@@ -435,7 +450,6 @@
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">
@@ -451,21 +465,19 @@
             </div>
             
             <div class="nav-buttons" id="authButtons">
-                <!-- Los botones se llenarán con JavaScript -->
-            </div>
+                </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <h1>Alquila lo que necesites, cuando lo necesites</h1>
         <p>Encuentra miles de productos para alquilar en tu zona. Desde herramientas hasta vehículos, todo al alcance de un clic.</p>
         
         <div class="search-box">
-            <input type="text" class="search-input" placeholder="¿Qué necesitas alquilar?" id="searchInput">
-            <input type="text" class="search-input" placeholder="Ubicación" id="locationInput">
+            <input type="text" class="search-input" placeholder="Artículo, Marca, Modelo..." id="searchInput">
+            <input type="text" class="search-input" placeholder="Ciudad o Código Postal" id="locationInput">
             <select class="search-input" id="categorySelect">
-                <option value="">Todas las categorías</option>
+                <option value="">Categoría</option>
                 <option value="tools">Herramientas</option>
                 <option value="vehicles">Vehículos</option>
                 <option value="electronics">Electrónica</option>
@@ -473,13 +485,20 @@
                 <option value="sports">Deportes</option>
                 <option value="home">Hogar</option>
             </select>
+            <select class="search-input" id="durationSelect">
+                <option value="">Duración</option>
+                <option value="1">1 día</option>
+                <option value="3">3 días</option>
+                <option value="7">1 semana</option>
+                <option value="30">1 mes</option>
+            </select>
+            <input type="number" class="search-input" placeholder="Precio Máx (€)" id="maxPriceInput">
             <button class="btn btn-primary" onclick="searchListings()">
-                <i class="fas fa-search"></i> Buscar
+                <i class="fas fa-search"></i> ¡Buscar Ahora!
             </button>
         </div>
     </section>
 
-    <!-- Categories Section -->
     <section class="categories" id="categories">
         <div class="section-title">
             <h2>Categorías Populares</h2>
@@ -499,7 +518,7 @@
                 <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="category-info">
                     <h3>Vehículos</h3>
-                    <p>Coches, motos, bicicletas y vehículos especiales</p>
+                    <p>Coches, motos, bicicletas و vehículos especiales</p>
                 </div>
             </a>
             
@@ -507,7 +526,7 @@
                 <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="category-info">
                     <h3>Electrónica</h3>
-                    <p>Cámaras, drones, equipos de sonido y más</p>
+                    <p>Cámaras, drones, equipos de sonido و más</p>
                 </div>
             </a>
             
@@ -515,17 +534,16 @@
                 <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                 <div class="category-info">
                     <h3>Eventos</h3>
-                    <p>Mobiliario, decoración y equipo para fiestas</p>
+                    <p>Mobiliario, decoración و equipo para fiestas</p>
                 </div>
             </a>
         </div>
     </section>
 
-    <!-- How It Works -->
     <section class="how-it-works" id="how-it-works">
         <div class="section-title">
             <h2>¿Cómo Funciona?</h2>
-            <p>Alquilar nunca fue tan fácil</p>
+            <p>Alquilar nunca كان بهذه السهولة</p>
         </div>
         
         <div class="steps">
@@ -555,7 +573,6 @@
         </div>
     </section>
 
-    <!-- Featured Listings -->
     <section class="featured-listings" id="listings">
         <div class="section-title">
             <h2>Productos Destacados</h2>
@@ -563,11 +580,9 @@
         </div>
         
         <div class="listings-grid" id="featuredListings">
-            <!-- Los anuncios se cargarán con JavaScript -->
-        </div>
+            </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -619,13 +634,12 @@
         </div>
     </footer>
 
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Firebase Configuration (misma que en auth.html)
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
             authDomain: "renthub-2030.firebaseapp.com",
@@ -640,7 +654,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Estado de autenticación
+        // حالة التحقق و تحميل المنتجات (لا تغيير)
         auth.onAuthStateChanged((user) => {
             updateAuthButtons(user);
             if (user) {
@@ -648,12 +662,11 @@
             }
         });
 
-        // Actualizar botones de autenticación
+        // تحديث أزرار المصادقة (لا تغيير)
         function updateAuthButtons(user) {
             const authButtons = document.getElementById('authButtons');
             
             if (user) {
-                // Usuario logueado
                 authButtons.innerHTML = `
                     <a href="dashboard.html" class="btn btn-outline">
                         <i class="fas fa-user-circle"></i> Mi Panel
@@ -663,7 +676,6 @@
                     </button>
                 `;
             } else {
-                // Usuario no logueado
                 authButtons.innerHTML = `
                     <a href="auth.html" class="btn btn-outline">
                         <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
@@ -675,7 +687,7 @@
             }
         }
 
-        // Cerrar sesión
+        // باقي وظائف JavaScript
         function logout() {
             auth.signOut()
                 .then(() => {
@@ -686,12 +698,10 @@
                 });
         }
 
-        // Cambiar a registro desde el index
         function switchToRegister() {
             localStorage.setItem('authTab', 'register');
         }
 
-        // Cargar productos destacados
         async function loadFeaturedListings() {
             try {
                 const listingsRef = db.collection('listings');
@@ -703,7 +713,6 @@
                 const listingsGrid = document.getElementById('featuredListings');
                 
                 if (snapshot.empty) {
-                    // Mostrar datos de ejemplo si no hay anuncios
                     const sampleListings = [
                         {
                             id: '1',
@@ -749,7 +758,6 @@
                         </div>
                     `).join('');
                 } else {
-                    // Mostrar anuncios reales de Firebase
                     listingsGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const listing = doc.data();
@@ -776,17 +784,14 @@
                 console.error('Error cargando anuncios:', error);
             }
         }
-
-        // Ver detalles del anuncio
-        function viewListing(id) {
-            window.location.href = `listing-detail.html?id=${id}`;
-        }
-
-        // Buscar anuncios
+        // الوظيفة تحتاج إلى تحديث منطق البحث بالفلترين الجديدين (المدة والسعر)
         function searchListings() {
             const query = document.getElementById('searchInput').value;
             const location = document.getElementById('locationInput').value;
             const category = document.getElementById('categorySelect').value;
+            // المتغيرات الجديدة لمنطق الـ 5000 يورو
+            const duration = document.getElementById('durationSelect').value; 
+            const maxPrice = document.getElementById('maxPriceInput').value;
             
             let url = 'listings.html?';
             const params = [];
@@ -794,21 +799,20 @@
             if (query) params.push(`q=${encodeURIComponent(query)}`);
             if (location) params.push(`location=${encodeURIComponent(location)}`);
             if (category) params.push(`category=${encodeURIComponent(category)}`);
+            if (duration) params.push(`duration=${encodeURIComponent(duration)}`);
+            if (maxPrice) params.push(`maxPrice=${encodeURIComponent(maxPrice)}`);
             
             window.location.href = url + params.join('&');
         }
 
-        // Inicializar página
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('✅ Página principal lista');
+            console.log('✅ الصفحة الرئيسية جاهزة');
             
-            // Cargar productos destacados
             loadFeaturedListings();
             
-            // Comprobar si hay sesión guardada
             auth.onAuthStateChanged((user) => {
                 if (user) {
-                    console.log('👤 Usuario logueado:', user.email);
+                    console.log('👤 المستخدم مسجل الدخول:', user.email);
                 }
             });
         });
