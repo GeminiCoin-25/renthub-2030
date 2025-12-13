@@ -305,6 +305,71 @@
             background: #e2e8f0;
         }
         
+        <!-- 🔹 قسم: المنتجات التي نشرتها 🔹 -->
+        .my-products-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 30px 0;
+            border-top: 4px solid #6a11cb;
+        }
+        
+        .my-products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .my-products-title {
+            font-size: 22px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .add-product-btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .add-product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
+        }
+        
+        #my-listings-container {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            border: 2px dashed #e2e8f0;
+        }
+        
+        .loading-text {
+            color: #64748b;
+            font-size: 18px;
+        }
+        <!-- 🔹 نهاية القسم الجديد 🔹 -->
+        
         /* Anuncios recientes */
         .recent-ads {
             background: white;
@@ -713,6 +778,21 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- 🔹 قسم: المنتجات التي نشرتها 🔹 -->
+                <section class="my-products-section">
+                    <div class="my-products-header">
+                        <h2 class="my-products-title"><i class="fas fa-box"></i> المنتجات التي نشرتها</h2>
+                        <a href="create-listing.html" class="add-product-btn">
+                            <i class="fas fa-plus"></i> نشر منتج جديد
+                        </a>
+                    </div>
+                    
+                    <div id="my-listings-container">
+                        <p class="loading-text">جاري تحميل قائمة منتجاتك...</p>
+                    </div>
+                </section>
+                <!-- 🔹 نهاية القسم الجديد 🔹 -->
 
                 <!-- Anuncios recientes -->
                 <div class="recent-ads">
