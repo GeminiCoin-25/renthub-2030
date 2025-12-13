@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نشر منتج جديد - RentHub</title>
+    <title>Publicar Nuevo Producto - RentHub</title>
     <style>
         * {
             margin: 0;
@@ -164,54 +164,54 @@
     <div class="container">
         <div class="header">
             <div class="logo">🏠 RentHub</div>
-            <h1>نشر منتج جديد للتأجير</h1>
-            <p class="subtitle">املأ التفاصيل أدناه لعرض منتجك للآلاف من العملاء</p>
+            <h1>Publicar Nuevo Producto para Alquilar</h1>
+            <p class="subtitle">Completa los detalles a continuación para mostrar tu producto a miles de clientes</p>
         </div>
         
-        <!-- رسائل التنبيه -->
+        <!-- Mensajes -->
         <div id="message" class="message"></div>
         
-        <!-- نموذج نشر المنتج -->
+        <!-- Formulario -->
         <form id="createListingForm">
             <div class="form-group">
-                <label for="title">عنوان المنتج *</label>
-                <input type="text" id="title" placeholder="مثال: دراجة جبلية جديدة" required>
+                <label for="title">Título del Producto *</label>
+                <input type="text" id="title" placeholder="Ej: Bicicleta de montaña nueva" required>
             </div>
             
             <div class="form-group">
-                <label for="description">وصف المنتج *</label>
-                <textarea id="description" placeholder="صف منتجك بالتفصيل..." required></textarea>
+                <label for="description">Descripción del Producto *</label>
+                <textarea id="description" placeholder="Describe tu producto en detalle..." required></textarea>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label for="category">الفئة *</label>
+                    <label for="category">Categoría *</label>
                     <select id="category" required>
-                        <option value="">اختر فئة</option>
-                        <option value="vehicles">مركبات</option>
-                        <option value="tools">أدوات</option>
-                        <option value="electronics">إلكترونيات</option>
-                        <option value="sports">رياضة</option>
-                        <option value="home">منزل</option>
-                        <option value="other">أخرى</option>
+                        <option value="">Selecciona categoría</option>
+                        <option value="vehicles">Vehículos</option>
+                        <option value="tools">Herramientas</option>
+                        <option value="electronics">Electrónica</option>
+                        <option value="sports">Deportes</option>
+                        <option value="home">Hogar</option>
+                        <option value="other">Otros</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="condition">الحالة *</label>
+                    <label for="condition">Condición *</label>
                     <select id="condition" required>
-                        <option value="">اختر الحالة</option>
-                        <option value="new">جديد</option>
-                        <option value="excellent">ممتاز</option>
-                        <option value="good">جيد</option>
-                        <option value="acceptable">مقبول</option>
+                        <option value="">Selecciona condición</option>
+                        <option value="new">Nuevo</option>
+                        <option value="excellent">Excelente</option>
+                        <option value="good">Bueno</option>
+                        <option value="acceptable">Aceptable</option>
                     </select>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label for="price">السعر *</label>
+                    <label for="price">Precio *</label>
                     <div class="price-input">
                         <span class="currency-symbol">€</span>
                         <input type="number" id="price" min="1" placeholder="0.00" required>
@@ -219,30 +219,30 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="priceType">نوع السعر *</label>
+                    <label for="priceType">Tipo de Precio *</label>
                     <select id="priceType" required>
-                        <option value="day">يومي</option>
-                        <option value="week">أسبوعي</option>
-                        <option value="month">شهري</option>
-                        <option value="hour">بالساعة</option>
+                        <option value="day">Por día</option>
+                        <option value="week">Por semana</option>
+                        <option value="month">Por mes</option>
+                        <option value="hour">Por hora</option>
                     </select>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="location">الموقع</label>
-                <input type="text" id="location" placeholder="المدينة أو المنطقة">
+                <label for="location">Ubicación</label>
+                <input type="text" id="location" placeholder="Ciudad o área">
             </div>
             
             <div class="form-group">
-                <label for="imageUrl">رابط الصورة (اختياري)</label>
-                <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+                <label for="imageUrl">URL de Imagen (opcional)</label>
+                <input type="url" id="imageUrl" placeholder="https://ejemplo.com/imagen.jpg">
             </div>
             
-            <button type="submit" class="btn">🚀 نشر المنتج الآن</button>
+            <button type="submit" class="btn">🚀 Publicar Producto Ahora</button>
         </form>
         
-        <a href="dashboard.html" class="btn-back">← العودة إلى لوحة التحكم</a>
+        <a href="dashboard.html" class="btn-back">← Volver al Panel de Control</a>
     </div>
     
     <!-- Firebase -->
@@ -251,7 +251,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <script>
-        // تهيئة Firebase
+        // Configuración Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDA223bKA90MX_QpWuF1ARgWKldjXuiNo4",
             authDomain: "renthub-2030.firebaseapp.com",
@@ -265,27 +265,27 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         
-        // معالجة النموذج
+        // Manejar formulario
         document.getElementById('createListingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const btn = this.querySelector('button[type="submit"]');
             const originalText = btn.textContent;
-            btn.textContent = 'جاري النشر...';
+            btn.textContent = 'Publicando...';
             btn.disabled = true;
             
             const messageDiv = document.getElementById('message');
             
             try {
-                // التحقق من تسجيل الدخول
+                // Verificar usuario logueado
                 const user = auth.currentUser;
                 if (!user) {
-                    showMessage('يجب تسجيل الدخول أولاً', 'error');
+                    showMessage('Debes iniciar sesión primero', 'error');
                     window.location.href = 'auth.html';
                     return;
                 }
                 
-                // جمع بيانات النموذج
+                // Recoger datos del formulario
                 const listingData = {
                     title: document.getElementById('title').value,
                     description: document.getElementById('description').value,
@@ -302,37 +302,37 @@
                     views: 0
                 };
                 
-                // حفظ في Firestore
+                // Guardar en Firestore
                 await db.collection('listings').add(listingData);
                 
-                // عرض رسالة نجاح
-                showMessage('✅ تم نشر المنتج بنجاح! سيتم توجيهك خلال 3 ثوانٍ...', 'success');
+                // Mostrar mensaje de éxito
+                showMessage('✅ ¡Producto publicado con éxito! Redirigiendo en 3 segundos...', 'success');
                 
-                // إعادة تعيين النموذج
+                // Resetear formulario
                 document.getElementById('createListingForm').reset();
                 
-                // التوجيه إلى لوحة التحكم بعد 3 ثوانٍ
+                // Redirigir al dashboard después de 3 segundos
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 3000);
                 
             } catch (error) {
-                console.error('خطأ:', error);
-                showMessage('❌ حدث خطأ: ' + error.message, 'error');
+                console.error('Error:', error);
+                showMessage('❌ Error: ' + error.message, 'error');
             } finally {
                 btn.textContent = originalText;
                 btn.disabled = false;
             }
         });
         
-        // دالة لعرض الرسائل
+        // Función para mostrar mensajes
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = text;
             messageDiv.className = `message ${type}`;
             messageDiv.style.display = 'block';
             
-            // إخفاء الرسالة بعد 5 ثوانٍ (إلا إذا كانت نجاح)
+            // Ocultar mensaje después de 5 segundos (excepto éxito)
             if (type !== 'success') {
                 setTimeout(() => {
                     messageDiv.style.display = 'none';
@@ -340,10 +340,10 @@
             }
         }
         
-        // التحقق من تسجيل الدخول عند تحميل الصفحة
+        // Verificar inicio de sesión al cargar la página
         auth.onAuthStateChanged((user) => {
             if (!user) {
-                showMessage('يجب تسجيل الدخول أولاً', 'error');
+                showMessage('Debes iniciar sesión primero', 'error');
                 setTimeout(() => {
                     window.location.href = 'auth.html';
                 }, 2000);
