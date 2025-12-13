@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renthub 2030 - Alquiler de Equipos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #1a365d 0%, #2d4a7a 100%);
+            color: white;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { font-size: 1.8rem; margin-bottom: 5px; color: #63b3ed; }
+        .logo p { font-size: 0.85rem; opacity: 0.8; }
+        .search-box { margin-bottom: 25px; }
+        .search-box input {
+            width: 100%; padding: 10px 15px; border: none; border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1); color: white;
+        }
+        .search-box input::placeholder { color: #cbd5e0; }
+        .sidebar-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        .sidebar-btn {
+            background-color: rgba(255, 255, 255, 0.1); color: white; border: none;
+            padding: 12px; border-radius: 8px; text-align: left; cursor: pointer;
+            transition: background-color 0.3s; font-weight: 500;
+        }
+        .sidebar-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
+        .btn-primary { background-color: #4299e1; font-weight: bold; }
+        .operaciones-title {
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            color: #a0aec0; margin: 20px 0 10px 0; padding-left: 5px;
+        }
+        .operaciones-list { list-style: none; }
+        .operaciones-list li {
+            padding: 10px 15px; border-radius: 6px; cursor: pointer;
+            transition: all 0.2s; font-size: 0.95rem;
+        }
+        .operaciones-list li:hover {
+            background-color: rgba(99, 179, 237, 0.2); padding-left: 20px;
+        }
+        .main-content { flex-grow: 1; padding: 20px 40px; overflow-y: auto; }
+        .top-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 20px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0;
+        }
+        .top-nav a {
+            margin-left: 25px; text-decoration: none; color: #4a5568;
+            font-weight: 600; font-size: 1rem; transition: color 0.3s;
+        }
+        .top-nav a:hover, .top-nav a.active { color: #2b6cb0; }
+        .add-equipo-btn {
+            background-color: #2d3748; color: white; padding: 10px 20px;
+            border-radius: 8px; text-decoration: none; font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .add-equipo-btn:hover { background-color: #4a5568; }
+        .gallery-title { font-size: 1.8rem; color: #2d3748; margin-bottom: 25px; }
+        .equipos-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px; margin-bottom: 40px;
+        }
+        .equipo-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s; position: relative;
+        }
+        .equipo-card:hover {
+            transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        .card-img {
+            height: 140px; background-color: #e2e8f0;
+            display: flex; align-items: center; justify-content: center;
+            color: #718096; font-weight: bold;
+        }
+        .card-info { padding: 15px; }
+        .card-info h3 { margin-bottom: 8px; color: #2d3748; font-size: 1.1rem; }
+        .card-info p { color: #718096; font-size: 0.9rem; margin-bottom: 12px; }
+        .card-price { color: #2b6cb0; font-weight: bold; font-size: 1.2rem; }
+        .alquilar-btn {
+            position: absolute; top: 10px; right: 10px; background-color: #38b2ac;
+            color: white; border: none; padding: 6px 12px; border-radius: 6px;
+            cursor: pointer; font-size: 0.8rem; font-weight: bold;
+        }
+        .alquilar-btn:hover { background-color: #319795; }
+        .action-buttons { text-align: center; padding: 25px 0; }
+        .action-btn {
+            background-color: #4299e1; color: white; border: none;
+            padding: 12px 28px; border-radius: 8px; margin: 0 10px;
+            cursor: pointer; font-weight: bold; font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .action-btn:hover { background-color: #3182ce; }
+        .btn-secondary { background-color: #718096; }
+        .btn-secondary:hover { background-color: #4a5568; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>🔧 Renthub 2030</h1>
+            <p>Alquila lo que necesites</p>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="🔍 Buscar equipo...">
+        </div>
+        <div class="sidebar-buttons">
+            <button class="sidebar-btn btn-primary">Iniciar Sesión</button>
+            <button class="sidebar-btn">Registrarse</button>
+        </div>
+        <div class="operaciones-title">Grupo de Operaciones</div>
+        <ul class="operaciones-list">
+            <li>Solicitar Alquiler</li>
+            <li>Mis Pedidos</li>
+            <li>Pagos</li>
+            <li>Configuración</li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <header class="top-header">
+            <nav class="top-nav">
+                <a href="#" class="active">Inicio</a>
+                <a href="#">Catálogo</a>
+                <a href="#">Cómo Funciona</a>
+                <a href="#">Contacto</a>
+                <a href="#">Conectar</a>
+            </nav>
+            <a href="#" class="add-equipo-btn">+ Añadir Equipo</a>
+        </header>
+        <section class="equipos-gallery">
+            <h2 class="gallery-title">🔥 Equipos Destacados</h2>
+            <div class="equipos-grid">
+                <div class="equipo-card">
+                    <div class="card-img">🚗 Carro de Mudanzas</div>
+                    <div class="card-info">
+                        <h3>Furgoneta Grande</h3>
+                        <p>Perfecta para mudanzas, 20m³ de capacidad.</p>
+                        <div class="card-price">€45/día</div>
+                    </div>
+                    <button class="alquilar-btn">Alquilar</button>
+                </div>
+                <div class="equipo-card">
+                    <div class="card-img">🔨 Martillo Hidráulico</div>
+                    <div class="card-info">
+                        <h3>Martillo Demoledor</h3>
+                        <p>Para trabajos pesados de construcción.</p>
+                        <div class="card-price">€120/día</div>
+                    </div>
+                    <button class="alquilar-btn">Alquilar</button>
+                </div>
+                <div class="equipo-card">
+                    <div class="card-img">🚜 Mini Excavadora</div>
+                    <div class="card-info">
+                        <h3>Excavadora Compacta</h3>
+                        <p>Ideal para zanjas y jardinería.</p>
+                        <div class="card-price">€200/día</div>
+                    </div>
+                    <button class="alquilar-btn">Alquilar</button>
+                </div>
+                <div class="equipo-card">
+                    <div class="card-img">💻 Laptop Gamer</div>
+                    <div class="card-info">
+                        <h3>Laptop Alta Gama</h3>
+                        <p>Para gamers y diseñadores gráficos.</p>
+                        <div class="card-price">€30/día</div>
+                    </div>
+                    <button class="alquilar-btn">Alquilar</button>
+                </div>
+            </div>
+        </section>
+        <section class="action-buttons">
+            <button class="action-btn">➕ Añadir Equipo al Catálogo</button>
+            <button class="action-btn btn-secondary">📋 Ver Solicitudes de Alquiler</button>
+        </section>
+    </div>
+</body>
+</html>
