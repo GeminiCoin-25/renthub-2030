@@ -1,48 +1,69 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { auth, db } from '@/lib/firebase';
-import { collection, addDoc, doc, getDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Upload, X, Calendar, MapPin, Euro, Package, FileText, Image as ImageIcon } from "lucide-react";
+import { db, storage, auth } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useRouter } from "next/navigation";
 
-export default function PublicarAnuncio() {
+export default function PublicarPage() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [userPlan, setUserPlan] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  
   const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    price: '',
-    description: '',
-    phone: '',
-    city: ''
+    titulo: "",
+    descripcion: "",
+    categoria: "",
+    precio: "",
+    ubicacion: "",
+    disponibilidadInicio: "",
+    disponibilidadFin: "",
   });
-  
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-        if (userDoc.exists()) {
-          setUserPlan(userDoc.data());
-        }
-      } else {
-        router.push('/auth');
-      }
-      setLoading(false);
-    });
+  const [imagenes, setImagenes] = useState([]);
+  const [imagenesPreview, setImagenesPreview] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-    return () => unsubscribe();
-  }, [router]);
+  const categorias = [
+    "Trajes de Fiesta",
+    "Vestidos de Gala",
+    "Equipamiento Deportivo",
+    "Herramientas y Máquinas",
+    "Electrónica",
+    "Mobiliario Eventos",
+    "Vehículos Especiales",
+    "Equipos Profesionales",
+    "Otros"
+  ];
 
-  const handleChange = (e) => {
+  // Handle image selection
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    
+    if (files.length + imagenes.length > 6) {
+      setError("Máximo 6 imágenes permitidas");
+      setTimeout(() => setError(""), 3000);
+      return;
+    }
+
+    // Add new images to state
+    setImagenes(prev => [...prev, ...files]);
+
+    // Create preview URLs
+    const newPreviews = files.map(file => URL.createObjectURL(file));
+    setImagenesPreview(prev => [...prev, ...newPreviews]);
+  };
+
+  // Remove image
+  const removeImage = (index) => {
+    setImagenes(prev => prev.filter((_, i) => i !== index));
+    setImagenesPreview(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -50,249 +71,335 @@ export default function PublicarAnuncio() {
     }));
   };
 
+  // Upload images to Firebase Storage
+  const uploadImages = async (userId) => {
+    const imageUrls = [];
+    
+    for (let i = 0; i < imagenes.length; i++) {
+      const image = imagenes[i];
+      const timestamp = Date.now();
+      const imageName = `listings/${userId}/${timestamp}_${i}_${image.name}`;
+      const imageRef = ref(storage, imageName);
+      
+      try {
+        await uploadBytes(imageRef, image);
+        const url = await getDownloadURL(imageRef);
+        imageUrls.push(url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        throw new Error("Error al subir las imágenes");
+      }
+    }
+    
+    return imageUrls;
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
-    if (!formData.title || !formData.category || !formData.price || !formData.description || !formData.phone) {
-      setError('Por favor completa todos los campos obligatorios');
+    // Validation
+    if (!formData.titulo || !formData.descripcion || !formData.categoria || !formData.precio) {
+      setError("Por favor completa todos los campos obligatorios");
       return;
     }
 
-    const planLimits = {
-      free: 3,
-      silver: 10,
-      gold: 50,
-      platinum: 9999
-    };
-
-    const currentPlan = userPlan?.plan || 'free';
-    const usedAds = userPlan?.adsUsed || 0;
-    const limit = planLimits[currentPlan];
-
-    if (usedAds >= limit) {
-      setError(`Has alcanzado el límite de anuncios en el plan ${currentPlan.toUpperCase()}. Por favor actualiza tu plan.`);
+    if (imagenes.length === 0) {
+      setError("Por favor sube al menos una imagen");
       return;
     }
 
-    setUploading(true);
+    if (!auth.currentUser) {
+      setError("Debes iniciar sesión para publicar un anuncio");
+      router.push("/login");
+      return;
+    }
+
+    setLoading(true);
 
     try {
+      // Upload images first
+      const imageUrls = await uploadImages(auth.currentUser.uid);
+
+      // Create listing document
       const listingData = {
-        ...formData,
-        imageUrl: null,
-        userId: user.uid,
-        userEmail: user.email,
-        userName: user.displayName || 'Usuario',
-        plan: currentPlan,
-        status: 'active',
-        views: 0,
+        titulo: formData.titulo,
+        descripcion: formData.descripcion,
+        categoria: formData.categoria,
+        precio: parseFloat(formData.precio),
+        ubicacion: formData.ubicacion,
+        disponibilidadInicio: formData.disponibilidadInicio || null,
+        disponibilidadFin: formData.disponibilidadFin || null,
+        imagenes: imageUrls,
+        userId: auth.currentUser.uid,
+        userEmail: auth.currentUser.email,
+        estado: "disponible",
+        vistas: 0,
+        favoritos: 0,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       };
 
-      await addDoc(collection(db, 'listings'), listingData);
+      // Add to Firestore
+      await addDoc(collection(db, "rentalItems"), listingData);
 
-      await updateDoc(doc(db, 'users', user.uid), {
-        adsUsed: increment(1)
-      });
-
-      setSuccess('✅ ¡Anuncio publicado con éxito!');
+      setSuccess("¡Anuncio publicado exitosamente! 🎉");
       
+      // Reset form
+      setFormData({
+        titulo: "",
+        descripcion: "",
+        categoria: "",
+        precio: "",
+        ubicacion: "",
+        disponibilidadInicio: "",
+        disponibilidadFin: "",
+      });
+      setImagenes([]);
+      setImagenesPreview([]);
+
+      // Redirect after 2 seconds
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push("/dashboard");
       }, 2000);
 
-    } catch (err) {
-      console.error('Error:', err);
-      setError('Ocurrió un error: ' + err.message);
+    } catch (error) {
+      console.error("Error creating listing:", error);
+      setError("Error al publicar el anuncio. Por favor intenta de nuevo.");
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-emerald-900 flex items-center justify-center">
-        <div className="text-emerald-400 text-2xl animate-pulse">⏳ Cargando...</div>
-      </div>
-    );
-  }
-
-  const currentPlan = userPlan?.plan || 'free';
-  const usedAds = userPlan?.adsUsed || 0;
-  const planLimits = { free: 3, silver: 10, gold: 50, platinum: 9999 };
-  const remainingAds = planLimits[currentPlan] - usedAds;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-emerald-900 py-8 px-4">
-      <div className="max-w-3xl mx-auto">
-        
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
-            🚀 Publicar Nuevo Anuncio
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Publicar Anuncio
           </h1>
-          <p className="text-gray-400">
-            Anuncios restantes: <span className="text-emerald-400 font-bold">{remainingAds}</span> de {planLimits[currentPlan]}
+          <p className="text-purple-300 text-lg">
+            Comparte tu artículo con la comunidad RentHub
           </p>
-        </div>
+        </motion.div>
 
-        {error && (
-          <div className="mb-6 p-4 bg-red-500/20 border border-red-500 rounded-xl text-red-400">
-            ⚠️ {error}
-          </div>
-        )}
-
+        {/* Success Message */}
         {success && (
-          <div className="mb-6 p-4 bg-emerald-500/20 border border-emerald-500 rounded-xl text-emerald-400">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-green-500/20 border border-green-500 rounded-xl text-green-300 text-center"
+          >
             {success}
-          </div>
+          </motion.div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-emerald-500/20 shadow-2xl">
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-red-500/20 border border-red-500 rounded-xl text-red-300 text-center"
+          >
+            {error}
+          </motion.div>
+        )}
+
+        {/* Form */}
+        <motion.form
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          onSubmit={handleSubmit}
+          className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20"
+        >
+          {/* Image Upload Section */}
+          <div className="mb-8">
+            <label className="block text-white font-semibold mb-4 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5" />
+              Imágenes (Máximo 6)
+            </label>
             
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Título del Anuncio *
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Ej: Mercedes Clase A en alquiler"
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-                required
-              />
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              {imagenesPreview.map((preview, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-xl"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
             </div>
 
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Categoría *
+            {imagenes.length < 6 && (
+              <label className="flex items-center justify-center w-full h-32 border-2 border-dashed border-purple-400 rounded-xl cursor-pointer hover:border-purple-300 transition-colors bg-white/5">
+                <div className="text-center">
+                  <Upload className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                  <span className="text-purple-300 text-sm">
+                    Click para subir imágenes
+                  </span>
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-                required
-              >
-                <option value="">Selecciona categoría</option>
-                <option value="vehicles">🚗 Coches</option>
-                <option value="equipment">🔧 Equipamiento</option>
-                <option value="events">🎉 Eventos</option>
-                <option value="electronics">💻 Electrónica</option>
-                <option value="tools">🛠️ Herramientas</option>
-                <option value="other">📦 Otros</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Precio (€/día) *
-              </label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="90"
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-                required
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Número de Teléfono *
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="666666666"
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-                required
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Ciudad *
-              </label>
-              <select
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-                required
-              >
-                <option value="">Selecciona ciudad</option>
-                <option value="Madrid">Madrid</option>
-                <option value="Barcelona">Barcelona</option>
-                <option value="Valencia">Valencia</option>
-                <option value="Sevilla">Sevilla</option>
-                <option value="Zaragoza">Zaragoza</option>
-                <option value="Málaga">Málaga</option>
-                <option value="Murcia">Murcia</option>
-                <option value="Palma">Palma de Mallorca</option>
-                <option value="Bilbao">Bilbao</option>
-                <option value="Alicante">Alicante</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Descripción detallada *
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Escribe una descripción detallada del producto..."
-                rows="5"
-                maxLength="500"
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition resize-none"
-                required
-              />
-              <p className="text-gray-500 text-sm mt-1">{formData.description.length}/500 caracteres</p>
-            </div>
-
+            )}
           </div>
 
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => router.push('/dashboard')}
-              className="flex-1 px-6 py-4 bg-gray-700/50 hover:bg-gray-600/50 text-white rounded-xl transition font-semibold"
-            >
-              ← Volver
-            </button>
-            
-            <button
-              type="submit"
-              disabled={uploading}
-              className="flex-1 px-6 py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white rounded-xl transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {uploading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Publicando...
-                </>
-              ) : (
-                <>
-                  🚀 Publicar Ahora
-                </>
-              )}
-            </button>
+          {/* Title */}
+          <div className="mb-6">
+            <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Título *
+            </label>
+            <input
+              type="text"
+              name="titulo"
+              value={formData.titulo}
+              onChange={handleInputChange}
+              placeholder="Ej: Traje de Ceremonia Premium"
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-purple-400"
+              required
+            />
           </div>
 
-        </form>
+          {/* Description */}
+          <div className="mb-6">
+            <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Descripción *
+            </label>
+            <textarea
+              name="descripcion"
+              value={formData.descripcion}
+              onChange={handleInputChange}
+              placeholder="Describe tu artículo en detalle..."
+              rows="5"
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-purple-400"
+              required
+            />
+          </div>
 
+          {/* Category */}
+          <div className="mb-6">
+            <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+              <Package className="w-5 h-5" />
+              Categoría *
+            </label>
+            <select
+              name="categoria"
+              value={formData.categoria}
+              onChange={handleInputChange}
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400"
+              required
+            >
+              <option value="" className="bg-slate-800">Selecciona una categoría</option>
+              {categorias.map(cat => (
+                <option key={cat} value={cat} className="bg-slate-800">
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price */}
+          <div className="mb-6">
+            <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+              <Euro className="w-5 h-5" />
+              Precio por día (€) *
+            </label>
+            <input
+              type="number"
+              name="precio"
+              value={formData.precio}
+              onChange={handleInputChange}
+              placeholder="50"
+              step="0.01"
+              min="0"
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-purple-400"
+              required
+            />
+          </div>
+
+          {/* Location */}
+          <div className="mb-6">
+            <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+              <MapPin className="w-5 h-5" />
+              Ubicación
+            </label>
+            <input
+              type="text"
+              name="ubicacion"
+              value={formData.ubicacion}
+              onChange={handleInputChange}
+              placeholder="Madrid, España"
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-purple-400"
+            />
+          </div>
+
+          {/* Availability Dates */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div>
+              <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                Disponible desde
+              </label>
+              <input
+                type="date"
+                name="disponibilidadInicio"
+                value={formData.disponibilidadInicio}
+                onChange={handleInputChange}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400"
+              />
+            </div>
+            <div>
+              <label className="block text-white font-semibold mb-2 flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                Disponible hasta
+              </label>
+              <input
+                type="date"
+                name="disponibilidadFin"
+                value={formData.disponibilidadFin}
+                onChange={handleInputChange}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400"
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={{ scale: loading ? 1 : 1.02 }}
+            whileTap={{ scale: loading ? 1 : 0.98 }}
+            className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
+              loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            } text-white`}
+          >
+            {loading ? "Publicando..." : "Publicar Anuncio"}
+          </motion.button>
+        </motion.form>
       </div>
     </div>
   );
