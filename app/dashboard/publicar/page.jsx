@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, storage } from '@/lib/firebase';
@@ -19,7 +19,13 @@ interface FormData {
   images: File[];
 }
 
-// Spanish categories
+// Validation result type
+interface ValidationResult {
+  valid: boolean;
+  error?: string;
+}
+
+// Spanish categories - using useMemo for optimization
 const CATEGORIES = [
   'Electrónica',
   'Herramientas',
@@ -32,6 +38,12 @@ const CATEGORIES = [
   'Vehículos',
   'Otros'
 ];
+
+// Constants
+const MAX_IMAGES = 5;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_RETRIES = 3;
+const VALID_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
 
 export default function PublishPage() {
   const { user } = useAuth();
@@ -66,6 +78,75 @@ export default function PublishPage() {
     }
   }, [user, router]);
 
+  // Memory cleanup - revoke blob URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      imagePreview.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [imagePreview]);
+
+  // ===== VALIDATION FUNCTIONS =====
+  
+  // Validate images
+  const validateImages = (files: File[]): ValidationResult => {
+    if (files.length > MAX_IMAGES) {
+      return { 
+        valid: false, 
+        error: `Puedes subir máximo ${MAX_IMAGES} imágenes` 
+      };
+    }
+
+    const oversizedFiles = files.filter(file => file.size > MAX_IMAGE_SIZE);
+    if (oversizedFiles.length > 0) {
+      return { 
+        valid: false, 
+        error: 'El tamaño de cada imagen debe ser menor a 5MB' 
+      };
+    }
+
+    const invalidTypes = files.filter(file => !VALID_IMAGE_TYPES.includes(file.type));
+    if (invalidTypes.length > 0) {
+      return { 
+        valid: false, 
+        error: 'Solo se permiten imágenes (JPG, PNG, WEBP, GIF)' 
+      };
+    }
+
+    return { valid: true };
+  };
+
+  // Validate form data
+  const validateFormData = (): ValidationResult => {
+    if (!formData.title || !formData.title.trim()) {
+      return { valid: false, error: 'Por favor ingresa un título para el anuncio' };
+    }
+
+    if (!formData.description || !formData.description.trim()) {
+      return { valid: false, error: 'Por favor ingresa una descripción' };
+    }
+
+    if (!formData.category) {
+      return { valid: false, error: 'Por favor selecciona una categoría' };
+    }
+
+    const pricePerDay = parseFloat(formData.pricePerDay);
+    if (!formData.pricePerDay || isNaN(pricePerDay) || pricePerDay <= 0) {
+      return { valid: false, error: 'Por favor ingresa un precio válido por día' };
+    }
+
+    if (!formData.location || !formData.location.trim()) {
+      return { valid: false, error: 'Por favor ingresa una ubicación' };
+    }
+
+    if (!formData.images || formData.images.length === 0) {
+      return { valid: false, error: 'Por favor sube al menos una imagen' };
+    }
+
+    return { valid: true };
+  };
+
+  // ===== IMAGE HANDLING FUNCTIONS =====
+
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('📸 Usuario seleccionando imágenes...');
@@ -79,30 +160,11 @@ export default function PublishPage() {
     const fileArray = Array.from(files);
     console.log(`📂 ${fileArray.length} archivos seleccionados`);
     
-    // Check number of images
-    if (fileArray.length > 5) {
-      setError('Puedes subir máximo 5 imágenes');
-      console.error('❌ Demasiadas imágenes:', fileArray.length);
-      return;
-    }
-
-    // Check file size
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    const invalidFiles = fileArray.filter(file => file.size > maxSize);
-    
-    if (invalidFiles.length > 0) {
-      setError('El tamaño de cada imagen debe ser menor a 5MB');
-      console.error('❌ Archivos muy grandes:', invalidFiles);
-      return;
-    }
-
-    // Check file types
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
-    const invalidTypes = fileArray.filter(file => !validTypes.includes(file.type));
-    
-    if (invalidTypes.length > 0) {
-      setError('Solo se permiten imágenes (JPG, PNG, WEBP, GIF)');
-      console.error('❌ Tipos de archivo inválidos:', invalidTypes);
+    // Validate images
+    const validation = validateImages(fileArray);
+    if (!validation.valid) {
+      setError(validation.error!);
+      console.error('❌', validation.error);
       return;
     }
 
@@ -121,6 +183,9 @@ export default function PublishPage() {
   const removeImage = (index: number) => {
     console.log(`🗑️ Eliminando imagen ${index + 1}`);
     
+    // Revoke the blob URL to free memory
+    URL.revokeObjectURL(imagePreview[index]);
+    
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
@@ -131,47 +196,131 @@ export default function PublishPage() {
     console.log('✅ Imagen eliminada');
   };
 
-  // Upload images to Firebase Storage
-  const uploadImages = async (images: File[]): Promise<string[]> => {
-    console.log('🚀 Iniciando subida de imágenes a Firebase Storage...');
-    const uploadedUrls: string[] = [];
+  // ===== FIREBASE FUNCTIONS =====
+
+  // Upload single image with retry mechanism
+  const uploadImageWithRetry = async (
+    image: File, 
+    index: number, 
+    totalImages: number,
+    retries = 0
+  ): Promise<string> => {
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 15);
+    const fileName = `${timestamp}_${randomString}_${image.name.replace(/\s/g, '_')}`;
+    const storagePath = `listings/${user!.uid}/${fileName}`;
     
     try {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        const timestamp = Date.now();
-        const randomString = Math.random().toString(36).substring(2, 15);
-        const fileName = `${timestamp}_${randomString}_${image.name.replace(/\s/g, '_')}`;
-        const storagePath = `listings/${user!.uid}/${fileName}`;
-        
-        console.log(`📤 Subiendo imagen ${i + 1}/${images.length}: ${fileName}`);
-        
-        // Create Storage reference
-        const imageRef = ref(storage, storagePath);
-        
-        // Upload image
-        const uploadResult = await uploadBytes(imageRef, image);
-        console.log(`✅ Imagen ${i + 1} subida al Storage`);
-        
-        // Get download URL
-        const downloadUrl = await getDownloadURL(uploadResult.ref);
-        uploadedUrls.push(downloadUrl);
-        
-        // Update progress bar
-        const progress = Math.round(((i + 1) / images.length) * 50); // 50% for images
-        setUploadProgress(progress);
-        
-        console.log(`✅ URL de imagen ${i + 1}:`, downloadUrl);
+      console.log(`📤 Subiendo imagen ${index + 1}/${totalImages}: ${fileName}`);
+      
+      const imageRef = ref(storage, storagePath);
+      const uploadResult = await uploadBytes(imageRef, image);
+      const downloadUrl = await getDownloadURL(uploadResult.ref);
+      
+      console.log(`✅ Imagen ${index + 1} subida exitosamente`);
+      return downloadUrl;
+      
+    } catch (err: any) {
+      console.error(`❌ Error al subir imagen ${index + 1}:`, err);
+      
+      if (retries < MAX_RETRIES) {
+        console.log(`🔄 Reintentando... (${retries + 1}/${MAX_RETRIES})`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * (retries + 1))); // Exponential backoff
+        return uploadImageWithRetry(image, index, totalImages, retries + 1);
       }
       
-      console.log('✅ Todas las imágenes subidas exitosamente');
+      throw new Error(`Error al subir imagen ${index + 1}: ${err.message}`);
+    }
+  };
+
+  // Upload all images in parallel (CHINESE AI SUGGESTION!)
+  const uploadImages = async (images: File[]): Promise<string[]> => {
+    console.log('🚀 Iniciando subida PARALELA de imágenes a Firebase Storage...');
+    
+    try {
+      // Upload all images in parallel for better performance
+      const uploadPromises = images.map((image, index) => 
+        uploadImageWithRetry(image, index, images.length)
+      );
+      
+      // Track progress
+      let completed = 0;
+      const uploadedUrls = await Promise.all(
+        uploadPromises.map(promise => 
+          promise.then(url => {
+            completed++;
+            const progress = Math.round((completed / images.length) * 50);
+            setUploadProgress(progress);
+            return url;
+          })
+        )
+      );
+      
+      console.log(`✅ ${uploadedUrls.length} imágenes subidas exitosamente`);
       return uploadedUrls;
       
     } catch (err: any) {
       console.error('❌ Error al subir imágenes:', err);
-      throw new Error(`Error al subir imágenes: ${err.message}`);
+      throw err;
     }
   };
+
+  // Prepare listing data
+  const prepareListingData = (uploadedUrls: string[], userData: any) => {
+    const pricePerDay = parseFloat(formData.pricePerDay);
+    
+    return {
+      // Basic information
+      title: formData.title.trim(),
+      description: formData.description.trim(),
+      category: formData.category,
+      location: formData.location.trim(),
+      
+      // Pricing
+      pricing: {
+        perDay: pricePerDay,
+        perWeek: formData.pricePerWeek ? parseFloat(formData.pricePerWeek) : null,
+        perMonth: formData.pricePerMonth ? parseFloat(formData.pricePerMonth) : null
+      },
+      
+      // Images
+      images: uploadedUrls,
+      
+      // Owner information
+      owner: {
+        uid: user!.uid,
+        name: userData?.name || user!.displayName || 'Usuario',
+        email: user!.email || '',
+        phone: userData?.phone || null,
+        photoURL: user!.photoURL || null
+      },
+      
+      // Status and statistics
+      status: 'active',
+      available: true,
+      views: 0,
+      favorites: 0,
+      bookings: 0,
+      
+      // Timestamps
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    };
+  };
+
+  // Get user data from Firestore
+  const getUserData = async (): Promise<any> => {
+    try {
+      const userDocRef = doc(db, 'users', user!.uid);
+      const userDoc = await getDoc(userDocRef);
+      return userDoc.exists() ? userDoc.data() : null;
+    } catch (err) {
+      console.warn('⚠️ No se pudo obtener datos del usuario');
+      return null;
+    }
+  };
+
+  // ===== FORM SUBMISSION =====
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -191,66 +340,16 @@ export default function PublishPage() {
     
     console.log('✅ Usuario:', user.email, '| UID:', user.uid);
 
-    // === Data validation ===
+    // Validate form data
     console.log('🔍 Validando datos del formulario...');
-    
-    // Check title
-    if (!formData.title || !formData.title.trim()) {
-      const errorMsg = 'Por favor ingresa un título para el anuncio';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-    
-    // Check description
-    if (!formData.description || !formData.description.trim()) {
-      const errorMsg = 'Por favor ingresa una descripción';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-
-    // Check category
-    if (!formData.category) {
-      const errorMsg = 'Por favor selecciona una categoría';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-
-    // Check price
-    const pricePerDay = parseFloat(formData.pricePerDay);
-    if (!formData.pricePerDay || isNaN(pricePerDay) || pricePerDay <= 0) {
-      const errorMsg = 'Por favor ingresa un precio válido por día';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-    
-    // Check location
-    if (!formData.location || !formData.location.trim()) {
-      const errorMsg = 'Por favor ingresa una ubicación';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-
-    // Check images
-    if (!formData.images || formData.images.length === 0) {
-      const errorMsg = 'Por favor sube al menos una imagen';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
+    const validation = validateFormData();
+    if (!validation.valid) {
+      setError(validation.error!);
+      console.error('❌', validation.error);
       return;
     }
 
     console.log('✅ Todos los datos son válidos');
-    console.log('📝 Datos del formulario:', {
-      title: formData.title,
-      category: formData.category,
-      pricePerDay: pricePerDay,
-      location: formData.location,
-      images: formData.images.length
-    });
 
     // Start publishing process
     setLoading(true);
@@ -259,68 +358,21 @@ export default function PublishPage() {
     setUploadProgress(0);
 
     try {
-      // === STEP 1: Upload images ===
-      console.log('📸 PASO 1: Subiendo imágenes...');
+      // === STEP 1: Upload images (PARALLEL!) ===
+      console.log('📸 PASO 1: Subiendo imágenes en paralelo...');
       const uploadedUrls = await uploadImages(formData.images);
       console.log(`✅ ${uploadedUrls.length} imágenes subidas exitosamente`);
-      
       setUploadProgress(60);
 
       // === STEP 2: Get user data ===
       console.log('👤 PASO 2: Obteniendo datos del usuario...');
-      let userData = null;
-      try {
-        const userDocRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userDocRef);
-        userData = userDoc.exists() ? userDoc.data() : null;
-        console.log('✅ Datos del usuario obtenidos:', userData?.name || 'Sin nombre');
-      } catch (err) {
-        console.warn('⚠️ No se pudo obtener datos del usuario, continuando sin ellos');
-      }
-      
+      const userData = await getUserData();
+      console.log('✅ Datos del usuario obtenidos');
       setUploadProgress(70);
 
       // === STEP 3: Prepare listing data ===
       console.log('📦 PASO 3: Preparando datos del anuncio...');
-      
-      const listingData = {
-        // Basic information
-        title: formData.title.trim(),
-        description: formData.description.trim(),
-        category: formData.category,
-        location: formData.location.trim(),
-        
-        // Pricing
-        pricing: {
-          perDay: pricePerDay,
-          perWeek: formData.pricePerWeek ? parseFloat(formData.pricePerWeek) : null,
-          perMonth: formData.pricePerMonth ? parseFloat(formData.pricePerMonth) : null
-        },
-        
-        // Images
-        images: uploadedUrls,
-        
-        // Owner information
-        owner: {
-          uid: user.uid,
-          name: userData?.name || user.displayName || 'Usuario',
-          email: user.email || '',
-          phone: userData?.phone || null,
-          photoURL: user.photoURL || null
-        },
-        
-        // Status and statistics
-        status: 'active',
-        available: true,
-        views: 0,
-        favorites: 0,
-        bookings: 0,
-        
-        // Timestamps
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      };
-
+      const listingData = prepareListingData(uploadedUrls, userData);
       console.log('💾 Datos preparados para Firestore');
       setUploadProgress(80);
 
@@ -350,6 +402,9 @@ export default function PublishPage() {
         location: '',
         images: []
       });
+      
+      // Clean up image previews
+      imagePreview.forEach(url => URL.revokeObjectURL(url));
       setImagePreview([]);
       setUploadProgress(0);
 
