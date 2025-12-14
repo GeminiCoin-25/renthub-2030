@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth, db, storage } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { collection, addDoc, doc, getDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { onAuthStateChanged } from 'firebase/auth';
 
 export default function PublicarAnuncio() {
@@ -14,23 +13,18 @@ export default function PublicarAnuncio() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   
-  // Datos del formulario
   const [formData, setFormData] = useState({
     title: '',
     category: '',
     price: '',
     description: '',
     phone: '',
-    location: '',
-    condition: 'new'
+    city: ''
   });
   
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Verificar autenticación
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -54,24 +48,6 @@ export default function PublicarAnuncio() {
       ...prev,
       [name]: value
     }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('El tamaño de la imagen debe ser menor a 5MB');
-        return;
-      }
-      
-      setImageFile(file);
-      
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -103,20 +79,9 @@ export default function PublicarAnuncio() {
     setUploading(true);
 
     try {
-      let imageUrl = null;
-
-      if (imageFile) {
-        const timestamp = Date.now();
-        const fileName = `listings/${user.uid}/${timestamp}_${imageFile.name}`;
-        const storageRef = ref(storage, fileName);
-        
-        await uploadBytes(storageRef, imageFile);
-        imageUrl = await getDownloadURL(storageRef);
-      }
-
       const listingData = {
         ...formData,
-        imageUrl,
+        imageUrl: null,
         userId: user.uid,
         userEmail: user.email,
         userName: user.displayName || 'Usuario',
@@ -140,8 +105,8 @@ export default function PublicarAnuncio() {
       }, 2000);
 
     } catch (err) {
-      console.error('Error al publicar anuncio:', err);
-      setError('Ocurrió un error al publicar el anuncio. Por favor intenta nuevamente.');
+      console.error('Error:', err);
+      setError('Ocurrió un error: ' + err.message);
     } finally {
       setUploading(false);
     }
@@ -216,7 +181,7 @@ export default function PublicarAnuncio() {
                 required
               >
                 <option value="">Selecciona categoría</option>
-                <option value="vehicles">🚗 Vehículos</option>
+                <option value="vehicles">🚗 Coches</option>
                 <option value="equipment">🔧 Equipamiento</option>
                 <option value="events">🎉 Eventos</option>
                 <option value="electronics">💻 Electrónica</option>
@@ -242,14 +207,14 @@ export default function PublicarAnuncio() {
 
             <div className="mb-6">
               <label className="block text-emerald-400 font-semibold mb-2">
-                Teléfono de Contacto *
+                Número de Teléfono *
               </label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="623219354"
+                placeholder="666666666"
                 className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
                 required
               />
@@ -257,31 +222,26 @@ export default function PublicarAnuncio() {
 
             <div className="mb-6">
               <label className="block text-emerald-400 font-semibold mb-2">
-                Ubicación
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Madrid, España"
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Estado
+                Ciudad *
               </label>
               <select
-                name="condition"
-                value={formData.condition}
+                name="city"
+                value={formData.city}
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
+                required
               >
-                <option value="new">Nuevo</option>
-                <option value="excellent">Usado - Excelente estado</option>
-                <option value="good">Usado - Buen estado</option>
+                <option value="">Selecciona ciudad</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Valencia">Valencia</option>
+                <option value="Sevilla">Sevilla</option>
+                <option value="Zaragoza">Zaragoza</option>
+                <option value="Málaga">Málaga</option>
+                <option value="Murcia">Murcia</option>
+                <option value="Palma">Palma de Mallorca</option>
+                <option value="Bilbao">Bilbao</option>
+                <option value="Alicante">Alicante</option>
               </select>
             </div>
 
@@ -302,29 +262,6 @@ export default function PublicarAnuncio() {
               <p className="text-gray-500 text-sm mt-1">{formData.description.length}/500 caracteres</p>
             </div>
 
-            <div className="mb-6">
-              <label className="block text-emerald-400 font-semibold mb-2">
-                Subir imagen (opcional)
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/30 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 transition"
-              />
-              <p className="text-gray-500 text-sm mt-1">Tamaño máximo: 5MB</p>
-              
-              {imagePreview && (
-                <div className="mt-4">
-                  <img 
-                    src={imagePreview} 
-                    alt="Vista previa" 
-                    className="w-full h-48 object-cover rounded-xl border border-emerald-500/30"
-                  />
-                </div>
-              )}
-            </div>
-
           </div>
 
           <div className="flex gap-4">
@@ -333,7 +270,7 @@ export default function PublicarAnuncio() {
               onClick={() => router.push('/dashboard')}
               className="flex-1 px-6 py-4 bg-gray-700/50 hover:bg-gray-600/50 text-white rounded-xl transition font-semibold"
             >
-              ← Volver al Panel de Control
+              ← Volver
             </button>
             
             <button
@@ -348,7 +285,7 @@ export default function PublicarAnuncio() {
                 </>
               ) : (
                 <>
-                  🚀 Publicar Anuncio Ahora
+                  🚀 Publicar Ahora
                 </>
               )}
             </button>
