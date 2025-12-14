@@ -95,7 +95,11 @@ export default function PublishPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    TEST
+    alert('🔥 BOTÓN FUNCIONA!');
+    console.log('🔥 TEST handleSubmit');
+    console.log('User:', user);
+    console.log('FormData:', formData);
     if (!user) {
       setError('Debes iniciar sesión primero');
       return;
