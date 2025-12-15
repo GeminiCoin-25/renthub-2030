@@ -1,13 +1,24 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, storage } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, doc, getDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { 
+  collection, 
+  addDoc, 
+  serverTimestamp, 
+  doc, 
+  getDoc 
+} from 'firebase/firestore';
+import { 
+  ref, 
+  uploadBytes, 
+  getDownloadURL,
+  uploadBytesResumable 
+} from 'firebase/storage';
 
-// Form data type definition
+// Definición de tipos de datos
 interface FormData {
   title: string;
   description: string;
@@ -19,14 +30,40 @@ interface FormData {
   images: File[];
 }
 
-// Validation result type
 interface ValidationResult {
   valid: boolean;
   error?: string;
 }
 
-// Spanish categories - using useMemo for optimization
-const CATEGORIES = [
+interface ListingData {
+  title: string;
+  description: string;
+  category: string;
+  location: string;
+  pricing: {
+    perDay: number;
+    perWeek: number | null;
+    perMonth: number | null;
+  };
+  images: string[];
+  owner: {
+    uid: string;
+    name: string;
+    email: string | null;
+    phone: string | null;
+    photoURL: string | null;
+  };
+  status: string;
+  available: boolean;
+  views: number;
+  favorites: number;
+  bookings: number;
+  createdAt: any;
+  updatedAt: any;
+}
+
+// Categorías en español
+const CATEGORIAS = [
   'Electrónica',
   'Herramientas',
   'Equipamiento Deportivo',
@@ -39,25 +76,25 @@ const CATEGORIES = [
   'Otros'
 ];
 
-// Constants
-const MAX_IMAGES = 5;
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
-const MAX_RETRIES = 3;
-const VALID_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+// Constantes
+const MAX_IMAGENES = 5;
+const MAX_TAMANO_IMAGEN = 5 * 1024 * 1024; // 5MB
+const MAX_REINTENTOS = 3;
+const FORMATOS_VALIDOS = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
-export default function PublishPage() {
-  const { user } = useAuth();
+export default function PaginaPublicar() {
+  const { user, loading: cargandoAuth } = useAuth();
   const router = useRouter();
   
-  // UI control states
-  const [loading, setLoading] = useState(false);
+  // Estados de control de UI
+  const [cargando, setCargando] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [exito, setExito] = useState('');
+  const [progresoSubida, setProgresoSubida] = useState(0);
+  const [vistaPreviaImagenes, setVistaPreviaImagenes] = useState<string[]>([]);
   
-  // Form data state
-  const [formData, setFormData] = useState<FormData>({
+  // Estado de datos del formulario
+  const [datosFormulario, setDatosFormulario] = useState<FormData>({
     title: '',
     description: '',
     category: '',
@@ -68,331 +105,355 @@ export default function PublishPage() {
     images: []
   });
 
-  // Check user authentication
+  // Verificar autenticación
   useEffect(() => {
-    if (!user) {
+    if (!cargandoAuth && !user) {
       console.log('⚠️ Usuario no autenticado, redirigiendo a login...');
       router.push('/login');
-    } else {
-      console.log('✅ Usuario autenticado:', user.email);
     }
-  }, [user, router]);
+  }, [user, cargandoAuth, router]);
 
-  // Memory cleanup - revoke blob URLs when component unmounts
+  // Limpiar memoria de imágenes cuando se desmonte el componente
   useEffect(() => {
     return () => {
-      imagePreview.forEach(url => URL.revokeObjectURL(url));
+      vistaPreviaImagenes.forEach(url => {
+        if (url.startsWith('blob:')) {
+          URL.revokeObjectURL(url);
+        }
+      });
     };
-  }, [imagePreview]);
+  }, [vistaPreviaImagenes]);
 
-  // ===== VALIDATION FUNCTIONS =====
+  // ===== Funciones de validación =====
   
-  // Validate images
-  const validateImages = (files: File[]): ValidationResult => {
-    if (files.length > MAX_IMAGES) {
+  const validarImagenes = useCallback((archivos: File[]): ValidationResult => {
+    if (archivos.length === 0) {
       return { 
         valid: false, 
-        error: `Puedes subir máximo ${MAX_IMAGES} imágenes` 
+        error: 'Por favor sube al menos una imagen' 
       };
     }
 
-    const oversizedFiles = files.filter(file => file.size > MAX_IMAGE_SIZE);
-    if (oversizedFiles.length > 0) {
+    if (archivos.length > MAX_IMAGENES) {
       return { 
         valid: false, 
-        error: 'El tamaño de cada imagen debe ser menor a 5MB' 
+        error: `Puedes subir máximo ${MAX_IMAGENES} imágenes` 
       };
     }
 
-    const invalidTypes = files.filter(file => !VALID_IMAGE_TYPES.includes(file.type));
-    if (invalidTypes.length > 0) {
-      return { 
-        valid: false, 
-        error: 'Solo se permiten imágenes (JPG, PNG, WEBP, GIF)' 
-      };
+    for (const archivo of archivos) {
+      if (archivo.size > MAX_TAMANO_IMAGEN) {
+        return { 
+          valid: false, 
+          error: `La imagen "${archivo.name}" supera el tamaño máximo de 5MB` 
+        };
+      }
+
+      if (!FORMATOS_VALIDOS.includes(archivo.type)) {
+        return { 
+          valid: false, 
+          error: `El formato de "${archivo.name}" no es válido. Usa JPG, PNG o WEBP` 
+        };
+      }
     }
 
     return { valid: true };
-  };
+  }, []);
 
-  // Validate form data
-  const validateFormData = (): ValidationResult => {
-    if (!formData.title || !formData.title.trim()) {
+  const validarDatosFormulario = useCallback((): ValidationResult => {
+    const tituloLimpiado = datosFormulario.title.trim();
+    const descripcionLimpiada = datosFormulario.description.trim();
+    const ubicacionLimpiada = datosFormulario.location.trim();
+
+    if (!tituloLimpiado) {
       return { valid: false, error: 'Por favor ingresa un título para el anuncio' };
     }
 
-    if (!formData.description || !formData.description.trim()) {
+    if (tituloLimpiado.length < 5) {
+      return { valid: false, error: 'El título debe tener al menos 5 caracteres' };
+    }
+
+    if (!descripcionLimpiada) {
       return { valid: false, error: 'Por favor ingresa una descripción' };
     }
 
-    if (!formData.category) {
+    if (descripcionLimpiada.length < 20) {
+      return { valid: false, error: 'La descripción debe tener al menos 20 caracteres' };
+    }
+
+    if (!datosFormulario.category) {
       return { valid: false, error: 'Por favor selecciona una categoría' };
     }
 
-    const pricePerDay = parseFloat(formData.pricePerDay);
-    if (!formData.pricePerDay || isNaN(pricePerDay) || pricePerDay <= 0) {
-      return { valid: false, error: 'Por favor ingresa un precio válido por día' };
+    const precioPorDia = parseFloat(datosFormulario.pricePerDay);
+    if (!datosFormulario.pricePerDay || isNaN(precioPorDia) || precioPorDia <= 0) {
+      return { valid: false, error: 'Por favor ingresa un precio válido por día (mayor que 0)' };
     }
 
-    if (!formData.location || !formData.location.trim()) {
+    if (!ubicacionLimpiada) {
       return { valid: false, error: 'Por favor ingresa una ubicación' };
     }
 
-    if (!formData.images || formData.images.length === 0) {
+    if (datosFormulario.images.length === 0) {
       return { valid: false, error: 'Por favor sube al menos una imagen' };
     }
 
     return { valid: true };
-  };
+  }, [datosFormulario]);
 
-  // ===== IMAGE HANDLING FUNCTIONS =====
+  // ===== Manejo de imágenes =====
 
-  // Handle image selection
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('📸 Usuario seleccionando imágenes...');
-    const files = e.target.files;
+  const manejarCambioImagen = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const archivos = e.target.files;
     
-    if (!files || files.length === 0) {
-      console.log('⚠️ No se seleccionaron archivos');
+    if (!archivos || archivos.length === 0) {
       return;
     }
 
-    const fileArray = Array.from(files);
-    console.log(`📂 ${fileArray.length} archivos seleccionados`);
+    const arrayArchivos = Array.from(archivos);
     
-    // Validate images
-    const validation = validateImages(fileArray);
-    if (!validation.valid) {
-      setError(validation.error!);
-      console.error('❌', validation.error);
+    // Validar imágenes
+    const validacion = validarImagenes(arrayArchivos);
+    if (!validacion.valid) {
+      setError(validacion.error!);
+      e.target.value = ''; // Limpiar el input
       return;
     }
 
-    // Save images to state
-    setFormData(prev => ({ ...prev, images: fileArray }));
+    // Combinar imágenes antiguas y nuevas sin exceder el máximo
+    const todasImagenes = [...datosFormulario.images, ...arrayArchivos].slice(0, MAX_IMAGENES);
     
-    // Create image previews
-    const previews = fileArray.map(file => URL.createObjectURL(file));
-    setImagePreview(previews);
+    // Actualizar estado de imágenes
+    setDatosFormulario(prev => ({ ...prev, images: todasImagenes }));
+    
+    // Crear vistas previas solo para las imágenes nuevas
+    const nuevasVistasPrevias = arrayArchivos.slice(0, MAX_IMAGENES - datosFormulario.images.length)
+      .map(archivo => URL.createObjectURL(archivo));
+    
+    setVistaPreviaImagenes(prev => [...prev, ...nuevasVistasPrevias].slice(0, MAX_IMAGENES));
     setError('');
-    
-    console.log('✅ Imágenes seleccionadas correctamente:', fileArray.length);
-  };
+  }, [datosFormulario.images, validarImagenes]);
 
-  // Remove image from list
-  const removeImage = (index: number) => {
-    console.log(`🗑️ Eliminando imagen ${index + 1}`);
-    
-    // Revoke the blob URL to free memory
-    URL.revokeObjectURL(imagePreview[index]);
-    
-    setFormData(prev => ({
+  const eliminarImagen = useCallback((indice: number) => {
+    // Liberar memoria de la imagen
+    if (vistaPreviaImagenes[indice].startsWith('blob:')) {
+      URL.revokeObjectURL(vistaPreviaImagenes[indice]);
+    }
+
+    setDatosFormulario(prev => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index)
+      images: prev.images.filter((_, i) => i !== indice)
     }));
     
-    setImagePreview(prev => prev.filter((_, i) => i !== index));
-    
-    console.log('✅ Imagen eliminada');
-  };
+    setVistaPreviaImagenes(prev => prev.filter((_, i) => i !== indice));
+  }, [vistaPreviaImagenes]);
 
-  // ===== FIREBASE FUNCTIONS =====
+  // ===== Funciones de Firebase =====
 
-  // Upload single image with retry mechanism
-  const uploadImageWithRetry = async (
-    image: File, 
-    index: number, 
-    totalImages: number,
-    retries = 0
+  const subirImagenConReintento = useCallback(async (
+    imagen: File, 
+    indice: number, 
+    totalImagenes: number,
+    reintentos = 0
   ): Promise<string> => {
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const fileName = `${timestamp}_${randomString}_${image.name.replace(/\s/g, '_')}`;
-    const storagePath = `listings/${user!.uid}/${fileName}`;
-    
     try {
-      console.log(`📤 Subiendo imagen ${index + 1}/${totalImages}: ${fileName}`);
+      const timestamp = Date.now();
+      const cadenaAleatoria = Math.random().toString(36).substring(2, 15);
+      const nombreArchivo = `${timestamp}_${cadenaAleatoria}_${imagen.name.replace(/[^a-z0-9.]/gi, '_')}`;
+      const rutaStorage = `listings/${user!.uid}/${nombreArchivo}`;
       
-      const imageRef = ref(storage, storagePath);
-      const uploadResult = await uploadBytes(imageRef, image);
-      const downloadUrl = await getDownloadURL(uploadResult.ref);
+      console.log(`📤 Subiendo imagen ${indice + 1}/${totalImagenes}`);
       
-      console.log(`✅ Imagen ${index + 1} subida exitosamente`);
-      return downloadUrl;
+      const referenciaImagen = ref(storage, rutaStorage);
+      const tareaSubida = uploadBytesResumable(referenciaImagen, imagen);
+      
+      // Seguir progreso para una sola imagen
+      tareaSubida.on('state_changed', 
+        (snapshot) => {
+          const progreso = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progresoTotal = (indice / totalImagenes) * 50 + (progreso / 100) * (50 / totalImagenes);
+          setProgresoSubida(Math.round(progresoTotal));
+        }
+      );
+      
+      await tareaSubida;
+      const urlDescarga = await getDownloadURL(tareaSubida.snapshot.ref);
+      
+      console.log(`✅ Imagen ${indice + 1} subida exitosamente`);
+      return urlDescarga;
       
     } catch (err: any) {
-      console.error(`❌ Error al subir imagen ${index + 1}:`, err);
+      console.error(`❌ Error al subir imagen ${indice + 1}:`, err);
       
-      if (retries < MAX_RETRIES) {
-        console.log(`🔄 Reintentando... (${retries + 1}/${MAX_RETRIES})`);
-        await new Promise(resolve => setTimeout(resolve, 1000 * (retries + 1))); // Exponential backoff
-        return uploadImageWithRetry(image, index, totalImages, retries + 1);
+      if (reintentos < MAX_REINTENTOS) {
+        console.log(`🔄 Reintentando... (${reintentos + 1}/${MAX_REINTENTOS})`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * (reintentos + 1)));
+        return subirImagenConReintento(imagen, indice, totalImagenes, reintentos + 1);
       }
       
-      throw new Error(`Error al subir imagen ${index + 1}: ${err.message}`);
+      throw new Error(`Error al subir imagen ${indice + 1}: ${err.message || 'Error desconocido'}`);
     }
-  };
+  }, [user]);
 
-  // Upload all images in parallel (CHINESE AI SUGGESTION!)
-  const uploadImages = async (images: File[]): Promise<string[]> => {
-    console.log('🚀 Iniciando subida PARALELA de imágenes a Firebase Storage...');
+  const subirImagenes = useCallback(async (imagenes: File[]): Promise<string[]> => {
+    console.log('🚀 Iniciando subida de imágenes...');
+    
+    const urlsSubidas: string[] = [];
+    
+    // Subir imágenes secuencialmente para evitar problemas de memoria
+    for (let i = 0; i < imagenes.length; i++) {
+      try {
+        const url = await subirImagenConReintento(imagenes[i], i, imagenes.length);
+        urlsSubidas.push(url);
+        
+        // Actualizar progreso general
+        const progreso = Math.round(((i + 1) / imagenes.length) * 50);
+        setProgresoSubida(progreso);
+        
+      } catch (err: any) {
+        console.error(`Error fatal en imagen ${i + 1}:`, err);
+        throw err;
+      }
+    }
+    
+    console.log(`✅ ${urlsSubidas.length} imágenes subidas exitosamente`);
+    return urlsSubidas;
+  }, [subirImagenConReintento]);
+
+  const obtenerDatosUsuario = useCallback(async (): Promise<any> => {
+    if (!user) return null;
     
     try {
-      // Upload all images in parallel for better performance
-      const uploadPromises = images.map((image, index) => 
-        uploadImageWithRetry(image, index, images.length)
-      );
+      const referenciaUsuario = doc(db, 'users', user.uid);
+      const documentoUsuario = await getDoc(referenciaUsuario);
       
-      // Track progress
-      let completed = 0;
-      const uploadedUrls = await Promise.all(
-        uploadPromises.map(promise => 
-          promise.then(url => {
-            completed++;
-            const progress = Math.round((completed / images.length) * 50);
-            setUploadProgress(progress);
-            return url;
-          })
-        )
-      );
+      if (documentoUsuario.exists()) {
+        return documentoUsuario.data();
+      }
       
-      console.log(`✅ ${uploadedUrls.length} imágenes subidas exitosamente`);
-      return uploadedUrls;
-      
-    } catch (err: any) {
-      console.error('❌ Error al subir imágenes:', err);
-      throw err;
+      // Si el usuario no está en la colección 'users', usar datos básicos
+      return {
+        name: user.displayName || 'Usuario',
+        email: user.email,
+        phone: null,
+        photoURL: user.photoURL
+      };
+    } catch (err) {
+      console.warn('⚠️ No se pudo obtener datos del usuario, usando datos básicos:', err);
+      return {
+        name: user.displayName || 'Usuario',
+        email: user.email,
+        phone: null,
+        photoURL: user.photoURL
+      };
     }
-  };
+  }, [user]);
 
-  // Prepare listing data
-  const prepareListingData = (uploadedUrls: string[], userData: any) => {
-    const pricePerDay = parseFloat(formData.pricePerDay);
-    
+  const prepararDatosAnuncio = useCallback((
+    urlsSubidas: string[], 
+    datosUsuario: any
+  ): ListingData => {
+    const precioPorDia = parseFloat(datosFormulario.pricePerDay);
+    const precioPorSemana = datosFormulario.pricePerWeek ? parseFloat(datosFormulario.pricePerWeek) : null;
+    const precioPorMes = datosFormulario.pricePerMonth ? parseFloat(datosFormulario.pricePerMonth) : null;
+
     return {
-      // Basic information
-      title: formData.title.trim(),
-      description: formData.description.trim(),
-      category: formData.category,
-      location: formData.location.trim(),
+      // Información básica
+      title: datosFormulario.title.trim(),
+      description: datosFormulario.description.trim(),
+      category: datosFormulario.category,
+      location: datosFormulario.location.trim(),
       
-      // Pricing
+      // Precios
       pricing: {
-        perDay: pricePerDay,
-        perWeek: formData.pricePerWeek ? parseFloat(formData.pricePerWeek) : null,
-        perMonth: formData.pricePerMonth ? parseFloat(formData.pricePerMonth) : null
+        perDay: precioPorDia,
+        perWeek: precioPorSemana,
+        perMonth: precioPorMes
       },
       
-      // Images
-      images: uploadedUrls,
+      // Imágenes
+      images: urlsSubidas,
       
-      // Owner information
+      // Información del propietario
       owner: {
         uid: user!.uid,
-        name: userData?.name || user!.displayName || 'Usuario',
-        email: user!.email || '',
-        phone: userData?.phone || null,
-        photoURL: user!.photoURL || null
+        name: datosUsuario?.name || user!.displayName || 'Usuario',
+        email: user!.email,
+        phone: datosUsuario?.phone || null,
+        photoURL: user!.photoURL || datosUsuario?.photoURL || null
       },
       
-      // Status and statistics
+      // Estado y estadísticas
       status: 'active',
       available: true,
       views: 0,
       favorites: 0,
       bookings: 0,
       
-      // Timestamps
+      // Marcas de tiempo
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };
-  };
+  }, [datosFormulario, user]);
 
-  // Get user data from Firestore
-  const getUserData = async (): Promise<any> => {
-    try {
-      const userDocRef = doc(db, 'users', user!.uid);
-      const userDoc = await getDoc(userDocRef);
-      return userDoc.exists() ? userDoc.data() : null;
-    } catch (err) {
-      console.warn('⚠️ No se pudo obtener datos del usuario');
-      return null;
-    }
-  };
+  // ===== Envío del formulario =====
 
-  // ===== FORM SUBMISSION =====
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('='.repeat(60));
     console.log('🎯 INICIO DE PUBLICACIÓN DE ANUNCIO');
-    console.log('='.repeat(60));
     
-    // Check authentication
+    // Verificar autenticación
     if (!user) {
-      const errorMsg = 'Debes iniciar sesión primero';
-      setError(errorMsg);
-      console.error('❌', errorMsg);
-      return;
-    }
-    
-    console.log('✅ Usuario:', user.email, '| UID:', user.uid);
-
-    // Validate form data
-    console.log('🔍 Validando datos del formulario...');
-    const validation = validateFormData();
-    if (!validation.valid) {
-      setError(validation.error!);
-      console.error('❌', validation.error);
+      setError('Debes iniciar sesión para publicar un anuncio');
+      router.push('/login');
       return;
     }
 
-    console.log('✅ Todos los datos son válidos');
+    // Validar datos
+    const validacion = validarDatosFormulario();
+    if (!validacion.valid) {
+      setError(validacion.error!);
+      return;
+    }
 
-    // Start publishing process
-    setLoading(true);
+    // Iniciar proceso de publicación
+    setCargando(true);
     setError('');
-    setSuccess('');
-    setUploadProgress(0);
+    setExito('');
+    setProgresoSubida(0);
 
     try {
-      // === STEP 1: Upload images (PARALLEL!) ===
-      console.log('📸 PASO 1: Subiendo imágenes en paralelo...');
-      const uploadedUrls = await uploadImages(formData.images);
-      console.log(`✅ ${uploadedUrls.length} imágenes subidas exitosamente`);
-      setUploadProgress(60);
+      // PASO 1: Subir imágenes
+      console.log('📸 PASO 1: Subiendo imágenes...');
+      const urlsSubidas = await subirImagenes(datosFormulario.images);
+      setProgresoSubida(60);
 
-      // === STEP 2: Get user data ===
+      // PASO 2: Obtener datos del usuario
       console.log('👤 PASO 2: Obteniendo datos del usuario...');
-      const userData = await getUserData();
-      console.log('✅ Datos del usuario obtenidos');
-      setUploadProgress(70);
+      const datosUsuario = await obtenerDatosUsuario();
+      setProgresoSubida(70);
 
-      // === STEP 3: Prepare listing data ===
+      // PASO 3: Preparar datos del anuncio
       console.log('📦 PASO 3: Preparando datos del anuncio...');
-      const listingData = prepareListingData(uploadedUrls, userData);
-      console.log('💾 Datos preparados para Firestore');
-      setUploadProgress(80);
+      const datosAnuncio = prepararDatosAnuncio(urlsSubidas, datosUsuario);
+      setProgresoSubida(80);
 
-      // === STEP 4: Save to Firestore ===
+      // PASO 4: Guardar en Firestore
       console.log('💾 PASO 4: Guardando en Firestore...');
-      const listingsRef = collection(db, 'listings');
-      const docRef = await addDoc(listingsRef, listingData);
+      const referenciaListings = collection(db, 'listings');
+      const referenciaDoc = await addDoc(referenciaListings, datosAnuncio);
       
-      console.log('✅ Documento creado con ID:', docRef.id);
-      setUploadProgress(100);
+      console.log('✅ Documento creado con ID:', referenciaDoc.id);
+      setProgresoSubida(100);
 
-      // === Success ===
-      console.log('='.repeat(60));
+      // Éxito
       console.log('🎉 ¡PUBLICACIÓN EXITOSA!');
-      console.log('='.repeat(60));
       
-      setSuccess('¡Anuncio publicado con éxito! 🎉 Redirigiendo...');
+      setExito('¡Anuncio publicado con éxito! 🎉 Redirigiendo...');
       
-      // Reset form
-      setFormData({
+      // Reiniciar formulario
+      setDatosFormulario({
         title: '',
         description: '',
         category: '',
@@ -403,51 +464,49 @@ export default function PublishPage() {
         images: []
       });
       
-      // Clean up image previews
-      imagePreview.forEach(url => URL.revokeObjectURL(url));
-      setImagePreview([]);
-      setUploadProgress(0);
+      // Limpiar vistas previas
+      vistaPreviaImagenes.forEach(url => {
+        if (url.startsWith('blob:')) {
+          URL.revokeObjectURL(url);
+        }
+      });
+      setVistaPreviaImagenes([]);
 
-      // Navigate to listing page
+      // Redirigir a la página del anuncio
       setTimeout(() => {
-        console.log('➡️ Redirigiendo a /listing/' + docRef.id);
-        router.push(`/listing/${docRef.id}`);
+        router.push(`/listing/${referenciaDoc.id}`);
       }, 2000);
 
     } catch (err: any) {
-      console.error('='.repeat(60));
-      console.error('❌ ERROR EN LA PUBLICACIÓN');
-      console.error('='.repeat(60));
-      console.error('Tipo de error:', err.name);
-      console.error('Mensaje:', err.message);
-      console.error('Stack:', err.stack);
+      console.error('❌ ERROR EN LA PUBLICACIÓN:', err);
       
-      // Detailed error messages
-      let errorMessage = 'Error al publicar el anuncio';
+      let mensajeError = 'Error al publicar el anuncio';
       
+      // Mensajes de error más claros
       if (err.code === 'storage/unauthorized') {
-        errorMessage = 'No tienes permiso para subir imágenes. Verifica tu cuenta.';
+        mensajeError = 'No tienes permiso para subir imágenes. Verifica tu autenticación.';
       } else if (err.code === 'storage/canceled') {
-        errorMessage = 'Subida de imágenes cancelada';
+        mensajeError = 'La subida de imágenes fue cancelada';
       } else if (err.code === 'storage/unknown') {
-        errorMessage = 'Error desconocido en Firebase Storage';
+        mensajeError = 'Error de red o almacenamiento. Verifica tu conexión.';
       } else if (err.code === 'permission-denied') {
-        errorMessage = 'Permiso denegado en Firestore. Verifica las reglas de seguridad.';
+        mensajeError = 'Permiso denegado. Verifica las reglas de seguridad de Firebase.';
+      } else if (err.code === 'unavailable') {
+        mensajeError = 'Firebase no está disponible. Verifica tu conexión a Internet.';
       } else if (err.message) {
-        errorMessage = `Error: ${err.message}`;
+        mensajeError = err.message;
       }
       
-      setError(errorMessage);
-      setUploadProgress(0);
+      setError(mensajeError);
+      setProgresoSubida(0);
       
     } finally {
-      setLoading(false);
-      console.log('🏁 Proceso finalizado');
+      setCargando(false);
     }
   };
 
-  // Loading screen if no user
-  if (!user) {
+  // Pantalla de carga mientras se verifica autenticación
+  if (cargandoAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900">
         <div className="text-center">
@@ -458,125 +517,133 @@ export default function PublishPage() {
     );
   }
 
-  // Main interface
+  // Interfaz principal
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20">
           
-          {/* Header */}
-          <h1 className="text-4xl font-bold text-white mb-2 text-center">
-            Publicar Nuevo Anuncio
-          </h1>
-          <p className="text-white/70 text-center mb-8">
-            Completa el formulario para publicar tu artículo en alquiler
-          </p>
+          {/* Encabezado */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Publicar Nuevo Anuncio
+            </h1>
+            <p className="text-white/70 text-lg">
+              Completa el formulario para publicar tu artículo en alquiler
+            </p>
+          </div>
 
-          {/* Error message */}
+          {/* Mensaje de error */}
           {error && (
-            <div className="mb-6 p-4 bg-red-500/20 border-2 border-red-500 rounded-xl text-red-200 flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
-              <div className="flex-1">
-                <p className="font-semibold mb-1">Error</p>
-                <p>{error}</p>
+            <div className="mb-6 p-4 bg-red-500/20 border-2 border-red-500 rounded-xl text-red-200">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl mt-1">⚠️</span>
+                <div>
+                  <p className="font-semibold">Error</p>
+                  <p>{error}</p>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Success message */}
-          {success && (
-            <div className="mb-6 p-4 bg-green-500/20 border-2 border-green-500 rounded-xl text-green-200 flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <div className="flex-1">
-                <p className="font-semibold mb-1">¡Éxito!</p>
-                <p>{success}</p>
+          {/* Mensaje de éxito */}
+          {exito && (
+            <div className="mb-6 p-4 bg-green-500/20 border-2 border-green-500 rounded-xl text-green-200">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl mt-1">✅</span>
+                <div>
+                  <p className="font-semibold">¡Éxito!</p>
+                  <p>{exito}</p>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Progress bar */}
-          {loading && uploadProgress > 0 && (
+          {/* Barra de progreso */}
+          {cargando && progresoSubida > 0 && (
             <div className="mb-6 p-4 bg-blue-500/20 border-2 border-blue-500 rounded-xl">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-semibold">Subiendo anuncio...</span>
-                <span className="text-white font-bold">{uploadProgress}%</span>
+                <span className="text-white font-semibold">Procesando...</span>
+                <span className="text-white font-bold">{progresoSubida}%</span>
               </div>
               <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full transition-all duration-300 rounded-full"
-                  style={{ width: `${uploadProgress}%` }}
+                  style={{ width: `${progresoSubida}%` }}
                 />
               </div>
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Formulario */}
+          <form onSubmit={manejarEnvio} className="space-y-6">
             
-            {/* Title */}
+            {/* Título */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Título del Anuncio <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                value={datosFormulario.title}
+                onChange={(e) => setDatosFormulario(prev => ({ ...prev, title: e.target.value }))}
                 className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
                 placeholder="Ej: Cámara Canon EOS R6 profesional"
                 maxLength={100}
-                disabled={loading}
+                disabled={cargando}
+                required
               />
               <p className="text-white/50 text-sm mt-1">
-                {formData.title.length}/100 caracteres
+                {datosFormulario.title.length}/100 caracteres
               </p>
             </div>
 
-            {/* Description */}
+            {/* Descripción */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Descripción <span className="text-red-400">*</span>
               </label>
               <textarea
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                value={datosFormulario.description}
+                onChange={(e) => setDatosFormulario(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-32 resize-none"
                 placeholder="Describe tu artículo en detalle: estado, características, accesorios incluidos..."
                 maxLength={1000}
-                disabled={loading}
+                disabled={cargando}
+                required
               />
               <p className="text-white/50 text-sm mt-1">
-                {formData.description.length}/1000 caracteres
+                {datosFormulario.description.length}/1000 caracteres (mínimo 20)
               </p>
             </div>
 
-            {/* Category */}
+            {/* Categoría */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Categoría <span className="text-red-400">*</span>
               </label>
               <select
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all cursor-pointer"
-                disabled={loading}
+                value={datosFormulario.category}
+                onChange={(e) => setDatosFormulario(prev => ({ ...prev, category: e.target.value }))}
+                className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all cursor-pointer disabled:opacity-50"
+                disabled={cargando}
+                required
               >
-                <option value="" className="bg-gray-900">Selecciona una categoría</option>
-                {CATEGORIES.map(cat => (
-                  <option key={cat} value={cat} className="bg-gray-900">
-                    {cat}
+                <option value="">Selecciona una categoría</option>
+                {CATEGORIAS.map(categoria => (
+                  <option key={categoria} value={categoria} className="bg-gray-900">
+                    {categoria}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Prices */}
+            {/* Precios */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Precios de Alquiler
               </label>
-              <div className="grid md:grid-cols-3 gap-4">
-                {/* Daily price */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-white/80 mb-2 text-sm">
                     Por Día (€) <span className="text-red-400">*</span>
@@ -585,15 +652,15 @@ export default function PublishPage() {
                     type="number"
                     step="0.01"
                     min="0.01"
-                    value={formData.pricePerDay}
-                    onChange={(e) => setFormData(prev => ({ ...prev, pricePerDay: e.target.value }))}
+                    value={datosFormulario.pricePerDay}
+                    onChange={(e) => setDatosFormulario(prev => ({ ...prev, pricePerDay: e.target.value }))}
                     className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
                     placeholder="15.00"
-                    disabled={loading}
+                    disabled={cargando}
+                    required
                   />
                 </div>
 
-                {/* Weekly price */}
                 <div>
                   <label className="block text-white/80 mb-2 text-sm">
                     Por Semana (€)
@@ -602,15 +669,14 @@ export default function PublishPage() {
                     type="number"
                     step="0.01"
                     min="0"
-                    value={formData.pricePerWeek}
-                    onChange={(e) => setFormData(prev => ({ ...prev, pricePerWeek: e.target.value }))}
+                    value={datosFormulario.pricePerWeek}
+                    onChange={(e) => setDatosFormulario(prev => ({ ...prev, pricePerWeek: e.target.value }))}
                     className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
                     placeholder="80.00"
-                    disabled={loading}
+                    disabled={cargando}
                   />
                 </div>
 
-                {/* Monthly price */}
                 <div>
                   <label className="block text-white/80 mb-2 text-sm">
                     Por Mes (€)
@@ -619,100 +685,145 @@ export default function PublishPage() {
                     type="number"
                     step="0.01"
                     min="0"
-                    value={formData.pricePerMonth}
-                    onChange={(e) => setFormData(prev => ({ ...prev, pricePerMonth: e.target.value }))}
+                    value={datosFormulario.pricePerMonth}
+                    onChange={(e) => setDatosFormulario(prev => ({ ...prev, pricePerMonth: e.target.value }))}
                     className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
                     placeholder="250.00"
-                    disabled={loading}
+                    disabled={cargando}
                   />
                 </div>
               </div>
             </div>
 
-            {/* Location */}
+            {/* Ubicación */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Ubicación <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
-                value={formData.location}
-                onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                value={datosFormulario.location}
+                onChange={(e) => setDatosFormulario(prev => ({ ...prev, location: e.target.value }))}
                 className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
                 placeholder="Ej: Madrid Centro, Barcelona Eixample"
                 maxLength={100}
-                disabled={loading}
+                disabled={cargando}
+                required
               />
             </div>
 
-            {/* Upload images */}
+            {/* Subida de imágenes */}
             <div>
-              <label className="block text-white mb-2 font-semibold text-lg">
+              <label className="block text-white mb-2 font-semibold">
                 Imágenes (1-5 fotos) <span className="text-red-400">*</span>
               </label>
-              <input
-                type="file"
-                accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
-                multiple
-                onChange={handleImageChange}
-                disabled={loading}
-                className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white 
-                  file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 
-                  file:text-sm file:font-semibold file:bg-gradient-to-r file:from-cyan-500 file:to-blue-500 
-                  file:text-white hover:file:from-cyan-600 hover:file:to-blue-600 
-                  file:transition-all file:cursor-pointer
-                  disabled:opacity-50 disabled:cursor-not-allowed"
-              />
-              <p className="text-white/50 text-sm mt-2">
-                Formatos: JPG, PNG, WEBP, GIF • Tamaño máximo: 5MB por imagen
-              </p>
               
-              {/* Image previews */}
-              {imagePreview.length > 0 && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mt-4">
-                  {imagePreview.map((preview, index) => (
-                    <div key={index} className="relative group">
-                      <div className="aspect-square rounded-xl overflow-hidden bg-white/5 border-2 border-white/20">
-                        <img
-                          src={preview}
-                          alt={`Vista previa ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+              {/* Botón para subir imágenes */}
+              <div className="mb-4">
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  multiple
+                  onChange={manejarCambioImagen}
+                  disabled={cargando || vistaPreviaImagenes.length >= MAX_IMAGENES}
+                  className="w-full px-4 py-3 bg-white/10 border-2 border-white/30 rounded-xl text-white 
+                    file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
+                    file:text-sm file:font-semibold file:bg-gradient-to-r file:from-cyan-500 file:to-blue-500 
+                    file:text-white hover:file:from-cyan-600 hover:file:to-blue-600 
+                    file:transition-all file:cursor-pointer
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    cursor-pointer"
+                  id="subida-imagenes"
+                />
+                <label htmlFor="subida-imagenes" className="text-white/50 text-sm mt-2 block">
+                  Formatos: JPG, PNG, WEBP • Máx 5MB por imagen • Máx {MAX_IMAGENES} imágenes
+                </label>
+              </div>
+              
+              {/* Vistas previas de imágenes */}
+              {vistaPreviaImagenes.length > 0 && (
+                <div className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="text-white font-medium">
+                      {vistaPreviaImagenes.length} de {MAX_IMAGENES} imágenes seleccionadas
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        vistaPreviaImagenes.forEach(url => {
+                          if (url.startsWith('blob:')) {
+                            URL.revokeObjectURL(url);
+                          }
+                        });
+                        setVistaPreviaImagenes([]);
+                        setDatosFormulario(prev => ({ ...prev, images: [] }));
+                      }}
+                      className="text-sm text-red-400 hover:text-red-300 transition-colors"
+                      disabled={cargando}
+                    >
+                      Eliminar todas
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                    {vistaPreviaImagenes.map((vistaPrevia, indice) => (
+                      <div key={indice} className="relative group">
+                        <div className="aspect-square rounded-xl overflow-hidden bg-white/5 border-2 border-white/20">
+                          <img
+                            src={vistaPrevia}
+                            alt={`Vista previa ${indice + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => eliminarImagen(indice)}
+                          disabled={cargando}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-8 h-8 
+                            flex items-center justify-center font-bold
+                            hover:bg-red-600 hover:scale-110 transform transition-all
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                            shadow-lg"
+                          title="Eliminar imagen"
+                        >
+                          ✕
+                        </button>
+                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                          {indice + 1}
+                        </div>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        disabled={loading}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-8 h-8 
-                          flex items-center justify-center font-bold
-                          opacity-0 group-hover:opacity-100 transition-opacity
-                          hover:bg-red-600 hover:scale-110 transform
-                          disabled:opacity-50 disabled:cursor-not-allowed
-                          shadow-lg"
-                        title="Eliminar imagen"
+                    ))}
+                    
+                    {/* Espacio para añadir más imágenes si no se ha llegado al máximo */}
+                    {vistaPreviaImagenes.length < MAX_IMAGENES && (
+                      <label 
+                        htmlFor="subida-imagenes"
+                        className="aspect-square rounded-xl border-2 border-dashed border-white/30 
+                          flex flex-col items-center justify-center cursor-pointer
+                          hover:border-cyan-400 hover:bg-white/5 transition-all"
                       >
-                        ✕
-                      </button>
-                      <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                        {index + 1}
-                      </div>
-                    </div>
-                  ))}
+                        <div className="text-4xl text-white/50 mb-2">+</div>
+                        <div className="text-white/70 text-sm text-center px-2">
+                          Añadir más
+                        </div>
+                      </label>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Submit button */}
+            {/* Botón de envío */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={cargando}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-4 rounded-xl 
                 font-bold text-lg hover:from-cyan-600 hover:to-blue-600 
                 transition-all disabled:opacity-50 disabled:cursor-not-allowed 
-                shadow-xl hover:shadow-cyan-500/50 hover:scale-[1.02] transform
-                flex items-center justify-center gap-3"
+                shadow-xl hover:shadow-cyan-500/30 hover:scale-[1.02] transform
+                flex items-center justify-center gap-3 mt-8"
             >
-              {loading ? (
+              {cargando ? (
                 <>
                   <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24">
                     <circle 
@@ -730,11 +841,14 @@ export default function PublishPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" 
                     />
                   </svg>
-                  <span>Publicando anuncio...</span>
+                  <span>Publicando...</span>
                 </>
               ) : (
                 <>
-                  <span>📢</span>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
                   <span>Publicar Anuncio</span>
                 </>
               )}
