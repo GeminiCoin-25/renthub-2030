@@ -245,9 +245,20 @@
                             <li><a href="dashboard.html" class="nav-link">Mi Cuenta</a></li>
                         </ul>
                         
+                        <!-- 🔧 **الإصلاح 1: تمت إضافة أزرار افتراضية هنا** -->
                         <!-- Auth Buttons -->
                         <div class="nav-buttons" id="authButtons" role="region" aria-label="Controles de autenticación">
-                            <!-- Dynamic content -->
+                            <!-- محتوى افتراضي يظهر فوراً -->
+                            <div class="guest-buttons">
+                                <a href="auth.html?mode=login" class="btn btn-outline" aria-label="Iniciar sesión" id="loginBtn">
+                                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                                    <span>Iniciar Sesión</span>
+                                </a>
+                                <a href="auth.html?mode=register" class="btn btn-primary" aria-label="Registrarse" id="registerBtn">
+                                    <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                    <span>Registrarse</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -839,52 +850,63 @@
         class UIComponents {
             static createAuthButtons(user) {
                 const container = document.getElementById('authButtons');
-                if (!container) return;
-                
-                container.innerHTML = '';
+                if (!container) {
+                    console.error('Elemento authButtons غير موجود');
+                    return;
+                }
                 
                 if (user) {
                     // User is logged in
-                    const userMenu = document.createElement('div');
-                    userMenu.className = 'user-menu';
-                    userMenu.innerHTML = `
-                        <a href="dashboard.html" class="btn btn-outline" aria-label="Ir a mi panel">
-                            <i class="fas fa-user-circle" aria-hidden="true"></i>
-                            <span>Mi Panel</span>
-                        </a>
-                        <button class="btn btn-primary logout-btn" aria-label="Cerrar sesión">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                            <span>Cerrar Sesión</span>
-                        </button>
+                    container.innerHTML = `
+                        <div class="user-menu">
+                            <a href="dashboard.html" class="btn btn-outline" aria-label="Ir a mi panel">
+                                <i class="fas fa-user-circle" aria-hidden="true"></i>
+                                <span>Mi Panel</span>
+                            </a>
+                            <a href="publish.html" class="btn btn-primary" aria-label="Publicar anuncio">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
+                                <span>Publicar Anuncio</span>
+                            </a>
+                            <button class="btn btn-outline logout-btn" aria-label="Cerrar sesión">
+                                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                                <span>Cerrar Sesión</span>
+                            </button>
+                        </div>
                     `;
                     
-                    userMenu.querySelector('.logout-btn').addEventListener('click', () => {
-                        firebase.auth().signOut()
-                            .then(() => window.location.reload())
-                            .catch(error => {
-                                console.error('Error cerrando sesión:', error);
-                                this.showError('Error al cerrar sesión');
-                            });
-                    });
+                    // Add logout event listener
+                    const logoutBtn = container.querySelector('.logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', () => {
+                            firebase.auth().signOut()
+                                .then(() => {
+                                    console.log('Usuario cerró sesión');
+                                    location.reload();
+                                })
+                                .catch(error => {
+                                    console.error('Error cerrando sesión:', error);
+                                    this.showError('Error al cerrar sesión');
+                                });
+                        });
+                    }
                     
-                    container.appendChild(userMenu);
                 } else {
-                    // User is not logged in
-                    const authButtons = document.createElement('div');
-                    authButtons.className = 'guest-buttons';
-                    authButtons.innerHTML = `
-                        <a href="auth.html?mode=login" class="btn btn-outline" aria-label="Iniciar sesión">
-                            <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
-                            <span>Iniciar Sesión</span>
-                        </a>
-                        <a href="auth.html?mode=register" class="btn btn-primary" aria-label="Registrarse">
-                            <i class="fas fa-user-plus" aria-hidden="true"></i>
-                            <span>Registrarse</span>
-                        </a>
+                    // User is not logged in - إعادة تعيين المحتوى الافتراضي
+                    container.innerHTML = `
+                        <div class="guest-buttons">
+                            <a href="auth.html?mode=login" class="btn btn-outline" aria-label="Iniciar sesión" id="loginBtn">
+                                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                                <span>Iniciar Sesión</span>
+                            </a>
+                            <a href="auth.html?mode=register" class="btn btn-primary" aria-label="Registrarse" id="registerBtn">
+                                <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                <span>Registrarse</span>
+                            </a>
+                        </div>
                     `;
-                    
-                    container.appendChild(authButtons);
                 }
+                
+                console.log('Botones de autenticación actualizados para:', user ? 'usuario autenticado' : 'invitado');
             }
 
             static createListingCard(listing) {
@@ -1033,8 +1055,15 @@
                         throw new Error('No se pudo inicializar Firebase');
                     }
                     
+                    // 🔧 **الإصلاح 2: إضافة استدعاء فوري عند التهيئة**
+                    // استدعاء أولي لعرض الأزرار
+                    const initialUser = firebase.auth().currentUser;
+                    console.log('Usuario inicial detectado:', initialUser ? initialUser.email : 'ninguno');
+                    UIComponents.createAuthButtons(initialUser);
+                    
                     // Set up auth state listener
                     firebase.auth().onAuthStateChanged((user) => {
+                        console.log('Estado de autenticación cambiado:', user ? user.email : 'no autenticado');
                         AppState.setUser(user);
                         UIComponents.createAuthButtons(user);
                     });
@@ -1284,6 +1313,15 @@
                 console.error('Promise rechazada no manejada:', event.reason);
                 UIComponents.showError('Ocurrió un error inesperado');
             });
+            
+            // 🔧 **الإصلاح 3: استدعاء إضافي بعد تحميل الصفحة مباشرة**
+            setTimeout(() => {
+                const authButtons = document.getElementById('authButtons');
+                if (authButtons && authButtons.innerHTML.trim() === '') {
+                    console.log('authButtons فارغ، إعادة تعيين...');
+                    UIComponents.createAuthButtons(firebase.auth().currentUser);
+                }
+            }, 100);
         });
 
         // Global functions (for backward compatibility)
@@ -1670,7 +1708,7 @@
             background-color: var(--accent-500);
             color: white;
             padding: 0.25rem 0.75rem;
-            border-radius: var(--radius-sm);
+                            border-radius: var(--radius-sm);
             font-size: 0.75rem;
             font-weight: 600;
         }
@@ -1943,7 +1981,12 @@
         }
         
         /* User Menu */
-        .user-menu,
+        .user-menu {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
         .guest-buttons {
             display: flex;
             gap: 1rem;
